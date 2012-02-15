@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<agency title="BART" shortTitle="bart">
+  <stop tag="12TH">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+	<platform number="3">
+	  <destination>PITT</destination>
+	</platform>
+  </stop>
+  <stop tag="16TH">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>MLBR</destination>
+      <destination>DALY</destination>
+    </platform>
+  </stop>
+  <stop tag="19TH">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+	<platform number="3">
+	  <destination>PITT</destination>
+	</platform>
+  </stop>
+  <stop tag="24TH">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>MLBR</destination>
+      <destination>DALY</destination>
+    </platform>
+  </stop>
+  <stop tag="ASHB">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="BALB">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="BAYF">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+      <destination>DUBL</destination>
+    </platform>
+  </stop>
+  <stop tag="CAST">
+    <platform number="1">
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="2">
+      <destination>DALY</destination>
+    </platform>
+  </stop>
+  <stop tag="CIVC">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="COLS">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+      <destination>DUBL</destination>
+    </platform>
+  </stop>
+  <stop tag="COLM">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>RICH</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="CONC">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="DALY">
+    <platform number="1">
+      <destination>DUBL</destination>
+    </platform>
+	<platform number="2">
+	  <destination>RICH</destination>
+      <destination>PITT</destination>
+	  <destination>FRMT</destination>
+    </platform>
+    <platform number="3">
+      <destination>DALY</destination>
+  	  <destination>MLBR</destination>
+  	  <destination>SFIA</destination>
+    </platform>
+  </stop>
+  <stop tag="DBRK">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="DUBL">
+    <platform number="2">
+      <destination>DALY</destination>
+    </platform>
+  </stop>
+  <stop tag="DELN">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="PLZA">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="EMBR">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="FRMT">
+    <platform number="1">
+      <destination>DALY</destination> 
+    </platform>
+    <platform number="2">
+      <destination>RICH</destination>	
+    </platform>	
+  </stop>
+  <stop tag="FTVL">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+      <destination>DUBL</destination>
+    </platform>
+  </stop>
+  <stop tag="GLEN">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="HAYW">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+    </platform>
+  </stop>
+  <stop tag="LAFY">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="LAKE">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+      <destination>DUBL</destination>
+    </platform>
+  </stop>
+  <stop tag="MCAR">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+	<platform number="3">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>  
+    </platform>
+	<platform number="4">
+      <destination>MLBR</destination>
+	  <destination>SFIA</destination> 
+    </platform>
+  </stop>
+  <stop tag="MLBR">
+    <platform number="3">
+      <destination>PITT</destination>
+      <destination>RICH</destination>
+    </platform>
+  </stop>
+  <stop tag="MONT">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="NBRK">
+    <platform number="1">
+      <destination>RICH</destination>
+    </platform>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="NCON">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="ORIN">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="PITT">
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="PHIL">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="POWL">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="RICH">
+    <platform number=""/>
+    <platform number="2">
+      <destination>FRMT</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="ROCK">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="SBRN">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>RICH</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="SFIA">
+    <platform number="3">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="1">
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="SANL">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+      <destination>DUBL</destination>
+    </platform>
+  </stop>
+  <stop tag="SHAY">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+    </platform>
+  </stop>
+  <stop tag="SSAN">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>RICH</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="UCTY">
+    <platform number="2">
+      <destination>RICH</destination>
+      <destination>DALY</destination>
+    </platform>
+    <platform number="1">
+      <destination>FRMT</destination>
+    </platform>
+  </stop>
+	<stop tag="WDUB">
+    <platform number="1">
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="2">
+      <destination>DALY</destination>
+    </platform>
+  </stop>
+  <stop tag="WCRK">
+    <platform number="1">
+      <destination>PITT</destination>
+    </platform>
+    <platform number="2">
+      <destination>SFIA</destination>
+	  <destination>MLBR</destination>
+    </platform>
+  </stop>
+  <stop tag="WOAK">
+    <platform number="2">
+      <destination>PITT</destination>
+      <destination>FRMT</destination>
+      <destination>RICH</destination>
+      <destination>DUBL</destination>
+    </platform>
+    <platform number="1">
+      <destination>SFIA</destination>
+      <destination>DALY</destination>
+      <destination>MLBR</destination>
+    </platform>
+  </stop>
+</agency>

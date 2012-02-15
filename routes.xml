@@ -1,0 +1,20 @@
+<lines>
+<ignore><line color="#A884BD" tag="DB">DB Dumbarton Express (Oregon Expressway, VA Hospital)</line></ignore>
+<line color="#B6CE56" tag="DB1">DB1 Dumbarton Express</line>
+<line color="#58B2E2" tag="DB3">DB3 Dumbarton Express (East Palo Alto)</line>
+<line color="#F2934F" tag="F">F UC Campus, Shattuck, Adeline Transbay</line>
+<ignore><line color="#3087CD" tag="M">M San Mateo Bridge, Dumbarton Bridge</line></ignore>
+<line color="#F2934F" tag="NL">NL MacArthur, Grand Transbay Limited</line>
+<line color="#58B2E2" tag="U">U Stanford Express</line>
+<line color="#A884BD" tag="1">1 Berkeley to Bay Fair via Telegraph and International</line>
+<line color="#3087CD" tag="1R">1R International Rapid via Telegraph and E. 14th</line>
+<line color="#82CDB6" tag="7">7 Del Norte BART to Rockridge BART via Arlington</line>
+<line color="#2DBBAC" tag="9">9 Berkeley Marina, Gilman, Dwight, Ashby</line>
+<line color="#65AFE1" tag="12">12 55th St., Piedmont Ave., Grand Ave.</line>
+<line color="#CF85BB" tag="14">14 Adeline St., E. 18th St., E. 21st St., High St.</line>
+<line color="#F195AB" tag="15">15 Martin Luther King Jr. Way</line>
+<line color="#4DC3D6" tag="18">18 Solano Ave., Shattuck Ave., Park Blvd.</line>
+<line color="#4FBD6B" tag="19">19 Cedar St., 6th St., Hollis St., Buena Vista Ave.</line>
+<line color="#826DB3" tag="40">40 Foothill Blvd., Bancroft Ave.</line>
+<line color="#4DC3D6" tag="47">47 Maxwell Park, Fruitvale BART</line>
+</lines>
