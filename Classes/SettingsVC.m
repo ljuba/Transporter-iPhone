@@ -1,58 +1,53 @@
 //
-//  SettingsVC.m
-//  kronos
+// SettingsVC.m
+// kronos
 //
-//  Created by Ljuba Miljkovic on 4/11/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 4/11/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "SettingsVC.h"
 
-
 @implementation SettingsVC
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
 
 	[super viewDidLoad];
-	
-	if ([MFMailComposeViewController canSendMail]) {
-		//[self createBugReport];		
-	}
 
+	if ([MFMailComposeViewController canSendMail]) {
+		// [self createBugReport];
+	}
 }
 
-- (IBAction)createBugReport {
-	
+- (IBAction) createBugReport {
+
 	MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
 	controller.mailComposeDelegate = self;
 	[controller setSubject:@"Bug Report"];
 	[controller setToRecipients:[NSArray arrayWithObject:@"ljuba.miljkovic@gmail.com"]];
 	[self presentModalViewController:controller animated:YES];
 	[controller release];
-	
+
 }
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
 	[self becomeFirstResponder];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+- (void) didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
+- (void) viewDidUnload {
+	[super viewDidUnload];
 }
 
-
-- (void)dealloc {
-    [super dealloc];
+- (void) dealloc {
+	[super dealloc];
 }
-
 
 @end

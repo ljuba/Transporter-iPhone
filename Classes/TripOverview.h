@@ -1,29 +1,29 @@
 //
-//  TripOverview.h
-//  kronos
+// TripOverview.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 3/31/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 3/31/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
+#import <UIKit/UIKit.h>
 
 @interface TripOverview : UIViewController <CLLocationManagerDelegate> {
 
 	UIButton *earlierTripButton;
 	UIButton *nextTripButton;
-	
+
 	UILabel *tripTime;
 	UILabel *tripDuration;
-	
+
 	MKMapView *map;
-	
+
 	CLLocationManager *locationManager;
-	
+
 	NSDictionary *tripRequest;
-	
+
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *earlierTripButton;

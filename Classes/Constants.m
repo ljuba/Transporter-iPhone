@@ -1,5 +1,4 @@
-
-//application-wide constants
+// application-wide constants
 
 int const kRowDividerHeight = 18;
 int const kButtonRowHeight = 46;

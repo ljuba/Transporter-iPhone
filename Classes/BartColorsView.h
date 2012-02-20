@@ -1,9 +1,9 @@
 //
-//  BartColorsView.h
-//  kronos
+// BartColorsView.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 4/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 4/17/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -13,16 +13,16 @@
 @interface BartColorsView : UIView {
 
 	NSArray *colors;
-	
+
 	UIImage *redImage;
 	UIImage *orangeImage;
 	UIImage *yellowImage;
 	UIImage *blueImage;
 	UIImage *greenImage;
-	
+
 }
 
-- (id)initWithColors:(NSArray *)_colors atPoint:(CGPoint)point;
+- (id) initWithColors:(NSArray *)_colors atPoint:(CGPoint)point;
 
 @property (nonatomic, retain) NSArray *colors;
 

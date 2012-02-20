@@ -1,16 +1,16 @@
 //
-//	LineCellView.h
-//	New Image
+// LineCellView.h
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/25/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/25/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
-#import <UIKit/UIKit.h>
-#import "Stop.h"
-#import "PredictionLabel.h"
 #import "Constants.h"
+#import "PredictionLabel.h"
+#import "Stop.h"
+#import <UIKit/UIKit.h>
 
 extern const CGFloat kLineCellViewWidth;
 extern const CGFloat kLineCellViewHeight;
@@ -19,23 +19,23 @@ extern const CGFloat kLineCellViewHeight;
 {
 	NSString *majorTitle;
 	UIColor *textColor;
-	
+
 	UIButton *favoriteButton;
 	Stop *stop;
-	
+
 	BOOL isFavorite;
-	
+
 	PredictionLabel *prediction1Label;
 	PredictionLabel *prediction2Label;
 	PredictionLabel *prediction3Label;
-	
+
 	int cellStatus;
-	
+
 	UIActivityIndicatorView *spinner;
 	UILabel *minuteLabel;
-	
+
 	UIFont *font;
-	
+
 }
 
 @property (copy, nonatomic) NSString *majorTitle;
@@ -53,8 +53,8 @@ extern const CGFloat kLineCellViewHeight;
 @property (nonatomic, retain) PredictionLabel *prediction3Label;
 @property (nonatomic, retain) UILabel *minuteLabel;
 
-- (void)setCellStatus:(int)status withArrivals:(NSArray *)arrivals;
-- (void)toggleFavorite;
-- (void)showMinuteLabel:(NSNotification *)note;
-- (void)hideMinuteLabel:(NSNotification *)note;
+- (void) setCellStatus:(int)status withArrivals:(NSArray *)arrivals;
+- (void) toggleFavorite;
+- (void) showMinuteLabel:(NSNotification *)note;
+- (void) hideMinuteLabel:(NSNotification *)note;
 @end

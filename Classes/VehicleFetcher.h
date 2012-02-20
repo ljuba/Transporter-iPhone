@@ -1,21 +1,19 @@
 //
-//  VehicleFetcher.h
-//  transporter
+// VehicleFetcher.h
+// transporter
 //
-//  Created by Ljuba Miljkovic on 5/8/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 5/8/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "Agency.h"
 #import "Direction.h"
 #import "Route.h"
-#import "Agency.h"
 #import "TouchXML.h"
+#import <Foundation/Foundation.h>
 
-@interface VehicleFetcher : NSObject {
+@interface VehicleFetcher : NSObject {}
 
-}
-
-- (void)fetchVehiclesForDirection:(Direction *)direction;
+- (void) fetchVehiclesForDirection:(Direction *)direction;
 
 @end

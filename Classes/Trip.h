@@ -1,24 +1,23 @@
 //
-//  Trip.h
-//  kronos
+// Trip.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 3/31/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 3/31/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
 
 @interface Trip : NSObject {
 
 	NSString *startTitle;
 	NSString *endTitle;
-	
+
 	NSMutableArray *legs;
 	int cost;
-	
+
 	NSTimeInterval duration;
-	
+
 }
 
 @property int cost;
@@ -27,10 +26,10 @@
 @property (nonatomic, retain) NSString *startTitle;
 @property (nonatomic, retain) NSString *endTitle;
 
-- (NSString *)durationLabelText;
-- (NSString *)costLabelText;
+- (NSString *) durationLabelText;
+- (NSString *) costLabelText;
 
-- (void)printDescription;
-- (void)processData;
+- (void) printDescription;
+- (void) processData;
 
 @end

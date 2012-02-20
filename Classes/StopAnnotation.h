@@ -1,27 +1,26 @@
 //
-//  StopAnnotation.h
-//  kronos
+// StopAnnotation.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 3/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 3/18/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-#import "Stop.h"
+#import "Agency.h"
 #import "Direction.h"
 #import "Route.h"
-#import "Agency.h"
-
+#import "Stop.h"
 
 @interface StopAnnotation : NSObject <MKAnnotation> {
 
 	Stop *stop;
 	Agency *agency;
-	
+
 	CLLocationCoordinate2D coordinate;
-	
+
 }
 
 @property (nonatomic, retain) Stop *stop;
@@ -29,6 +28,6 @@
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 
--(id)initWithStop:(Stop *)_stop;
+- (id) initWithStop:(Stop *)_stop;
 
 @end

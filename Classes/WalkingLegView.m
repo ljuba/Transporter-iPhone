@@ -1,14 +1,14 @@
 //
-//	WalkingLegView.m
-//	New Image
+// WalkingLegView.m
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/22/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/22/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
-#import "WalkingLegView.h"
 #import "Constants.h"
+#import "WalkingLegView.h"
 
 const CGFloat kWalkingLegViewWidth = 320.0;
 const CGFloat kWalkingLegViewHeight = 53.0;
@@ -20,57 +20,58 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 @synthesize majorTitle;
 @synthesize minorTitle;
 
-//Indicates whether this is the first, last, or intermediate walking leg in the trip
-- (void)setPositionInTrip:(int)position {
-	
+// Indicates whether this is the first, last, or intermediate walking leg in the trip
+- (void) setPositionInTrip:(int)position {
+
 	switch (position) {
-		case kWalkingLegPositionStart:
-			self.centerImageView.image = [UIImage imageNamed:@"trip-start-pin.png"];
-			break;
-		case kWalkingLegPositionEnd:
-			self.centerImageView.image = [UIImage imageNamed:@"trip-end-pin.png"];
-			break;
-		case kWalkingLegPositionMid:
-			self.centerImageView.image = nil;
-			break;
-		default:
-			break;
+	case kWalkingLegPositionStart:
+		self.centerImageView.image = [UIImage imageNamed:@"trip-start-pin.png"];
+		break;
+	case kWalkingLegPositionEnd:
+		self.centerImageView.image = [UIImage imageNamed:@"trip-end-pin.png"];
+		break;
+	case kWalkingLegPositionMid:
+		self.centerImageView.image = nil;
+		break;
+	default:
+		break;
 	}
-	
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (id) initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
+
 	if (self) {
-		
+
 		centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(78, 9, 10, 37)];
 		centerImageView.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:centerImageView];
-		
+
 		time = [@"9:10 pm" retain];
 		majorTitle = [@"Walk 15 minutes" retain];
 		minorTitle = [@"to Ashby BART" retain];
 		[self setOpaque:NO];
 	}
-	return self;
+	return(self);
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id) initWithCoder:(NSCoder *)coder
 {
 	self = [super initWithCoder:coder];
+
 	if (self) {
 		time = [@"9:10 pm" retain];
 		majorTitle = [@"Walk 15 minutes" retain];
 		minorTitle = [@"to Ashby BART" retain];
 		[self setOpaque:NO];
 	}
-	return self;
+	return(self);
 }
 
-- (void)dealloc
+- (void) dealloc
 {
-	
+
 	[centerImageView release];
 	[time release];
 	[majorTitle release];
@@ -78,39 +79,36 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	[super dealloc];
 }
 
-- (void)setTime:(NSString *)value
+- (void) setTime:(NSString *)value
 {
-	if ([time isEqualToString:value])
-		return;
+	if ([time isEqualToString:value]) return;
 	[time release];
 	time = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setMajorTitle:(NSString *)value
+- (void) setMajorTitle:(NSString *)value
 {
-	if ([majorTitle isEqualToString:value])
-		return;
+	if ([majorTitle isEqualToString:value])	return;
 	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setMinorTitle:(NSString *)value
+- (void) setMinorTitle:(NSString *)value
 {
-	if ([minorTitle isEqualToString:value])
-		return;
+	if ([minorTitle isEqualToString:value])	return;
 	[minorTitle release];
 	minorTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (CGSize)sizeThatFits:(CGSize)size
+- (CGSize) sizeThatFits:(CGSize)size
 {
-	return CGSizeMake(kWalkingLegViewWidth, kWalkingLegViewHeight);
+	return( CGSizeMake(kWalkingLegViewWidth, kWalkingLegViewHeight) );
 }
 
-- (void)drawRect:(CGRect)dirtyRect
+- (void) drawRect:(CGRect)dirtyRect
 {
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kWalkingLegViewWidth, kWalkingLegViewHeight);
 	CGRect bounds = [self bounds];
@@ -132,13 +130,13 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	UIFont *font;
 	CGFloat locations[2];
 	resolution = 0.5 * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
-	
+
 	CGContextSaveGState(context);
 	CGContextTranslateCTM(context, bounds.origin.x, bounds.origin.y);
-	CGContextScaleCTM(context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height));
-	
+	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
+
 	// Layer 3
-	
+
 	alignStroke = 0.0;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0, -0.5, 320.0, 53.0);
@@ -163,22 +161,21 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -197,13 +194,12 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -220,9 +216,9 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Times
-	
+
 	drawRect = CGRectMake(2.0, 15.0, 71.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -232,9 +228,9 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self time] drawInRect:drawRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-	
+
 	// Directions
-	
+
 	drawRect = CGRectMake(94.0, 6.5, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -244,7 +240,7 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self majorTitle] drawInRect:drawRect withFont:font];
-	
+
 	drawRect = CGRectMake(94.0, 27.0, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -254,10 +250,10 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	color = [UIColor colorWithRed:0.222 green:0.222 blue:0.222 alpha:1.0];
 	[color set];
 	[[self minorTitle] drawInRect:drawRect withFont:font];
-	
+
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
-	
+
 }
 
 @end

@@ -1,10 +1,10 @@
 //
-//	TripInputView.m
-//	New Image
+// TripInputView.m
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/21/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/21/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
 #import "TripInputView.h"
@@ -14,31 +14,28 @@ const CGFloat kTripInputViewHeight = 77.0;
 
 @implementation TripInputView
 
-
-- (id)initWithFrame:(CGRect)frame
+- (id) initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
-	if (self) {
-		[self setOpaque:NO];
-	}
-	return self;
+
+	if (self) [self setOpaque:NO];
+	return(self);
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id) initWithCoder:(NSCoder *)coder
 {
 	self = [super initWithCoder:coder];
-	if (self) {
-		[self setOpaque:NO];
-	}
-	return self;
+
+	if (self) [self setOpaque:NO];
+	return(self);
 }
 
-- (CGSize)sizeThatFits:(CGSize)size
+- (CGSize) sizeThatFits:(CGSize)size
 {
-	return CGSizeMake(kTripInputViewWidth, kTripInputViewHeight);
+	return( CGSizeMake(kTripInputViewWidth, kTripInputViewHeight) );
 }
 
-- (void)drawRect:(CGRect)dirtyRect
+- (void) drawRect:(CGRect)dirtyRect
 {
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kTripInputViewWidth, kTripInputViewHeight);
 	CGRect bounds = [self bounds];
@@ -59,13 +56,13 @@ const CGFloat kTripInputViewHeight = 77.0;
 	CGFloat stroke;
 	CGFloat locations[2];
 	resolution = 0.5 * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
-	
+
 	CGContextSaveGState(context);
 	CGContextTranslateCTM(context, bounds.origin.x, bounds.origin.y);
-	CGContextScaleCTM(context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height));
-	
+	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
+
 	// Background
-	
+
 	alignStroke = 0.0;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0, 0.0, 320.0, 77.0);
@@ -90,24 +87,23 @@ const CGFloat kTripInputViewHeight = 77.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	// Line
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -126,9 +122,9 @@ const CGFloat kTripInputViewHeight = 77.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Button
-	
+
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
 }

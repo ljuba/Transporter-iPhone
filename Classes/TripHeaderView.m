@@ -1,10 +1,10 @@
 //
-//	TripHeaderView.m
-//	New Image
+// TripHeaderView.m
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/22/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/22/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
 #import "TripHeaderView.h"
@@ -17,62 +17,62 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 @synthesize startTitle;
 @synthesize durationTitle;
 
-- (id)init
+- (id) init
 {
-	
+
 	CGRect frame = CGRectMake(0, 0, kTripHeaderViewWidth, kTripHeaderViewHeight);
-	
+
 	self = [super initWithFrame:frame];
+
 	if (self) {
 		startTitle = [@"Current Location" retain];
 		durationTitle = [@"0h 52m" retain];
 		[self setOpaque:NO];
 	}
-	return self;
+	return(self);
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id) initWithCoder:(NSCoder *)coder
 {
 	self = [super initWithCoder:coder];
+
 	if (self) {
 		startTitle = [@"Current Location" retain];
 		durationTitle = [@"0h 52m" retain];
 		[self setOpaque:NO];
 	}
-	return self;
+	return(self);
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[startTitle release];
 	[durationTitle release];
 	[super dealloc];
 }
 
-- (void)setStartTitle:(NSString *)value
+- (void) setStartTitle:(NSString *)value
 {
-	if ([startTitle isEqualToString:value])
-		return;
+	if ([startTitle isEqualToString:value])	return;
 	[startTitle release];
 	startTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setDurationTitle:(NSString *)value
+- (void) setDurationTitle:(NSString *)value
 {
-	if ([durationTitle isEqualToString:value])
-		return;
+	if ([durationTitle isEqualToString:value]) return;
 	[durationTitle release];
 	durationTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (CGSize)sizeThatFits:(CGSize)size
+- (CGSize) sizeThatFits:(CGSize)size
 {
-	return CGSizeMake(kTripHeaderViewWidth, kTripHeaderViewHeight);
+	return( CGSizeMake(kTripHeaderViewWidth, kTripHeaderViewHeight) );
 }
 
-- (void)drawRect:(CGRect)dirtyRect
+- (void) drawRect:(CGRect)dirtyRect
 {
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kTripHeaderViewWidth, kTripHeaderViewHeight);
 	CGRect bounds = [self bounds];
@@ -93,13 +93,13 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	UIFont *font;
 	CGFloat locations[2];
 	resolution = 0.5 * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
-	
+
 	CGContextSaveGState(context);
 	CGContextTranslateCTM(context, bounds.origin.x, bounds.origin.y);
-	CGContextScaleCTM(context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height));
-	
+	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
+
 	// Layer 1
-	
+
 	alignStroke = 0.0;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0, 0.0, 320.0, 22.0);
@@ -124,18 +124,18 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	// Layer 2
-	
+
 	drawRect = CGRectMake(230.0, 2.0, 84.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -145,7 +145,7 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
 	[color set];
 	[[self durationTitle] drawInRect:drawRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-	
+
 	drawRect = CGRectMake(6.0, 2.0, 243.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -155,7 +155,7 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
 	[color set];
 	[[self startTitle] drawInRect:drawRect withFont:font];
-	
+
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
 }

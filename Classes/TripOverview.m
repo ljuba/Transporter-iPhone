@@ -1,66 +1,61 @@
 //
-//  TripOverview.m
-//  kronos
+// TripOverview.m
+// kronos
 //
-//  Created by Ljuba Miljkovic on 3/31/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 3/31/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "TripOverview.h"
 #import "TripFetcher.h"
+#import "TripOverview.h"
 
 @implementation TripOverview
 
 @synthesize earlierTripButton, nextTripButton, tripTime, tripDuration, locationManager, map, tripRequest;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
+- (void) viewDidLoad {
+	[super viewDidLoad];
+
 	self.title = @"Overview";
-	
-	//setup start trip button
+
+	// setup start trip button
 	UIBarButtonItem *startButton = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:UIBarButtonItemStyleDone target:nil action:nil];
 	startButton.enabled = NO;
 	self.navigationItem.rightBarButtonItem = startButton;
 	[startButton release];
-	
-	//setup core location
+
+	// setup core location
 	locationManager = [[CLLocationManager alloc] init];
 	locationManager.delegate = self;
 	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-	
+
 }
 
-//perform once the view loads
-- (void)viewDidAppear:(BOOL)animated {
+// perform once the view loads
+- (void) viewDidAppear:(BOOL)animated {
 
-	[super viewDidAppear:animated];	
+	[super viewDidAppear:animated];
 	[locationManager startUpdatingLocation];
-	
-	//fetch trips for the request passed from the trip input screen
+
+	// fetch trips for the request passed from the trip input screen
 	[TripFetcher fetchTripsForRequest:tripRequest];
-	
+
 }
 
-//stop the automatic fetching of predictions once the view is gone
-- (void)viewWillDisappear:(BOOL)animated {
-	
+// stop the automatic fetching of predictions once the view is gone
+- (void) viewWillDisappear:(BOOL)animated {
+
 	[super viewWillDisappear:animated];
 	[locationManager stopUpdatingLocation];
-	
+
 }
-
-
-
-
 
 #pragma mark -
 #pragma mark Memory
 
+- (void) viewDidUnload {
 
-- (void)viewDidUnload {
-	
 	self.earlierTripButton = nil;
 	self.nextTripButton = nil;
 	self.tripTime = nil;
@@ -68,12 +63,10 @@
 	self.map = nil;
 }
 
-
-- (void)dealloc {
+- (void) dealloc {
 	[tripRequest release];
-    [locationManager release];
+	[locationManager release];
 	[super dealloc];
 }
-
 
 @end

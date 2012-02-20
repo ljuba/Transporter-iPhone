@@ -1,16 +1,13 @@
 //
-//  LMTableView.h
-//  transporter
+// LMTableView.h
+// transporter
 //
-//  Created by apple on 6/9/10.
-//  Copyright 2010 Ljuba Miljkovic. All rights reserved.
+// Created by apple on 6/9/10.
+// Copyright 2010 Ljuba Miljkovic. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-
-@interface LinesTableView : UITableView {
-
-}
+@interface LinesTableView : UITableView {}
 
 @end

@@ -1,9 +1,9 @@
-// 
-//  Route.m
-//  transporter
 //
-//  Created by Ljuba Miljkovic on 6/13/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Route.m
+// transporter
+//
+// Created by Ljuba Miljkovic on 6/13/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "Route.h"
@@ -11,7 +11,7 @@
 #import "Agency.h"
 #import "Direction.h"
 
-@implementation Route 
+@implementation Route
 
 @dynamic color;
 @dynamic sortOrder;

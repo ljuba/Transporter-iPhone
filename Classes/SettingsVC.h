@@ -1,20 +1,16 @@
 //
-//  SettingsVC.h
-//  kronos
+// SettingsVC.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 4/11/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 4/11/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <UIKit/UIKit.h>
 
-@interface SettingsVC : UIViewController <MFMailComposeViewControllerDelegate> {
+@interface SettingsVC : UIViewController <MFMailComposeViewControllerDelegate> {}
 
-	
-}
-
-
-- (IBAction)createBugReport;
+- (IBAction) createBugReport;
 
 @end

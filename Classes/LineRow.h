@@ -1,14 +1,14 @@
 //
-//  LineRow.h
-//  kronos
+// LineRow.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 4/18/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "PredictionLabel.h"
 #import "BartColorsView.h"
+#import "PredictionLabel.h"
+#import <UIKit/UIKit.h>
 
 @interface LineRow : UIView {
 
@@ -17,24 +17,24 @@
 
 	NSString *majorTitle;
 	NSString *minorTitle;
-	
+
 	NSArray *arrivals;
-	
+
 	PredictionLabel *prediction1Label;
 	PredictionLabel *prediction2Label;
 	PredictionLabel *prediction3Label;
-	
+
 	int rowHeight;
-	
+
 	int cellStatus;
-	
+
 	UIActivityIndicatorView *spinner;
-	
+
 	UIColor *lightColor;
 	UIColor *darkColor;
-	
+
 	BartColorsView *colorsView;
-	
+
 }
 
 @property BOOL isBARTRow;
@@ -55,9 +55,8 @@
 @property (nonatomic, retain) PredictionLabel *prediction2Label;
 @property (nonatomic, retain) PredictionLabel *prediction3Label;
 
-
 @property (nonatomic, retain) UIActivityIndicatorView *spinner;
 
-- (id)initWithLineItem:(NSDictionary *)lineItem withColors:(NSArray *)colors inRange:(NSRange)range;
+- (id) initWithLineItem:(NSDictionary *)lineItem withColors:(NSArray *)colors inRange:(NSRange)range;
 
 @end

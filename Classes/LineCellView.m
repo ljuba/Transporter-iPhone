@@ -1,10 +1,10 @@
 //
-//	LineCellView.m
-//	New Image
+// LineCellView.m
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/25/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/25/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
 #import "LineCellView.h"
@@ -17,27 +17,28 @@ const CGFloat kLineCellViewHeight = 61.0;
 @synthesize majorTitle, textColor, favoriteButton, stop, isFavorite, spinner, font, cellStatus;
 @synthesize prediction1Label, prediction2Label, prediction3Label, minuteLabel;
 
-- (id)init
+- (id) init
 {
 	CGRect frame = CGRectMake(0, 0, kLineCellViewWidth, kLineCellViewHeight);
-	
+
 	self = [super initWithFrame:frame];
+
 	if (self) {
 		majorTitle = [@"60 Outbound" retain];
 		textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
 		[self setOpaque:NO];
-		
-		//ADD THE FAVORITES BUTTON
+
+		// ADD THE FAVORITES BUTTON
 		favoriteButton = [[UIButton alloc] initWithFrame:CGRectMake(-1, 3, 39, 55)];
 		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateNormal];
-		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateHighlighted]; 
-		
+		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateHighlighted];
+
 		[favoriteButton addTarget:self action:@selector(toggleFavorite) forControlEvents:UIControlEventTouchUpInside];
 		favoriteButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		favoriteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 		[self addSubview:favoriteButton];
-		
-		//ADD PREDICTION LABELS
+
+		// ADD PREDICTION LABELS
 		prediction1Label = [[PredictionLabel alloc] initWithFrame:CGRectMake(240, 3, 53, 47)];
 		prediction1Label.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 		prediction1Label.textColor = textColor;
@@ -45,7 +46,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction1Label.textAlignment = UITextAlignmentCenter;
 		prediction1Label.text = @"";
 		prediction1Label.isFirstArrival = YES;
-		
+
 		prediction2Label = [[PredictionLabel alloc] initWithFrame:CGRectMake(294, 2, 27, 27)];
 		prediction2Label.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 		prediction2Label.textColor = textColor;
@@ -53,7 +54,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction2Label.textAlignment = UITextAlignmentCenter;
 		prediction2Label.text = @"";
 		prediction2Label.isFirstArrival = NO;
-		
+
 		prediction3Label = [[PredictionLabel alloc] initWithFrame:CGRectMake(294, 32, 27, 27)];
 		prediction3Label.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 		prediction3Label.textColor = textColor;
@@ -61,19 +62,19 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction3Label.textAlignment = UITextAlignmentCenter;
 		prediction3Label.text = @"";
 		prediction3Label.isFirstArrival = NO;
-		
+
 		[self addSubview:prediction1Label];
 		[self addSubview:prediction2Label];
 		[self addSubview:prediction3Label];
-		
-		//ADD SPINNER
+
+		// ADD SPINNER
 		spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(256, 19, 20, 20)];
 		spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 		spinner.hidesWhenStopped = YES;
 		[spinner stopAnimating];
 		[self addSubview:spinner];
-		
-		//ADD MINUTE LABEL
+
+		// ADD MINUTE LABEL
 		minuteLabel = [[UILabel alloc] initWithFrame:CGRectMake(252, 41, 31, 14)];
 		minuteLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 		minuteLabel.textColor = textColor;
@@ -81,50 +82,44 @@ const CGFloat kLineCellViewHeight = 61.0;
 		minuteLabel.textAlignment = UITextAlignmentCenter;
 		minuteLabel.text = @"min";
 		[self addSubview:minuteLabel];
-		
-		//SETUP NOTIFICATIONS
+
+		// SETUP NOTIFICATIONS
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(hideMinuteLabel:) name:@"imminentArrivalYES" object:nil];
-		[nc addObserver:self selector:@selector(showMinuteLabel:) name:@"imminentArrivalNO" object:nil];		
-		
+		[nc addObserver:self selector:@selector(showMinuteLabel:) name:@"imminentArrivalNO" object:nil];
+
 	}
-	return self;
+	return(self);
 }
 
-- (void)hideMinuteLabel:(NSNotification *)note {
+- (void) hideMinuteLabel:(NSNotification *)note {
 
 	if (note.object == self) {
-		
-		NSLog(@"HIDE MINUTE LABEL %@", note.object); /* DEBUG LOG */	
-		minuteLabel.hidden = YES;		
-	}}
 
-- (void)showMinuteLabel:(NSNotification *)note {
-	
-	if (note.object == self) {
-		
-		//NSLog(@"%@", note.object); /* DEBUG LOG */	
-		minuteLabel.hidden = NO;		
+		NSLog(@"HIDE MINUTE LABEL %@", note.object); /* DEBUG LOG */
+		minuteLabel.hidden = YES;
 	}
-	
 }
 
-- (void)setFont:(UIFont *)_font {
-	
+- (void) showMinuteLabel:(NSNotification *)note {
+
+	if (note.object == self)
+		// NSLog(@"%@", note.object); /* DEBUG LOG */
+		minuteLabel.hidden = NO;
+}
+
+- (void) setFont:(UIFont *)_font {
+
 	font = [_font retain];
 	[self setNeedsDisplay];
-	
+
 }
 
-- (void)setCellStatus:(int)status withArrivals:(NSArray *)arrivals {
+- (void) setCellStatus:(int)status withArrivals:(NSArray *)arrivals {
 
-	//don't use the view controller cell status if you know there are arrivals
-	if ([arrivals count] == 0 || arrivals == nil) {
-		cellStatus = status;
-	}
-	else {
-		cellStatus = kCellStatusDefault;
-	}
+	// don't use the view controller cell status if you know there are arrivals
+	if ( ([arrivals count] == 0)||(arrivals == nil) ) cellStatus = status;
+	else cellStatus = kCellStatusDefault;
 
 	if (cellStatus == kCellStatusSpinner) {
 		spinner.hidden = NO;
@@ -137,66 +132,61 @@ const CGFloat kLineCellViewHeight = 61.0;
 		[spinner startAnimating];
 		[self setNeedsDisplay];
 		return;
-	}
-	else if (cellStatus == kCellStatusInternetFail) {
+	} else if (cellStatus == kCellStatusInternetFail) {
 		[spinner stopAnimating];
 		prediction1Label.text = nil;
 		minuteLabel.hidden = YES;
 		return;
-		
-	}
-	else if (cellStatus == kCellStatusPredictionFail) {
+
+	} else if (cellStatus == kCellStatusPredictionFail) {
 		minuteLabel.hidden = YES;
 		[spinner startAnimating];
 		return;
-	}
-	else if (cellStatus == kCellStatusDefault) {
+	} else if (cellStatus == kCellStatusDefault) {
 		[spinner stopAnimating];
-		
+
 		int numberOfArrivals = [arrivals count];
+
 		switch (numberOfArrivals) {
-			case 0:
-				prediction1Label.text = @"—";
-				prediction1Label.alpha = 0.6;
-				prediction2Label.text = @"";
-				prediction3Label.text = @"";
-				textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:0.6] retain];
-				minuteLabel.hidden = YES;
-				break;
-			case 1:
-				textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
-				prediction2Label.text = @"-";
-				prediction3Label.text = @"-";
-				prediction1Label.alpha = 1.0;
-				break;
-			case 2:
-				prediction3Label.text = @"-";
-				textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
-				prediction1Label.alpha = 1.0;
-				break;
-			default:
-				textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
-				prediction1Label.alpha = 1.0;
-				break;
-		}		
+		case 0:
+			prediction1Label.text = @"—";
+			prediction1Label.alpha = 0.6;
+			prediction2Label.text = @"";
+			prediction3Label.text = @"";
+			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:0.6] retain];
+			minuteLabel.hidden = YES;
+			break;
+		case 1:
+			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			prediction2Label.text = @"-";
+			prediction3Label.text = @"-";
+			prediction1Label.alpha = 1.0;
+			break;
+		case 2:
+			prediction3Label.text = @"-";
+			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			prediction1Label.alpha = 1.0;
+			break;
+		default:
+			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			prediction1Label.alpha = 1.0;
+			break;
+		}
 		[self setNeedsDisplay];
 		return;
-	
+
 	}
 }
 
+// overridden in subclasses
+- (void) toggleFavorite {}
 
-//overridden in subclasses
-- (void)toggleFavorite {
-	
-}
-
-- (void)dealloc
+- (void) dealloc
 {
-	
+
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
-	
+
 	[minuteLabel release];
 	[spinner release];
 	[prediction1Label release];
@@ -208,30 +198,28 @@ const CGFloat kLineCellViewHeight = 61.0;
 	[super dealloc];
 }
 
-- (void)setMajorTitle:(NSString *)value
+- (void) setMajorTitle:(NSString *)value
 {
-	if ([majorTitle isEqualToString:value])
-		return;
+	if ([majorTitle isEqualToString:value])	return;
 	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setTextColor:(UIColor *)value
+- (void) setTextColor:(UIColor *)value
 {
-	if ([textColor isEqual:value])
-		return;
+	if ([textColor isEqual:value]) return;
 	[textColor release];
 	textColor = [value retain];
 	[self setNeedsDisplay];
 }
 
-- (CGSize)sizeThatFits:(CGSize)size
+- (CGSize) sizeThatFits:(CGSize)size
 {
-	return CGSizeMake(kLineCellViewWidth, kLineCellViewHeight);
+	return( CGSizeMake(kLineCellViewWidth, kLineCellViewHeight) );
 }
 
-- (void)drawRect:(CGRect)dirtyRect
+- (void) drawRect:(CGRect)dirtyRect
 {
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kLineCellViewWidth, kLineCellViewHeight);
 	CGRect bounds = [self bounds];
@@ -252,13 +240,13 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGFloat stroke;
 	CGFloat locations[2];
 	resolution = 0.5f * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
-	
+
 	CGContextSaveGState(context);
 	CGContextTranslateCTM(context, bounds.origin.x, bounds.origin.y);
-	CGContextScaleCTM(context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height));
-	
+	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
+
 	// background
-	
+
 	alignStroke = 0.0f;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0f, 1.0f, 320.0f, 59.0f);
@@ -283,25 +271,23 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	// Layer 5
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -320,17 +306,15 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Layer 3
-	
+
 	CGContextSetShouldAntialias(context, NO);
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -347,16 +331,14 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Layer 2
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -373,17 +355,15 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// divider lines
-	
+
 	CGContextSetShouldAntialias(context, YES);
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -400,14 +380,12 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -424,16 +402,14 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Layer 1
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -450,16 +426,14 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Layer 4
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -476,17 +450,14 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
-	
+
 	// Layer 6
-	
+
 	stroke = 1.0f;
 	stroke *= resolution;
-	if (stroke < 1.0f) {
-		stroke = ceilf(stroke);
-	} else {
-		stroke = roundf(stroke);
-	}
+
+	if (stroke < 1.0f) stroke = ceilf(stroke);
+	else stroke = roundf(stroke);
 	stroke /= resolution;
 	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
 	path = CGPathCreateMutable();
@@ -503,9 +474,9 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Layer 7
-	
+
 	drawRect = CGRectMake(36.0f, 6.0f, 198.0f, 29.0f);
 	drawRect.origin.x = roundf(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = roundf(resolution * drawRect.origin.y) / resolution;
@@ -513,9 +484,9 @@ const CGFloat kLineCellViewHeight = 61.0;
 	drawRect.size.height = roundf(resolution * drawRect.size.height) / resolution;
 	[textColor set];
 	[majorTitle drawInRect:drawRect withFont:font];
-	
+
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
-	
+
 }
 @end

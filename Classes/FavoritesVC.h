@@ -1,13 +1,13 @@
 //
-//  FavoritesVC.h
-//  kronos
+// FavoritesVC.h
+// kronos
 //
-//  Created by Ljuba Miljkovic on 3/23/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+// Created by Ljuba Miljkovic on 3/23/10.
+// Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "PredictionsManagerDelegate.h"
+#import <UIKit/UIKit.h>
 
 #import "FavoriteStopsDelegate.h"
 
@@ -18,14 +18,14 @@
 	UIBarButtonItem *editButton;
 
 	UITableView *tableView;
-	
+
 	FavoriteStopsDelegate *stopsDelegate;
-	
+
 	NSTimer *timer;
-	
+
 	UIImageView *noFavoritesMessageView;
-    
-    UIButton *participateButton;
+
+	UIButton *participateButton;
 
 }
 
@@ -42,10 +42,9 @@
 
 @property (nonatomic, retain) UIButton *participateButton;
 
-- (void)showParticipateView;
-- (void)loadNextViewController:(NSNotification *)note;
-- (void)tapSegmentedControl;
-- (void)requestPredictions;
-- (IBAction)toggleEditingMode;
+- (void) loadNextViewController:(NSNotification *)note;
+- (void) tapSegmentedControl;
+- (void) requestPredictions;
+- (IBAction) toggleEditingMode;
 
 @end

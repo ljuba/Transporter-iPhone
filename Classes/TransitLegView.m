@@ -1,14 +1,14 @@
 //
-//	TransitLegView.m
-//	New Image
+// TransitLegView.m
+// New Image
 //
-//	Created by Ljuba Miljkovic on 4/22/10
-//	Copyright Like Thought, LLC. All rights reserved.
-//	THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
+// Created by Ljuba Miljkovic on 4/22/10
+// Copyright Like Thought, LLC. All rights reserved.
+// THIS CODE IS FOR EVALUATION ONLY. YOU MAY NOT USE IT FOR ANY OTHER PURPOSE UNLESS YOU PURCHASE A LICENSE FOR OPACITY.
 //
 
-#import "TransitLegView.h"
 #import "Agency.h"
+#import "TransitLegView.h"
 
 const CGFloat kTransitLegViewWidth = 320.0;
 const CGFloat kTransitLegViewHeight = 154.0;
@@ -25,62 +25,48 @@ const CGFloat kTransitLegViewHeight = 154.0;
 @synthesize majorTitle;
 @synthesize minorTitle;
 
+- (void) setRoute:(Route *)route {
 
-- (void)setRoute:(Route *)route {
-	
 	NSString *agencyShortTitle = route.agency.shortTitle;
-	
-	//SETUP THE ROUTE BACKGROUND IMAGE AND TAG
+
+	// SETUP THE ROUTE BACKGROUND IMAGE AND TAG
 	if ([agencyShortTitle isEqualToString:@"actransit"]) {
-		
+
 		routeBackground.image = [UIImage imageNamed:@"route-tag-background-actransit.png"];
 		routeTagLabel.text = route.tag;
 		bartColor.hidden = YES;
-	}
-	else if ([agencyShortTitle isEqualToString:@"sf-muni"]) {
-	
+	} else if ([agencyShortTitle isEqualToString:@"sf-muni"]) {
+
 		routeBackground.image = [UIImage imageNamed:@"route-tag-background-sfmuni.png"];
 		routeTagLabel.text = route.tag;
 		bartColor.hidden = YES;
-		
-	}
-	else if ([agencyShortTitle isEqualToString:@"bart"]) {
-		
+
+	} else if ([agencyShortTitle isEqualToString:@"bart"]) {
+
 		routeBackground.image = [UIImage imageNamed:@"route-tag-background-bart-blue.png"];
 		routeTagLabel.text = @"ba";
-		
+
 		bartColor.hidden = NO;
-		
-		if ([route.tag isEqualToString:@"blue"]) {
-			bartColor.image = [UIImage imageNamed:@"bart-blue.png"];
-		}
-		else if ([route.tag isEqualToString:@"green"]) {
-			bartColor.image = [UIImage imageNamed:@"bart-green.png"];
-		}
-		else if ([route.tag isEqualToString:@"orange"]) {
-			bartColor.image = [UIImage imageNamed:@"bart-orange.png"];
-		}
-		else if ([route.tag isEqualToString:@"red"]) {
-			bartColor.image = [UIImage imageNamed:@"bart-red.png"];
-		}
-		else if ([route.tag isEqualToString:@"yellow"]) {
-			bartColor.image = [UIImage imageNamed:@"bart-yellow.png"];
-		}
 
+		if ([route.tag isEqualToString:@"blue"]) bartColor.image = [UIImage imageNamed:@"bart-blue.png"];
+		else if ([route.tag isEqualToString:@"green"]) bartColor.image = [UIImage imageNamed:@"bart-green.png"];
+		else if ([route.tag isEqualToString:@"orange"])	bartColor.image = [UIImage imageNamed:@"bart-orange.png"];
+		else if ([route.tag isEqualToString:@"red"]) bartColor.image = [UIImage imageNamed:@"bart-red.png"];
+		else if ([route.tag isEqualToString:@"yellow"])	bartColor.image = [UIImage imageNamed:@"bart-yellow.png"];
 	}
-
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (id) initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
+
 	if (self) {
-		
-		//ROUTE TAG BACKGROUND
+
+		// ROUTE TAG BACKGROUND
 		routeBackground = [[UIImageView alloc] initWithFrame:CGRectMake(4, 31, 69, 34)];
 		[self addSubview:routeBackground];
-		
-		//ROUTE TAG LABEL
+
+		// ROUTE TAG LABEL
 		routeTagLabel = [[UILabel alloc] initWithFrame:CGRectMake(21, 36, 50, 23)];
 		routeTagLabel.font = [UIFont boldSystemFontOfSize:18];
 		routeTagLabel.textColor = [UIColor whiteColor];
@@ -90,12 +76,12 @@ const CGFloat kTransitLegViewHeight = 154.0;
 		routeTagLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 		routeTagLabel.adjustsFontSizeToFitWidth = YES;
 		[self addSubview:routeTagLabel];
-		
-		//BART COLORS		
+
+		// BART COLORS
 		bartColor = [[UIImageView alloc] initWithFrame:CGRectMake(80, 52, 14, 13)];
 		bartColor.hidden = YES;
 		[self addSubview:bartColor];
-		
+
 		startTime = [@"9:10 pm" retain];
 		endTime = [@"10:42 pm" retain];
 		startStopTitle = [@"Start stop" retain];
@@ -105,16 +91,15 @@ const CGFloat kTransitLegViewHeight = 154.0;
 		minorTitle = [@"Broadway and Blanding" retain];
 		[self setOpaque:NO];
 	}
-	return self;
+	return(self);
 }
 
-
-- (void)dealloc
+- (void) dealloc
 {
 	[bartColor release];
 	[routeTagLabel release];
 	[routeBackground release];
-	
+
 	[startTime release];
 	[endTime release];
 	[startStopTitle release];
@@ -125,75 +110,68 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	[super dealloc];
 }
 
-- (void)setStartTime:(NSString *)value
+- (void) setStartTime:(NSString *)value
 {
-	if ([startTime isEqualToString:value])
-		return;
+	if ([startTime isEqualToString:value]) return;
 	[startTime release];
 	startTime = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setEndTime:(NSString *)value
+- (void) setEndTime:(NSString *)value
 {
-	if ([endTime isEqualToString:value])
-		return;
+	if ([endTime isEqualToString:value]) return;
 	[endTime release];
 	endTime = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setStartStopTitle:(NSString *)value
+- (void) setStartStopTitle:(NSString *)value
 {
-	if ([startStopTitle isEqualToString:value])
-		return;
+	if ([startStopTitle isEqualToString:value]) return;
 	[startStopTitle release];
 	startStopTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setEndStopTitle:(NSString *)value
+- (void) setEndStopTitle:(NSString *)value
 {
-	if ([endStopTitle isEqualToString:value])
-		return;
+	if ([endStopTitle isEqualToString:value]) return;
 	[endStopTitle release];
 	endStopTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setTransferText:(NSString *)value
+- (void) setTransferText:(NSString *)value
 {
-	if ([transferText isEqualToString:value])
-		return;
+	if ([transferText isEqualToString:value]) return;
 	[transferText release];
 	transferText = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setMajorTitle:(NSString *)value
+- (void) setMajorTitle:(NSString *)value
 {
-	if ([majorTitle isEqualToString:value])
-		return;
+	if ([majorTitle isEqualToString:value])	return;
 	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (void)setMinorTitle:(NSString *)value
+- (void) setMinorTitle:(NSString *)value
 {
-	if ([minorTitle isEqualToString:value])
-		return;
+	if ([minorTitle isEqualToString:value])	return;
 	[minorTitle release];
 	minorTitle = [value copy];
 	[self setNeedsDisplay];
 }
 
-- (CGSize)sizeThatFits:(CGSize)size
+- (CGSize) sizeThatFits:(CGSize)size
 {
-	return CGSizeMake(kTransitLegViewWidth, kTransitLegViewHeight);
+	return( CGSizeMake(kTransitLegViewWidth, kTransitLegViewHeight) );
 }
 
-- (void)drawRect:(CGRect)dirtyRect
+- (void) drawRect:(CGRect)dirtyRect
 {
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kTransitLegViewWidth, kTransitLegViewHeight);
 	CGRect bounds = [self bounds];
@@ -216,13 +194,13 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGFloat locations[4];
 	CGFloat lengths[2];
 	resolution = 0.5 * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
-	
+
 	CGContextSaveGState(context);
 	CGContextTranslateCTM(context, bounds.origin.x, bounds.origin.y);
-	CGContextScaleCTM(context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height));
-	
+	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
+
 	// Background
-	
+
 	alignStroke = 0.0;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0, 26.0, 320.0, 128.0);
@@ -247,22 +225,21 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -284,7 +261,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	alignStroke = 0.0;
 	path = CGPathCreateMutable();
 	drawRect = CGRectMake(0.0, 0.0, 320.0, 26.0);
@@ -312,17 +289,16 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextEOClip(context);
 	point = CGPointMake(160.0, 26.0);
 	point2 = CGPointMake(160.0, 0.0);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -340,13 +316,12 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	stroke = 1.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -363,15 +338,14 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Line
-	
+
 	stroke = 5.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -389,9 +363,9 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// transfer
-	
+
 	drawRect = CGRectMake(70.0, 4.0, 180.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -401,15 +375,14 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
 	[color set];
 	[[self transferText] drawInRect:drawRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
-	
+
 	// Endpoints
-	
+
 	stroke = 2.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -435,12 +408,12 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	color = [UIColor colorWithRed:0.149 green:0.149 blue:0.149 alpha:1.0];
@@ -449,13 +422,12 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	stroke = 2.0;
 	stroke *= resolution;
-	if (stroke < 1.0)
-		stroke = ceil(stroke);
-	else
-		stroke = round(stroke);
+
+	if (stroke < 1.0) stroke = ceil(stroke);
+	else stroke = round(stroke);
 	stroke /= resolution;
 	alignStroke = fmod(0.5 * stroke * resolution, 1.0);
 	path = CGPathCreateMutable();
@@ -481,12 +453,12 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGPathAddPath(tempPath, &transform, path);
 	pathBounds = CGPathGetBoundingBox(tempPath);
 	point = pathBounds.origin;
-	point2 = CGPointMake(CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds));
+	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
 	transform = CGAffineTransformInvert(transform);
 	point = CGPointApplyAffineTransform(point, transform);
 	point2 = CGPointApplyAffineTransform(point2, transform);
 	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient(context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation));
+	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
 	CGContextRestoreGState(context);
 	CGGradientRelease(gradient);
 	color = [UIColor colorWithRed:0.149 green:0.149 blue:0.149 alpha:1.0];
@@ -494,9 +466,9 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
 	CGPathRelease(path);
-	
+
 	// Times
-	
+
 	drawRect = CGRectMake(-1.0, 74.0, 74.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -506,7 +478,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self startTime] drawInRect:drawRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-	
+
 	drawRect = CGRectMake(1.0, 128.0, 72.0, 22.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -516,9 +488,9 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self endTime] drawInRect:drawRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-	
+
 	// Layer 1
-	
+
 	drawRect = CGRectMake(94.0, 74.0, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -528,9 +500,9 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self startStopTitle] drawInRect:drawRect withFont:font];
-	
+
 	// Layer 2
-	
+
 	drawRect = CGRectMake(94.0, 129.0, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -540,9 +512,9 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.101 green:0.101 blue:0.101 alpha:1.0];
 	[color set];
 	[[self endStopTitle] drawInRect:drawRect withFont:font];
-	
+
 	// Direction info
-	
+
 	drawRect = CGRectMake(80.0, 30.0, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -552,7 +524,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
 	[color set];
 	[[self majorTitle] drawInRect:drawRect withFont:font];
-	
+
 	drawRect = CGRectMake(80.0, 48.0, 220.0, 19.0);
 	drawRect.origin.x = round(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = round(resolution * drawRect.origin.y) / resolution;
@@ -562,7 +534,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.375 green:0.375 blue:0.375 alpha:1.0];
 	[color set];
 	[[self minorTitle] drawInRect:drawRect withFont:font];
-	
+
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
 }
