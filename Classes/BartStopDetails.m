@@ -7,7 +7,6 @@
 //
 
 #import "BartStopDetails.h"
-#import "TouchXML.h"
 #import "DestinationCellView.h"
 
 @implementation BartStopDetails

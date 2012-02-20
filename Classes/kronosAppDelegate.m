@@ -113,15 +113,12 @@
 	
 }
 
-- (int)secondsSinceLastLaunch {
+- (NSTimeInterval)secondsSinceLastLaunch {
 	
 	NSDate *activeAt = [NSDate dateWithTimeIntervalSinceNow:0];
 	NSDate *inactiveAt = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateOfLastQuit"];
 	
-	int inactiveFor = [activeAt timeIntervalSinceDate:inactiveAt];
-	
-	return inactiveFor;
-
+	return [activeAt timeIntervalSinceDate:inactiveAt];
 }
 
 

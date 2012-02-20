@@ -25,6 +25,4 @@
 - (id)initWithAgency:(Agency *)agency;
 - (void)setContentsForBartAgency:(Agency *)bartAgency;
 - (void)displayClosestStopToLocation:(CLLocation *)location;
-
-
 @end

@@ -38,7 +38,7 @@
 @property BOOL importing;
 
 
-- (int)secondsSinceLastLaunch;
+- (NSTimeInterval)secondsSinceLastLaunch;
 - (void)restoreToSavedRootViewController;
 
 - (Stop *)savedStopFromUserDefaults;
