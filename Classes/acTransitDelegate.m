@@ -166,8 +166,8 @@
 
 - (void) dealloc {
 
-	[formattedContents release];    // reatined in init
-	[selectedItem release];                 // superclass ivar. retained in tapRoute. set to nil in init
+	[formattedContents release];
+	[selectedItem release];
 	[super dealloc];
 
 }

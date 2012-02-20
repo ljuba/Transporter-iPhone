@@ -154,8 +154,6 @@
 
 - (void) dealloc {
 
-	[contents release];
-
 	[super dealloc];
 }
 

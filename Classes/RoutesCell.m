@@ -14,7 +14,10 @@
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 
-	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])	self.buttons = [[[NSMutableArray alloc] init] autorelease];
+	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])	{
+		self.buttons = [NSMutableArray array];
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
 	return(self);
 }
 
