@@ -33,7 +33,6 @@
 	NSString *backTitle = [NSString stringWithString:@"Map"];
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 	previousStopAnnotations = nil;           // in case regionWillChangeAnimated is never called, set this to nil so it can be "released"
 
 	// setup core location
@@ -102,11 +101,9 @@
 
 	if ([note.name isEqual:UIApplicationWillResignActiveNotification]) {
 
-		NSLog(@"NEAR ME: Location Updating OFF"); /* DEBUG LOG */
 		[locationManager stopUpdatingLocation];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
-		NSLog(@"NEAR ME: Location Updating ON"); /* DEBUG LOG */
 		[locationManager startUpdatingLocation];
 	}
 }
@@ -142,7 +139,6 @@
 	// annotationsToDelete is the same as previousAnnotations at this point
 	[annotationsToDelete removeObjectsInArray:visibleAnnotations];
 
-	NSLog(@"DELETE: %@", annotationsToDelete);
 
 	// remove the no-longer-visible annotations
 	[self.mapView removeAnnotations:annotationsToDelete];
@@ -151,7 +147,6 @@
 	// annotationsToAdde is the same as visibleAnnotations at this point
 	[annotationsToAdd removeObjectsInArray:previousStopAnnotations];
 
-	NSLog(@"ADD : %@", annotationsToAdd);
 
 	// add the newly visible annotations
 	[self.mapView addAnnotations:annotationsToAdd];
@@ -190,12 +185,10 @@
 	NSError *error;
 	NSMutableArray *stopsInRegion = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 
-	if (stopsInRegion == nil) NSLog(@"Could not fetch stops!");
-	[request release];
 
 	// create array of stopAnnotations for the stops
 
-	NSMutableArray *stopAnnotations = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
 
 	for (Stop *stop in stopsInRegion) {
 
@@ -203,10 +196,8 @@
 
 		[stopAnnotations addObject:stopAnnotation];
 
-		[stopAnnotation release];
 
 	}
-	[stopsInRegion release];
 
 	return(stopAnnotations);
 
@@ -223,7 +214,7 @@
 		MKAnnotationView *annotationView = (MKAnnotationView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:stopIdentifier];
 
 		if (annotationView == nil) {
-			annotationView = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:stopIdentifier] autorelease];
+			annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:stopIdentifier];
 			annotationView.canShowCallout = YES;
 
 			UIButton *stopButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -279,14 +270,12 @@
 		bartStopDetails.stop = stopAnnotation.stop;
 
 		[self.navigationController pushViewController:bartStopDetails animated:YES];
-		[bartStopDetails release];
 
 	} else {
 		NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] init];
 		nextBusStopDetails.stop = stopAnnotation.stop;
 
 		[self.navigationController pushViewController:nextBusStopDetails animated:YES];
-		[nextBusStopDetails release];
 	}
 }
 
@@ -296,7 +285,6 @@
 // notify the class when there is a new location update
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 
-	NSLog(@"Interval Time: %f", [newLocation.timestamp timeIntervalSinceNow]); /* DEBUG LOG */
 
 	// don't update location if location fix accuracy is invalid (negative) or if the timestamp is more then 120 seconds old
 	if ( (newLocation.horizontalAccuracy < 0)||([newLocation.timestamp timeIntervalSinceNow] < -120) ) return;
@@ -349,12 +337,5 @@
 	self.recenterButton = nil;
 }
 
-- (void) dealloc {
-
-	[previousStopAnnotations release];              // set to nil in viewDidLoad in case regionWillChangeAnimated is never called
-	[locationManager release];                              // created in viewDidLoad
-
-	[super dealloc];
-}
 
 @end

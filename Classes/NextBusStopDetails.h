@@ -15,7 +15,7 @@
 
 }
 
-@property (nonatomic, retain) Direction *mainDirection;
+@property (nonatomic) Direction *mainDirection;
 
 - (void) switchDirections;
 

@@ -14,13 +14,13 @@
 @interface Route :  NSManagedObject
 {}
 
-@property (nonatomic, retain) NSString *color;
-@property (nonatomic, retain) NSNumber *sortOrder;
-@property (nonatomic, retain) NSString *vehicle;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *tag;
-@property (nonatomic, retain) Agency *agency;
-@property (nonatomic, retain) NSSet *directions;
+@property (nonatomic) NSString *color;
+@property (nonatomic) NSNumber *sortOrder;
+@property (nonatomic) NSString *vehicle;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *tag;
+@property (nonatomic) Agency *agency;
+@property (nonatomic) NSSet *directions;
 
 @end
 

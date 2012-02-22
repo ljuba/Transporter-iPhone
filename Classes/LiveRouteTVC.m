@@ -41,7 +41,6 @@
 	UIBarButtonItem *findLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(findLocation)];
 	findLocationButton.enabled = NO;
 	self.navigationItem.rightBarButtonItem = findLocationButton;
-	[findLocationButton release];
 
 	// setup for saving state
 	[DataHelper saveDirectionIDInUserDefaults:direction forKey:@"liveRouteDirectionURIData"];
@@ -56,7 +55,7 @@
 	predictions = [[NSMutableDictionary alloc] init];
 
 	// add userMarker view to the tableView;
-	userMarker = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	userMarker = [UIButton buttonWithType:UIButtonTypeCustom];
 	[userMarker setImage:[UIImage imageNamed:@"TrackingDot.png"] forState:UIControlStateNormal];
 	[userMarker setImage:[UIImage imageNamed:@"TrackingDotPressed.png"] forState:UIControlStateHighlighted];
 	userMarker.hidden = YES;
@@ -85,7 +84,6 @@
 		[orderedStops addObject:thisStop];
 	}
 	self.stops = orderedStops;
-	[orderedStops release];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -179,12 +177,11 @@
 
 		double vehicleDistance = [vehicleLocation distanceFromLocation:userLocation];
 
-		[vehicleLocation release];
 
 		// if this stop is closer than the last one tried, mark it as the closest
 		if (vehicleDistance < closestVehicleDistance) {
 
-			closestVehicle = [vehicle retain];
+			closestVehicle = vehicle;
 			closestVehicleDistance = vehicleDistance;
 
 		}
@@ -212,7 +209,6 @@
 	request.isMainRoute = NO;
 
 	[requests addObject:request];
-	[request release];
 
 	// request predictions for the stops in the favorites screen
 	[NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
@@ -256,7 +252,6 @@
 		[_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
 
 		[alert show];
-		[alert release];
 
 		return;
 
@@ -278,14 +273,12 @@
 	NSString *duration = [NSString stringWithFormat:@"%d", minutes];
 	NSString *message = [NSString stringWithFormat:@"Estimated arrival in \n%@ minutes (%@)", duration, [dateFormatter stringFromDate:date]];
 
-	[dateFormatter release];
 
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:tappedStop.title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
 	[_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
 
 	[alert show];
-	[alert release];
 }
 
 #pragma mark -
@@ -374,7 +367,7 @@
 		// if this stop is closer than the last one tried, mark it as the closest
 		if (stopDistance < closestStopDistance) {
 
-			closestStop = [stop retain];
+			closestStop = stop;
 			closestStopDistance = stopDistance;
 
 		}
@@ -572,7 +565,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 	}
 	Stop *currentStop = [stops objectAtIndex:row];
@@ -608,7 +601,6 @@
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This stop is behind you" message:@"Cannot calculate ETA for\nstops you've passed." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 
 			[alert show];
-			[alert release];
 
 			return(nil);
 		}
@@ -630,21 +622,5 @@
 	self._tableView = nil;
 }
 
-- (void) dealloc {
-	[savedPreviousStop release];
-	[savedNextStop release];
-	[vehicleID release];
-	[predictions release];
-	[vehicleFetcher release];
-	[locationFixTimeoutTimer release];
-	[direction release];            // created by stopDetailsVC and retained in setter
-	[startingStop release];         // created by stopDetailsVC and retained in setter
-	[stops release];                        // retained in its setter in viewDidLoad
-	[locationManager release];      // created in viewDidLoad
-	[scrollStop release];           // retained in positionUserMarkerToNewLocation. set to nil in viewDidLoad in case positionUserMarkerToNewLocation is never called
-	[userMarker release];           // retained in viewDidLoad so it can be saved as an ivar
-
-	[super dealloc];
-}
 
 @end

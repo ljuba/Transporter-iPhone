@@ -15,6 +15,6 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *platforms;
+@property (nonatomic) NSMutableArray *platforms;
 
 @end

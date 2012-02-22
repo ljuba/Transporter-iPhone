@@ -20,7 +20,6 @@
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortOrder" ascending:YES];
 	[self.contents sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 
-	[sortDescriptor release];
 }
 
 #pragma mark Table view methods
@@ -46,7 +45,7 @@
 
 	if ([agency.shortTitle isEqual:@"actransit"]) {
 
-		NSMutableArray *rowContents = [[[NSMutableArray alloc] init] autorelease];
+		NSMutableArray *rowContents = [[NSMutableArray alloc] init];
 
 		// for all routes
 		for (Route *route in contents) {
@@ -72,7 +71,7 @@
 		NSPredicate *metroPredicate = [NSPredicate predicateWithFormat:@"vehicle == %@ || vehicle == %@", @"metro", @"streetcar"];
 		NSArray *metroContents = [contents filteredArrayUsingPredicate:metroPredicate];
 
-		NSMutableArray *rowContents = [[[NSMutableArray alloc] init] autorelease];
+		NSMutableArray *rowContents = [[NSMutableArray alloc] init];
 
 		// create first section in structuredContents array for metro lines
 		[structuredContents insertObject:[NSMutableArray array] atIndex:0];
@@ -97,7 +96,7 @@
 		NSPredicate *cablecarPredicate = [NSPredicate predicateWithFormat:@"vehicle == %@", @"cablecar"];
 		NSArray *cableCarContents = [contents filteredArrayUsingPredicate:cablecarPredicate];
 
-		rowContents = [[[NSMutableArray alloc] init] autorelease];
+		rowContents = [[NSMutableArray alloc] init];
 
 		// create first section in structuredContents array for metro lines
 		[structuredContents insertObject:[NSMutableArray array] atIndex:1];
@@ -122,7 +121,7 @@
 		NSPredicate *busPredicate = [NSPredicate predicateWithFormat:@"vehicle == %@", @"bus"];
 		NSArray *busContents = [contents filteredArrayUsingPredicate:busPredicate];
 
-		rowContents = [[[NSMutableArray alloc] init] autorelease];
+		rowContents = [[NSMutableArray alloc] init];
 
 		// create first section in structuredContents array for metro lines
 		[structuredContents insertObject:[NSMutableArray array] atIndex:2];
@@ -152,9 +151,5 @@
 
 }
 
-- (void) dealloc {
-
-	[super dealloc];
-}
 
 @end

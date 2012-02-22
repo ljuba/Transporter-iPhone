@@ -23,7 +23,6 @@
 	NSString *backTitle = [NSString stringWithFormat:@"%@ Stops", self.direction.route.tag];
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 
 	// tableview settings
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -38,7 +37,6 @@
 
 	NSNull *nullObject = [[NSNull alloc] init];
 	[stops addObject:[NSMutableArray arrayWithObject:nullObject]];  // add placeholder nearby "stop" array that will be determined in "viewDidAppear"
-	[nullObject release];
 
 	NSArray *sortOrder = (NSArray *)direction.stopOrder;             // the order of stops for this direction
 	NSMutableArray *allStops = [[NSMutableArray alloc] initWithCapacity:1];
@@ -55,7 +53,6 @@
 	}
 	[stops addObject:allStops];
 
-	[allStops release];
 
 }
 
@@ -159,7 +156,7 @@
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SearchCellIdentifier];
 
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SearchCellIdentifier] autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SearchCellIdentifier];
 			cell.textLabel.font = [UIFont boldSystemFontOfSize:17];
 
 			cell.textLabel.text = @"Searching...";
@@ -172,7 +169,6 @@
 			spinner.center = CGPointMake(16, cell.center.y - 1);
 			[spinner startAnimating];
 			[cell.contentView addSubview:spinner];
-			[spinner release];
 		}
 		return(cell);
 	}
@@ -182,7 +178,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:StopCellIdentifier];
 
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:StopCellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:StopCellIdentifier];
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:17];
 		cell.indentationLevel = 0;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -209,7 +205,7 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-	RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
 	if (section == 0) header.title = @"Nearest";
 	else header.title = @"Stops";
@@ -234,18 +230,10 @@
 	nextBusStopDetails.mainDirection = direction;
 
 	[self.navigationController pushViewController:nextBusStopDetails animated:YES];
-	[nextBusStopDetails release];
 
 }
 
 - (void) viewDidUnload {}
 
-- (void) dealloc {
-	[locationManager release];      // created in viewDidLoad
-	[direction release];            // retained in its setter
-	[stops release];                        // created in viewDidLoad
-
-	[super dealloc];
-}
 
 @end

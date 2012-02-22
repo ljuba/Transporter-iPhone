@@ -22,9 +22,9 @@
 
 @property int cost;
 @property NSTimeInterval duration;
-@property (nonatomic, retain) NSMutableArray *legs;
-@property (nonatomic, retain) NSString *startTitle;
-@property (nonatomic, retain) NSString *endTitle;
+@property (nonatomic) NSMutableArray *legs;
+@property (nonatomic) NSString *startTitle;
+@property (nonatomic) NSString *endTitle;
 
 - (NSString *) durationLabelText;
 - (NSString *) costLabelText;

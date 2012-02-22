@@ -15,7 +15,7 @@
 
 }
 
-@property (nonatomic, retain) UIButton *rerouteButton;
-@property (nonatomic, retain) UIButton *segmentMapButton;
+@property (nonatomic) UIButton *rerouteButton;
+@property (nonatomic) UIButton *segmentMapButton;
 
 @end

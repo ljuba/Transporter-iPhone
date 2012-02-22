@@ -22,7 +22,7 @@
 		MKAnnotationView *annotationView = (MKAnnotationView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:stopIdentifier];
 
 		if (annotationView == nil) {
-			annotationView = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:stopIdentifier] autorelease];
+			annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:stopIdentifier];
 			annotationView.canShowCallout = YES;
 
 		} else

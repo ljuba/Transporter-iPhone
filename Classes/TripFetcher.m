@@ -21,9 +21,7 @@
 
 // go to jerry's server and fetch the trips...
 - (void) fetchTripsForRequest:(NSMutableDictionary *)tripRequest {
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
+@autoreleasepool {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
 	kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -80,14 +78,12 @@
 		endTitle = @"Current Location";
 
 	}
-	NSLog(@"%@", urlString); /* DEBUG LOG */
 
 	NSURL *url = [[NSURL alloc] initWithString:urlString];
 
 	// get the contents of the URL
 	NSError *error;
-	CXMLDocument *predictionsDocument = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error] autorelease];
-	[url release];
+	CXMLDocument *predictionsDocument = [[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
 
 	if (error != nil) {
 
@@ -96,14 +92,13 @@
 		UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
 
 		if ([navController.topViewController respondsToSelector:@selector(reportRoutingError:)]) [navController.topViewController performSelectorOnMainThread:@selector(reportRoutingError:) withObject:error waitUntilDone:YES];
-		[pool drain];
 		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		return;
 	}
 	// PARSE THE RETURNED PREDICTIONS XML FILE
 
 	// stores the Trip objects that are created from the XML data
-	NSMutableArray *trips = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *trips = [[NSMutableArray alloc] init];
 
 	// the xml trip (completeRoute-cR) nodes
 	NSArray *completeRouteNodes = [predictionsDocument nodesForXPath:@"/Ro/cR" error:nil];
@@ -115,12 +110,10 @@
 		UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
 
 		if ([navController.topViewController respondsToSelector:@selector(reportRoutingError:)]) [navController.topViewController performSelectorOnMainThread:@selector(reportRoutingError:) withObject:error waitUntilDone:YES];
-		[pool drain];
 		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		return;
 
 	}
-	NSLog(@"%@", @"GOT THE XML"); /* DEBUG LOG */
 
 	for (CXMLNode *completeRouteNode in completeRouteNodes) {
 		// create Trip object for this run through the loop
@@ -161,7 +154,6 @@
 					walkingLeg.endLocationCoordinate = endLocation;
 				}
 				[trip.legs addObject:walkingLeg];
-				[walkingLeg release];
 				continue;
 
 			}
@@ -196,7 +188,6 @@
 				transitLeg.startDate = startDate;
 
 				[trip.legs addObject:transitLeg];
-				[transitLeg release];
 
 			}
 			// offStop. find the last leg (should be incomplete transit leg) and add the destination stop and time
@@ -204,7 +195,6 @@
 
 				TransitLeg *incompleteLeg = [trip.legs lastObject];
 
-				if (incompleteLeg.endStop != nil) NSLog(@"MAJOR PROBLEM");  /* DEBUG LOG */
 				NSString *agencyShortTitle = [[[[child nodesForXPath:@"agency" error:nil] objectAtIndex:0] stringValue] lowercaseString];
 
 				if ([agencyShortTitle isEqualToString:@"bart"]) {
@@ -230,13 +220,8 @@
 
 		[trip processData];             // calculated start/end times from the trip legs
 		[trips addObject:trip];
-		[trip release];
+	}
 
-	}       // end completeRouteNodes loop
-
-	NSLog(@"Number of trips: %d", [trips count]); /* DEBUG LOG */
-
-	for (Trip *trip in trips) [trip printDescription];
 	// find the topmost view controller and see if it responds to "setupTripOverview:"
 	// if so, send it the current predictions
 
@@ -244,9 +229,7 @@
 
 	if ([navController.topViewController respondsToSelector:@selector(setupTripOverview:)]) [navController.topViewController performSelectorOnMainThread:@selector(setupTripOverview:) withObject:trips waitUntilDone:YES];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
-	[pool drain];
-
+}
 }
 
 @end

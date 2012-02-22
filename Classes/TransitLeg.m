@@ -46,18 +46,5 @@
 
 }
 
-- (void) dealloc {
-
-	[agency release];
-	[route release];
-	[directions release];
-	[startStop release];
-	[endStop release];
-	[startDate release];
-	[endDate release];
-
-	[super dealloc];
-
-}
 
 @end

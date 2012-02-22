@@ -39,7 +39,6 @@
 	[formatter setMaximumFractionDigits:2];
 
 	// NSString *formattedCost = [formatter stringFromNumber:[NSNumber numberWithDouble:cost/100]];
-	[formatter release];
 
 	return(@"");
 	// return formattedCost;
@@ -63,7 +62,7 @@
 		NSTimeInterval interval = walkingLeg.duration;
 		NSDate *date = nextLeg.startDate;
 
-		walkingLeg.date = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:date] autorelease];
+		walkingLeg.date = [[NSDate alloc] initWithTimeInterval:interval sinceDate:date];
 
 		walkingLeg.destinationTitle = nextLeg.startStop.title;
 
@@ -86,7 +85,7 @@
 		NSTimeInterval interval = walkingLeg.duration;
 		NSDate *date = previousLeg.endDate;
 
-		walkingLeg.date = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:date] autorelease];
+		walkingLeg.date = [[NSDate alloc] initWithTimeInterval:interval sinceDate:date];
 
 		walkingLeg.destinationTitle = endTitle;
 
@@ -144,41 +143,5 @@
 	}
 }
 
-- (void) printDescription {
-
-	NSLog(@"\n"); /* DEBUG LOG */
-
-	for (id leg in legs) {
-
-		if ([leg isMemberOfClass:[WalkingLeg class]]) {
-
-			WalkingLeg *walkingLeg = (WalkingLeg *)leg;
-
-			NSLog(@" -Walking Leg"); /* DEBUG LOG */
-			NSLog(@"  Start: %f, %f", walkingLeg.startLocationCoordinate.latitude, walkingLeg.startLocationCoordinate.longitude); /* DEBUG LOG */
-			NSLog(@"  End: %f, %f", walkingLeg.endLocationCoordinate.latitude, walkingLeg.endLocationCoordinate.longitude); /* DEBUG LOG */
-			NSLog(@"  Duration: %f", walkingLeg.duration / 60); /* DEBUG LOG */
-		} else {
-
-			TransitLeg *transitLeg = (TransitLeg *)leg;
-
-			NSLog(@" -Transit Leg"); /* DEBUG LOG */
-			NSLog(@"  Agency: %@", transitLeg.agency.shortTitle); /* DEBUG LOG */
-			NSLog(@"  Route: %@", transitLeg.route.tag); /* DEBUG LOG */
-			NSLog(@"  Vehicle ID: %@", transitLeg.vehicleId); /* DEBUG LOG */
-
-			if ( (transitLeg.directions != nil)&&([transitLeg.directions count] > 0) ) NSLog(@"  Direction: %@", [(Direction *)[transitLeg.directions objectAtIndex:0] tag]);  /* DEBUG LOG */
-			NSLog(@"  %@ -> %@", transitLeg.startStop.tag, transitLeg.endStop.tag); /* DEBUG LOG */
-		}
-	}
-}
-
-- (void) dealloc {
-	[legs release];
-	[startTitle release];
-	[endTitle release];
-
-	[super dealloc];
-}
 
 @end

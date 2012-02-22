@@ -66,15 +66,5 @@
 	}
 }
 
-- (void) dealloc {
-
-	[redImage release];
-	[orangeImage release];
-	[yellowImage release];
-	[greenImage release];
-	[blueImage release];
-
-	[super dealloc];
-}
 
 @end

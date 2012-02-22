@@ -18,8 +18,8 @@
 
 }
 
-@property (nonatomic, retain) Destination *destination;
-@property (nonatomic, retain) BartColorsView *bartColorsView;
+@property (nonatomic) Destination *destination;
+@property (nonatomic) BartColorsView *bartColorsView;
 
 - (void) setFavoriteStatus;
 - (void) toggleFavorite;

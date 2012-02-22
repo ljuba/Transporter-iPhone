@@ -26,7 +26,7 @@
 		
 =======
 
-		self.colors = [[[NSMutableArray alloc] init] autorelease];
+		self.colors = [[NSMutableArray alloc] init];
 
 >>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
 		for (Route *route in routes) {
@@ -61,7 +61,6 @@
 		}
 		NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
 		[colors sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
-		[sorter release];
 
 	}
 	return(self);
@@ -78,17 +77,5 @@
 
 }
 
-- (void) dealloc {
-
-	[direction release];
-	[platform release];
-	[stop release];
-	[colors release];
-	[destinationStop release];
-	[routes release];
-
-	[super dealloc];
-
-}
 
 @end

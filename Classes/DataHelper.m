@@ -31,15 +31,11 @@
 	// NSDate *endTime = [NSDate dateWithTimeIntervalSinceNow:0];
 	// NSTimeInterval duration =  [endTime timeIntervalSinceDate:startTime];
 
-	// NSLog(@"bartStopWithName: %f",duration);
 
 	if (1 == [results count]) {
-		[request release];
 		return([results objectAtIndex:0]);
-	} else NSLog(@"I'm confused");
-	NSLog(@"ERROR: CAN'T FIND BART STOP WITH TITLE :%@", bartStopTitle); /* DEBUG LOG */
+	}
 
-	[request release];
 	return(nil);
 
 }
@@ -64,14 +60,10 @@
 	NSMutableArray *agencies = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 
 	if (agencies == nil) {
-		NSLog(@"Could not fetch agencies!");
-		[request release];
 		return(nil);
 	}
-	[request release];
 
-	Agency *fetchedAgency = [[[agencies objectAtIndex:0] retain] autorelease];
-	[agencies release];
+	Agency *fetchedAgency = [agencies objectAtIndex:0];
 
 	return(fetchedAgency);
 }
@@ -107,21 +99,17 @@
 	NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
 
 	if (1 == [results count]) {
-		[request release];
 		return([results objectAtIndex:0]);
-	} else NSLog(@"routeWithTag:inAgencyWithShortTitle: I'm confused");
-	[request release];
+	}
 
-	NSLog(@"ERROR: CAN'T FIND ROUTE WITH THAT TAG AND AGENCY SHORT TITLE: %@, %@", routeTag, agencyShortTitle); /* DEBUG LOG */
 	return(nil);
 
 }
 
 + (Stop *) stopWithTag:(NSString *)stopTag inDirection:(Direction *)direction {
-
 	for (Stop *stop in direction.stops)
-
-		if ([stop.tag isEqualToString:stopTag])	return(stop);
+		if ([stop.tag isEqualToString:stopTag])
+			return(stop);
 	return(nil);
 
 }
@@ -136,9 +124,7 @@
 }
 
 + (Direction *) directionWithTag:(NSString *)dirTag inRoute:(Route *)route {
-
 	for (Direction *direction in route.directions)
-
 		if ([direction.tag isEqualToString:dirTag]) return(direction);
 	return(nil);
 }
@@ -162,16 +148,9 @@
 	NSMutableArray *directions = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 
 	if (directions == nil) {
-		NSLog(@"Could not fetch BART directions!");
-		[request release];
 		return(nil);
 	}
-	[request release];
-<<<<<<< HEAD
-	return (NSArray *)directions;
-=======
-	return([directions autorelease]);
->>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
+	return(directions);
 }
 
 + (NSArray *) directionTagsInRoute:(Route *)route thatMatchDirectionName:(NSString *)dirName directionTitle:(NSString *)dirTitle {
@@ -179,15 +158,12 @@
 	NSMutableArray *matchedDirectionTags = [NSMutableArray array];
 
 	for (Direction *direction in route.directions)
-
-		// check match to name and title
-		if ([direction.name isEqualToString:dirName]&&[direction.title isEqualToString:dirTitle]) [matchedDirectionTags addObject:direction.tag];
+		if ([direction.name isEqualToString:dirName] && [direction.title isEqualToString:dirTitle]) [matchedDirectionTags addObject:direction.tag];
 	return( (NSArray *)matchedDirectionTags );
 
 }
 
 + (NSArray *) directionTagsThatMatchDirectionName:(NSString *)dirName directionTitle:(NSString *)dirTitle routeTag:(NSString *)routeTag forAgencyWithShortTitle:(NSString *)agencyShortTitle {
-
 	// get the managedObjectContext from the appDelegate
 	kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
 	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
@@ -206,28 +182,13 @@
 	NSMutableArray *directions = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 
 	if (directions == nil) {
-		NSLog(@"directionTagsThatMatchDirectionName: Could not fetch directions!");
-		[request release];
 		return(nil);
 	}
-	[request release];
 
 	NSMutableArray *matchedDirectionTags = [NSMutableArray array];
-<<<<<<< HEAD
-	
-	for (Direction *direction in directions) {
-		
-		[matchedDirectionTags addObject:direction.tag];
-		
-	}
-	
-	return (NSArray *)matchedDirectionTags;;
-=======
 
 	for (Direction *direction in directions) [matchedDirectionTags addObject:direction.tag];
-	[directions release];
 	return( (NSArray *)matchedDirectionTags );
->>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
 }
 
 + (Destination *) destinationForBARTStopTag:(NSString *)stopTag toStopTag:(NSString *)destinationStopTag {
@@ -236,7 +197,7 @@
 
 	Stop *destinationStop = [DataHelper stopWithTag:destinationStopTag inAgencyWithShortTitle:@"bart"];
 
-	return([[[Destination alloc] initWithDestinationStop:destinationStop forStop:stop] autorelease]);
+	return([[Destination alloc] initWithDestinationStop:destinationStop forStop:stop]);
 
 }
 
@@ -260,17 +221,10 @@
 	NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
 
 	if (1 == [results count]) {
-		[request release];
 		return([results objectAtIndex:0]);
-	} else {
-		NSLog(@"stopWithTag:inAgencyWithShortTitle: I'm confused");
-		NSLog(@"Restuls: %@", results);
 	}
-	[request release];
 
-	NSLog(@"ERROR: CAN'T FIND STOP WITH THAT TAG AND AGENCY SHORT TITLE: %@, %@", stopTag, agencyShortTitle); /* DEBUG LOG */
 	return(nil);
-
 }
 
 // return the stop objects given its tag and agency
@@ -294,12 +248,9 @@
 	NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
 
 	if (1 == [results count]) {
-		[request release];
 		return([results objectAtIndex:0]);
-	} else NSLog(@"stopWithTag:inAgency: I'm confused");
-	[request release];
+	}
 
-	NSLog(@"ERROR: CAN'T FIND STOP WITH THAT TAG AND AGENCY: %@, %@", stopTag, agency.shortTitle); /* DEBUG LOG */
 	return(nil);
 }
 
@@ -313,7 +264,6 @@
 
 	[userDefaults synchronize];
 
-	NSLog(@"saved stop with uri: %@", [userDefaults objectForKey:@"stopURIData"]); /* DEBUG LOG */
 
 }
 
@@ -325,13 +275,12 @@
 	NSData *uriData = [NSKeyedArchiver archivedDataWithRootObject:directionURI];
 	[userDefaults setObject:uriData forKey:key];
 
-	// NSLog(@"TEST DIRECTION SAVE: %@", [userDefaults objectForKey:key]); /* DEBUG LOG */
 
 }
 
 + (CLLocation *) locationOfStop:(Stop *)stop {
 
-	return([[[CLLocation alloc] initWithLatitude:[stop.lat doubleValue] longitude:[stop.lon doubleValue]] autorelease]);
+	return([[CLLocation alloc] initWithLatitude:[stop.lat doubleValue] longitude:[stop.lon doubleValue]]);
 }
 
 // returns an array with the closest stop
@@ -352,13 +301,11 @@
 
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
 	[distances sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
-	[sorter release];
 
 	NSMutableArray *closestStops = [NSMutableArray array];
 
 	// crate and array of the n closest stops
 	for (int i = 0; i < number; i++) [closestStops addObject:[stopsByDistance objectForKey:[distances objectAtIndex:i]]];
-	[stopsByDistance release];
 
 	return(closestStops);
 
@@ -374,7 +321,6 @@
 	// sort otherDirections by route
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortOrder" ascending:YES];
 	[routes sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
 
 	return( (NSArray *)routes );
 }

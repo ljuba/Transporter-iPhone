@@ -30,7 +30,6 @@
 		backgroundImageView.frame = CGRectMake(buttonWidth + 1, 0, 320 - 2 * buttonWidth - 2, barHeight);
 		backgroundImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:backgroundImageView];
-		[backgroundImageView release];
 
 		// TRIP OPTION LABEL
 		tripOptionLabel = [[UILabel alloc] initWithFrame:tripOptionLabelFrame];
@@ -95,12 +94,5 @@
 	// Drawing code
 }
 
-- (void) dealloc {
-
-	[tripOptionLabel release];
-	[timespanLabel release];
-
-	[super dealloc];
-}
 
 @end

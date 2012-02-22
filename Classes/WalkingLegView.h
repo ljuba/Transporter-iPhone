@@ -23,7 +23,7 @@ extern const CGFloat kWalkingLegViewHeight;
 @property (copy, nonatomic) NSString *time;
 @property (copy, nonatomic) NSString *majorTitle;
 @property (copy, nonatomic) NSString *minorTitle;
-@property (nonatomic, retain) UIImageView *centerImageView;
+@property (nonatomic) UIImageView *centerImageView;
 
 - (void) setPositionInTrip:(int)position;
 

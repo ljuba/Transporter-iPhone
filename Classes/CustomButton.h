@@ -15,6 +15,6 @@
 }
 
 - (id) initWithColor:(NSString *)color;
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic) UIImage *image;
 
 @end

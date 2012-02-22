@@ -61,97 +61,90 @@
 - (void) requestPredictionsForRequests:(NSMutableArray *)requests {
 
 	// since this method is run in a spearate thread, it needs its own autorelease pool
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	// FIRST, SEARCH FOR THOSE PREDICTIONS IN THE PREDICTIONS STORE
 	// IF THEY'RE NOT THERE, ONLY THEN MAKE AN INTERNET REQUEST
 
-	NSMutableArray *remainingRequests = [NSMutableArray array];
-	NSMutableDictionary *foundPredictions = [NSMutableDictionary dictionary];
+		NSMutableArray *remainingRequests = [NSMutableArray array];
+		NSMutableDictionary *foundPredictions = [NSMutableDictionary dictionary];
 
-	NSLog(@"STORE: %@", predictionsStore); /* DEBUG LOG */
 
-	for (PredictionRequest *request in requests) {
+		for (PredictionRequest *request in requests) {
 
-		NSString *predictionKey;
+			NSString *predictionKey;
 
-		Prediction *prediction;
+			Prediction *prediction;
 
-		if ([request.agencyShortTitle isEqualToString:@"bart"]) {
+			if ([request.agencyShortTitle isEqualToString:@"bart"]) {
 
-			predictionKey = request.stopTag;
-			prediction = [predictionsStore objectForKey:predictionKey];
+				predictionKey = request.stopTag;
+				prediction = [predictionsStore objectForKey:predictionKey];
 
-		} else {
-			predictionKey = [PredictionsManager predictionKeyFromPrediction:request];
+			} else {
+				predictionKey = [PredictionsManager predictionKeyFromPrediction:request];
 
-			prediction = [predictionsStore objectForKey:predictionKey];
+				prediction = [predictionsStore objectForKey:predictionKey];
+
+			}
+
+			if (prediction != nil) [foundPredictions setObject:prediction forKey:predictionKey];
+
+			else [remainingRequests addObject:request];
+		}
+		// SEND ANY FOUND PREDICTIONS TO THE TOPMOST VIEW CONTROLLER
+
+		if ([foundPredictions count] > 0) {
+
+			kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+			UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
+
+			if ([navController.topViewController respondsToSelector:@selector(didReceivePredictions:)]) [navController.topViewController performSelectorOnMainThread:@selector(didReceivePredictions:) withObject:foundPredictions waitUntilDone:YES];
 
 		}
 
-		if (prediction != nil) [foundPredictions setObject:prediction forKey:predictionKey];
+		if ([remainingRequests count] == 0) {
 
-		else [remainingRequests addObject:request];
-	}
-	// SEND ANY FOUND PREDICTIONS TO THE TOPMOST VIEW CONTROLLER
-
-	if ([foundPredictions count] > 0) {
-
-		kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-		UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
-
-		if ([navController.topViewController respondsToSelector:@selector(didReceivePredictions:)]) [navController.topViewController performSelectorOnMainThread:@selector(didReceivePredictions:) withObject:foundPredictions waitUntilDone:YES];
-		NSLog(@"RETURNED PREDICTIONS FROM STORE"); /* DEBUG LOG */
-
-	}
-
-	if ([remainingRequests count] == 0) {
-
-		NSLog(@"NO REMAINING PREDICTIONS"); /* DEBUG LOG */
-		[pool release];
-		return;
-	}
-	// THE REST OF THE REQUESTS GET FETCHED FROM THE INTERNET
-
-	// show network indicator when requesting predictions
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-	NSMutableArray *bartRequests = [NSMutableArray array];
-	NSMutableArray *acTransitRequests = [NSMutableArray array];
-	NSMutableArray *sfMuniRequests = [NSMutableArray array];
-
-	// separate requests by agency so we can request them separately (in parallel!)
-	for (PredictionRequest *request in remainingRequests) {
-
-		if ([request.agencyShortTitle isEqual:@"sf-muni"]) [sfMuniRequests addObject:request];
-		else if ([request.agencyShortTitle isEqual:@"actransit"]) [acTransitRequests addObject:request];
-		else if ([request.agencyShortTitle isEqual:@"bart"]) [bartRequests addObject:request];
-	}
-	PredictorOperation *acTransitPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"actransit" requests:acTransitRequests recipient:self];
-	PredictorOperation *sfMuniPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"sf-muni" requests:sfMuniRequests recipient:self];
-
-	// submit operations to queue if there are requests
-	if ([sfMuniRequests count] != 0) [queue addOperation:sfMuniPredictorOperation];
-
-	if ([acTransitRequests count] != 0) [queue addOperation:acTransitPredictorOperation];
-	// bart can only had a one request at a time (i.e. one stop at a time), so create separate bart operations for each stop
-
-	// create prediction operation for each agency
-	if ([bartRequests count] != 0)
-
-		for (PredictionRequest *request in bartRequests) {
-
-			PredictorOperation *bartPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"bart" requests:[NSArray arrayWithObject:request] recipient:self];
-
-			[queue addOperation:bartPredictorOperation];
-			[bartPredictorOperation release];
-
+			return;
 		}
-	[acTransitPredictorOperation release];
-	[sfMuniPredictorOperation release];
+		// THE REST OF THE REQUESTS GET FETCHED FROM THE INTERNET
 
-	[pool release];
+		// show network indicator when requesting predictions
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+		NSMutableArray *bartRequests = [NSMutableArray array];
+		NSMutableArray *acTransitRequests = [NSMutableArray array];
+		NSMutableArray *sfMuniRequests = [NSMutableArray array];
+
+		// separate requests by agency so we can request them separately (in parallel!)
+		for (PredictionRequest *request in remainingRequests) {
+
+			if ([request.agencyShortTitle isEqual:@"sf-muni"]) [sfMuniRequests addObject:request];
+			else if ([request.agencyShortTitle isEqual:@"actransit"]) [acTransitRequests addObject:request];
+			else if ([request.agencyShortTitle isEqual:@"bart"]) [bartRequests addObject:request];
+		}
+		PredictorOperation *acTransitPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"actransit" requests:acTransitRequests recipient:self];
+		PredictorOperation *sfMuniPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"sf-muni" requests:sfMuniRequests recipient:self];
+
+		// submit operations to queue if there are requests
+		if ([sfMuniRequests count] != 0) [queue addOperation:sfMuniPredictorOperation];
+
+		if ([acTransitRequests count] != 0) [queue addOperation:acTransitPredictorOperation];
+		// bart can only had a one request at a time (i.e. one stop at a time), so create separate bart operations for each stop
+
+		// create prediction operation for each agency
+		if ([bartRequests count] != 0)
+
+			for (PredictionRequest *request in bartRequests) {
+
+				PredictorOperation *bartPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"bart" requests:[NSArray arrayWithObject:request] recipient:self];
+
+				[queue addOperation:bartPredictorOperation];
+
+			}
+
+	}
 
 }
 
@@ -179,8 +172,8 @@
 
 + (NSString *) arrivalsKeyForDirectionTag:(NSString *)dirTag inRoute:(Route *)route {
 
-	NSString *_dirTag = [[dirTag retain] autorelease];
-	Route *_route = [[route retain] autorelease];
+	NSString *_dirTag = dirTag;
+	Route *_route = route;
 
 	for (Direction *direction in _route.directions)
 
@@ -196,9 +189,9 @@
 
 + (NSString *) arrivalsKeyForDirectionTag:(NSString *)dirTag routeTag:(NSString *)routeTag agencyShortTitle:(NSString *)agencyShortTitle {
 
-	NSString *_dirTag = [[dirTag retain] autorelease];
-	NSString *_routeTag = [[routeTag retain] autorelease];
-	NSString *_agencyShortTitle = [[agencyShortTitle retain] autorelease];
+	NSString *_dirTag = dirTag;
+	NSString *_routeTag = routeTag;
+	NSString *_agencyShortTitle = agencyShortTitle;
 
 	Route *route = [DataHelper routeWithTag:_routeTag inAgencyWithShortTitle:_agencyShortTitle];
 
@@ -208,8 +201,8 @@
 
 + (Direction *) directionWithArrivalsKey:(NSString *)key inRoute:(Route *)route {
 
-	NSString *_key = [[key retain] autorelease];
-	Route *_route = [[route retain] autorelease];
+	NSString *_key = key;
+	Route *_route = route;
 
 	NSString *directionName = [[_key componentsSeparatedByString:@"^"] objectAtIndex:0];
 	NSString *directionTitle = [[_key componentsSeparatedByString:@"^"] objectAtIndex:1];
@@ -244,13 +237,5 @@
 
 }
 
-- (void) dealloc {
-
-	[queue release];
-	[predictionsStore release];
-	[timer release];
-
-	[super dealloc];
-}
 
 @end

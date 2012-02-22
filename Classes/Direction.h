@@ -14,13 +14,13 @@
 @interface Direction :  NSManagedObject
 {}
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSNumber *show;
-@property (nonatomic, retain) id stopOrder;
-@property (nonatomic, retain) NSString *tag;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSSet *stops;
-@property (nonatomic, retain) Route *route;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSNumber *show;
+@property (nonatomic) id stopOrder;
+@property (nonatomic) NSString *tag;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSSet *stops;
+@property (nonatomic) Route *route;
 
 @end
 

@@ -56,16 +56,13 @@
 	// BART PUBLIC API KEY. YOU MIGHT WANT TO USE YOUR OWN
 	NSString *urlString = [[NSString alloc] initWithFormat:@"http://api.bart.gov/api/etd.aspx?cmd=etd&orig=%@&key=MW9S-E7SL-26DU-VV8V", stopTag];
 
-	NSLog(@"%@", urlString); /* DEBUG LOG */
 
 	// have to replace the unicode character | with escape characters
 	NSURL *url = [[NSURL alloc] initWithString:urlString];
-	[urlString release];
 
 	// get the contents of the URL
 	NSError *error;
-	CXMLDocument *predictionsDocument = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error] autorelease];
-	[url release];
+	CXMLDocument *predictionsDocument = [[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
 
 	if (error != nil) {
 
@@ -93,7 +90,6 @@
 
 		NSString *destinationTag = [[[etdElement nodesForXPath:@"./abbreviation" error:nil] objectAtIndex:0] stringValue];
 
-		// NSLog(@"%@", destinationStopTag); /* DEBUG LOG */
 
 		NSArray *estimates = [etdElement nodesForXPath:@"./estimate" error:nil];
 
@@ -109,24 +105,18 @@
 				// add all elements from the estimate node to the arrival dictionary
 				[arrival setObject:[item stringValue] forKey:[item name]];
 			[destinationArrivals addObject:arrival];
-			[arrival release];
 
 		}
 		// once you've created an array with with all the arrival (estimate) objects, create the arrivals dictionary
 		[arrivals setObject:destinationArrivals forKey:destinationTag];
-		[destinationArrivals release];
 
 	}
 	prediction.arrivals = arrivals;
-	[arrivals release];
 
 	[fetchedPredictions setObject:prediction forKey:prediction.stopTag];
-	[prediction release];
 
 	for (Prediction *p in [fetchedPredictions allValues]) {
 
-		// NSLog(@"%@", p.stopTag); /* DEBUG LOG */
-		// NSLog(@"-%@", p.arrivals); /* DEBUG LOG */
 
 	}
 	return(fetchedPredictions);
@@ -156,7 +146,6 @@
 			stopString = [NSString stringWithFormat:@"%@|%@|%@", request.route.tag, anyDirection.tag, request.stopTag];
 
 		} else stopString = [NSString stringWithFormat:@"%@|null|%@", request.route.tag, request.stopTag];
-		[specialStops release];
 
 		NSString *escapedStopString = [stopString percentEncode];
 		urlString = [NSString stringWithFormat:@"%@&stops=%@", urlString, escapedStopString];
@@ -164,15 +153,13 @@
 	// use this to test nextbus error conditions
 	// urlString = @"http://www.ljuba.net/error.xml";
 
-	NSLog(@"PredictorOperationEscapedURL: %@", urlString);
 
 	// have to replace the unicode character | with escape characters
 	NSURL *url = [[NSURL alloc] initWithString:urlString];
 
 	// get the contents of the URL
 	NSError *error;
-	CXMLDocument *predictionsDocument = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error] autorelease];
-	[url release];
+	CXMLDocument *predictionsDocument = [[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
 
 	if (error != nil) {
 		error = [NSError errorWithDomain:@"predictor" code:1 userInfo:[NSDictionary dictionaryWithObject:@"No Internet Connection" forKey:@"message"]];
@@ -268,29 +255,18 @@
 				NSString *arrivalsKey = [PredictionsManager arrivalsKeyForDirectionTag:arrivalDirTag inRoute:prediction.route];
 
 				if (arrivalsKey != nil)	[routeArrivals setObject:directionArrivals forKey:arrivalsKey];
-				[directionArrivals release];
-				// NSLog(@"%@", directionArrivals); /* DEBUG LOG */
 
 			}
 			prediction.isError = NO;
 			prediction.arrivals = routeArrivals;
-			[routeArrivals release];
 
 		} else prediction.isError = YES;
 		// add the new prediction (which contains agency/route/direction/stop/arrival/error info) into the fetchedPredictions dictionary with a unique key
 		[fetchedPredictions setObject:prediction forKey:[PredictionsManager predictionKeyFromPrediction:prediction]];
-		[prediction release];
 	}
 	return(fetchedPredictions);
 
 }
 
-- (void) dealloc {
-
-	[agencyShortTitle release];
-	[requests release];
-
-	[super dealloc];
-}
 
 @end

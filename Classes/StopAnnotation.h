@@ -23,8 +23,8 @@
 
 }
 
-@property (nonatomic, retain) Stop *stop;
-@property (nonatomic, retain) Agency *agency;
+@property (nonatomic) Stop *stop;
+@property (nonatomic) Agency *agency;
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 

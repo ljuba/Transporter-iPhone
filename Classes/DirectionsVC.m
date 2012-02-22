@@ -41,7 +41,6 @@
 	else if ([route.vehicle isEqual:@"bus"]) self.title = [NSString stringWithFormat:@"%@ Bus", route.tag];
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Directions" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 
 	// load the appropriate map for the route
 	NSString *routeMapFileName = [NSString stringWithFormat:@"%@_%@.jpg", route.agency.shortTitle, route.tag];
@@ -52,7 +51,6 @@
 	NSPredicate *showTruePredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];                // sort the directions so that when the order matters, they're always in the same order
 	[directions sortedArrayUsingDescriptors:[NSArray arrayWithObject:sorter]];
-	[sorter release];
 
 	NSArray *shownDirections = [directions filteredArrayUsingPredicate:showTruePredicate];
 
@@ -60,7 +58,7 @@
 	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"map_overlay_coordinates" ofType:@"xml"];
 	NSData *coordinateData = [NSData dataWithContentsOfFile:filePath];
 
-	CXMLDocument *coordinateParser = [[[CXMLDocument alloc] initWithData:coordinateData options:0 error:nil] autorelease];
+	CXMLDocument *coordinateParser = [[CXMLDocument alloc] initWithData:coordinateData options:0 error:nil];
 
 	NSString *routeXPath = [NSString stringWithFormat:@"//body/agency[@shortTitle='%@']/route[@tag='%@']", route.agency.shortTitle, route.tag];
 
@@ -215,7 +213,6 @@
 	[routeMap insertSubview:userMarker atIndex:0];
 	[routeMap setNeedsDisplay];
 
-	[userMarker release];
 
 	NSLog(@"ADDED USER MARKER"); /* DEBUG LOG */
 
@@ -233,7 +230,6 @@
 
 	[self.navigationController pushViewController:stopsTableViewController animated:YES];
 
-	[stopsTableViewController release];
 }
 
 #pragma mark -
@@ -246,13 +242,5 @@
 
 }
 
-- (void) dealloc {
-	[route release];        // route is retained in its setter
-	[directions release];   // direction is retained in its setter
-	[locationManager release];      // created in viewDidLoad
-
-	[googleLogo release];
-	[super dealloc];
-}
 
 @end

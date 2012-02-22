@@ -34,16 +34,16 @@
 	NSTimeInterval timeToTransfer;
 }
 
-@property (nonatomic, retain) Agency *agency;
-@property (nonatomic, retain) Route *route;
-@property (nonatomic, retain) NSMutableArray *directions;
-@property (nonatomic, retain) NSString *vehicleId;
+@property (nonatomic) Agency *agency;
+@property (nonatomic) Route *route;
+@property (nonatomic) NSMutableArray *directions;
+@property (nonatomic) NSString *vehicleId;
 
-@property (nonatomic, retain) Stop *startStop;
-@property (nonatomic, retain) Stop *endStop;
+@property (nonatomic) Stop *startStop;
+@property (nonatomic) Stop *endStop;
 
-@property (nonatomic, retain) NSDate *startDate;
-@property (nonatomic, retain) NSDate *endDate;
+@property (nonatomic) NSDate *startDate;
+@property (nonatomic) NSDate *endDate;
 
 @property (nonatomic) NSTimeInterval timeToTransfer;
 

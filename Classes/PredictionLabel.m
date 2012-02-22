@@ -145,12 +145,5 @@
 	[imminentArrivalMarker.layer addAnimation:theAnimation forKey:@"animateOpacity"];
 }
 
-- (void) dealloc {
-
-	[arrivalTime release];
-	[imminentArrivalMarker release];
-
-	[super dealloc];
-}
 
 @end

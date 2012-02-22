@@ -25,8 +25,8 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	self = [super initWithFrame:frame];
 
 	if (self) {
-		startTitle = [@"Current Location" retain];
-		durationTitle = [@"0h 52m" retain];
+		startTitle = @"Current Location";
+		durationTitle = @"0h 52m";
 		[self setOpaque:NO];
 	}
 	return(self);
@@ -37,24 +37,17 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	self = [super initWithCoder:coder];
 
 	if (self) {
-		startTitle = [@"Current Location" retain];
-		durationTitle = [@"0h 52m" retain];
+		startTitle = @"Current Location";
+		durationTitle = @"0h 52m";
 		[self setOpaque:NO];
 	}
 	return(self);
 }
 
-- (void) dealloc
-{
-	[startTitle release];
-	[durationTitle release];
-	[super dealloc];
-}
 
 - (void) setStartTitle:(NSString *)value
 {
 	if ([startTitle isEqualToString:value])	return;
-	[startTitle release];
 	startTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -62,7 +55,6 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 - (void) setDurationTitle:(NSString *)value
 {
 	if ([durationTitle isEqualToString:value]) return;
-	[durationTitle release];
 	durationTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -115,7 +107,7 @@ const CGFloat kTripHeaderViewHeight = 22.0;
 	color = [UIColor colorWithRed:0.192 green:0.192 blue:0.192 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

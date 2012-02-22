@@ -24,12 +24,12 @@
 
 - (id) initWithColors:(NSArray *)_colors atPoint:(CGPoint)point;
 
-@property (nonatomic, retain) NSArray *colors;
+@property (nonatomic) NSArray *colors;
 
-@property (nonatomic, retain) UIImage *redImage;
-@property (nonatomic, retain) UIImage *orangeImage;
-@property (nonatomic, retain) UIImage *yellowImage;
-@property (nonatomic, retain) UIImage *blueImage;
-@property (nonatomic, retain) UIImage *greenImage;
+@property (nonatomic) UIImage *redImage;
+@property (nonatomic) UIImage *orangeImage;
+@property (nonatomic) UIImage *yellowImage;
+@property (nonatomic) UIImage *blueImage;
+@property (nonatomic) UIImage *greenImage;
 
 @end

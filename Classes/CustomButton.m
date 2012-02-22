@@ -21,8 +21,8 @@
 		self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 
-		if ([color isEqualToString:@"blue"]) image = [[UIImage imageNamed:@"blue-button.png"] retain];
-		else image = [[UIImage imageNamed:@"green-button.png"] retain];
+		if ([color isEqualToString:@"blue"]) image = [UIImage imageNamed:@"blue-button.png"];
+		else image = [UIImage imageNamed:@"green-button.png"];
 		// Make a stretchable image from the original image
 		UIImage *stretchImage = [image stretchableImageWithLeftCapWidth:15.0 topCapHeight:0.0];
 
@@ -43,10 +43,5 @@
 	return(self);
 }
 
-- (void) dealloc {
-	[image release];
-
-	[super dealloc];
-}
 
 @end

@@ -13,10 +13,10 @@
 @interface Agency :  NSManagedObject
 {}
 
-@property (nonatomic, retain) NSString *shortTitle;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSNumber *lastUpdate;
-@property (nonatomic, retain) NSSet *routes;
+@property (nonatomic) NSString *shortTitle;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSNumber *lastUpdate;
+@property (nonatomic) NSSet *routes;
 
 @end
 

@@ -14,6 +14,6 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *buttons;
+@property (nonatomic) NSMutableArray *buttons;
 
 @end

@@ -28,7 +28,6 @@
 						   target:self
 						   action:@selector(switchDirections)];
 	self.navigationItem.rightBarButtonItem = switchDirectionsButton;
-	[switchDirectionsButton release];
 
 	// SETUP THE CONTENTS ARRAY WITH SHOW=TRUE DIRECTIONS AND FAVORITED DIRECTIONS
 	[self setupInitialContents];
@@ -83,7 +82,6 @@
 	// sorting will happen at the end of this method
 
 	[self.contents addObject:[NSMutableArray arrayWithArray:otherDirections]];
-	[otherDirections release];
 
 	// INSERT ANY FAVORITED DESTINATIONS THAT AREN'T ALREADY THERE
 
@@ -135,15 +133,11 @@
 		[[contents lastObject] addObject:direction];
 
 	}
-	[favorites release];
-	[lineDictsToAdd release];
 
 	// sort directions by the sortOrder of their routes
 	NSSortDescriptor *routeSorter = [[NSSortDescriptor alloc] initWithKey:@"route.sortOrder" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
 	[[contents lastObject] sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
-	[routeSorter release];
-	[directionTitleSorter release];
 
 }
 
@@ -278,7 +272,6 @@
 			request.isMainRoute = NO;
 			[requests addObject:request];
 		}
-		[request release];
 	}
 	// request predictions for the stops in the favorites screen
 	[NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
@@ -307,7 +300,6 @@
 			NSLog(@"StopDetailsVC: %@", @"ERROR"); /* DEBUG LOG */
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error.userInfo objectForKey:@"message"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 			[alertView show];
-			[alertView release];
 
 		}
 		// store the error in the errors array
@@ -348,7 +340,6 @@
 
 		// only change the global cellStatus variable if every route has a prediction object (there could be more)
 		if (numberOfPredictions >= numberOfRoutes) cellStatus = kCellStatusDefault;
-		[routes release];
 
 		// we've recieved predictions (grouped by route) for all the routes that serve this stop. we now have to rejigger the
 		// table contents to reflect this new data b/c we can't know which directions for which routes will have predictions
@@ -447,7 +438,6 @@
 
 		}
 	}
-	[directionSwitches release];
 
 	NSLog(@"LEFTOVERS: %@", leftoverPredictionKeys); /* DEBUG LOG */
 
@@ -486,10 +476,7 @@
 	NSSortDescriptor *routeSorter = [[NSSortDescriptor alloc] initWithKey:@"route.sortOrder" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
 	[lastSection sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
-	[routeSorter release];
-	[directionTitleSorter release];
 
-	[leftoverPredictionKeys release];
 
 	// NSLog(@"PREDICTIONS: %@", predictions); /* DEBUG LOG */
 
@@ -512,7 +499,7 @@
 
 	// only show the "other lines at this stop" header if there are rows in the second section
 	if ( (section == 1)&&([[contents objectAtIndex:section] count] > 0) ) {
-		RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+		RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 		header.title = @"Other Lines at this Stop";
 		return(header);
 	}
@@ -559,8 +546,8 @@
 
 		if (cell == nil) {
 
-			cell = [[[LineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LineCellIdentifier] autorelease];
-			cell.lineCellView = [[[DirectionCellView alloc] init] autorelease];
+			cell = [[LineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LineCellIdentifier];
+			cell.lineCellView = [[DirectionCellView alloc] init];
 			[cell.contentView addSubview:cell.lineCellView];
 		}
 		Direction *direction = (Direction *)object;
@@ -596,8 +583,5 @@
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-	[super dealloc];
-}
 
 @end

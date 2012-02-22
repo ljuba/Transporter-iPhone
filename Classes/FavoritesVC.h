@@ -29,18 +29,18 @@
 
 }
 
-@property (nonatomic, retain) UISegmentedControl *segmentedControl;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *reloadPredictionsButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *editButton;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic) UISegmentedControl *segmentedControl;
+@property (nonatomic) IBOutlet UIBarButtonItem *reloadPredictionsButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, retain) UIImageView *noFavoritesMessageView;
+@property (nonatomic) UIImageView *noFavoritesMessageView;
 
-@property (nonatomic, retain) FavoriteStopsDelegate *stopsDelegate;
+@property (nonatomic) FavoriteStopsDelegate *stopsDelegate;
 
-@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic) NSTimer *timer;
 
-@property (nonatomic, retain) UIButton *participateButton;
+@property (nonatomic) UIButton *participateButton;
 
 - (void) loadNextViewController:(NSNotification *)note;
 - (void) tapSegmentedControl;

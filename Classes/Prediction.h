@@ -16,8 +16,8 @@
 	BOOL isError;           // idicates whether there is an error for this route's predictions in the nextbus predictions xml file
 }
 
-@property (nonatomic, retain) NSMutableDictionary *arrivals;
-@property (nonatomic, retain) NSString *bartPlatform;
+@property (nonatomic) NSMutableDictionary *arrivals;
+@property (nonatomic) NSString *bartPlatform;
 @property BOOL isError;
 
 - (id) initWithPredictionRequest:(PredictionRequest *)request;

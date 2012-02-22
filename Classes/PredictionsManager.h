@@ -18,13 +18,13 @@
 	NSOperationQueue *queue;
 	NSMutableDictionary *predictionsStore;
 
-	NSTimer *timer;
+	NSTimer *__unsafe_unretained timer;
 }
 
-@property (nonatomic, assign) NSOperationQueue *queue;
-@property (nonatomic, retain) NSMutableDictionary *predictionsStore;
+@property (nonatomic) NSOperationQueue *queue;
+@property (nonatomic) NSMutableDictionary *predictionsStore;
 
-@property (nonatomic, assign) NSTimer *timer;
+@property (nonatomic, unsafe_unretained) NSTimer *timer;
 
 - (void) requestPredictionsForRequests:(NSMutableArray *)requests;
 + (NSString *) predictionKeyFromPrediction:(PredictionRequest *)prediction;

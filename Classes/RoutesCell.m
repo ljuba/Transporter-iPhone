@@ -21,12 +21,5 @@
 	return(self);
 }
 
-- (void) dealloc {
-
-	[buttons release];
-
-	[super dealloc];
-
-}
 
 @end

@@ -52,20 +52,17 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 
 	NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
 	[dateFormatter setLocale:usLocale];
-	[usLocale release];
 
 	// SETUP TABLE VIEW HEADER AND FOOTER
 	TripHeaderView *tripHeaderView = [[TripHeaderView alloc] init];
 	tripHeaderView.startTitle = trip.startTitle;
 	tripHeaderView.durationTitle = [trip durationLabelText];
 	self.tableView.tableHeaderView = tripHeaderView;
-	[tripHeaderView release];
 
 	TripHeaderView *tripFooterView = [[TripHeaderView alloc] init];
 	tripFooterView.startTitle = trip.endTitle;
 	tripFooterView.durationTitle = [trip costLabelText];
 	self.tableView.tableFooterView = tripFooterView;
-	[tripFooterView release];
 
 	self.contents = [NSMutableArray arrayWithArray:trip.legs];
 
@@ -125,7 +122,7 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 
 		LegControlCell *cell = (LegControlCell *)[tableView dequeueReusableCellWithIdentifier:LegControlCellID];
 
-		if (cell == nil) cell = [[[LegControlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LegControlCellID] autorelease];
+		if (cell == nil) cell = [[LegControlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LegControlCellID];
 		return(cell);
 
 	}
@@ -141,7 +138,7 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 		if (cell == nil) {
 
 			CGRect frame = CGRectMake(0, 0, 320, kWalkingLegViewHeight);
-			cell = [[[WalkingLegCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier frame:frame] autorelease];
+			cell = [[WalkingLegCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier frame:frame];
 
 		}
 		// SET CELL CONTENTS
@@ -191,7 +188,7 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 			}
 		}
 
-		if (cell == nil) cell = [[[TransitLegCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier frame:frame] autorelease];
+		if (cell == nil) cell = [[TransitLegCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier frame:frame];
 		// GET TRANSIT LEG INFORMATION
 		Direction *direction = [transitLeg.directions objectAtIndex:0];
 		Agency *agency = direction.route.agency;
@@ -346,8 +343,6 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 			[requests addObject:startRequest];
 			[requests addObject:endRequest];
 
-			[startRequest release];
-			[endRequest release];
 		}
 	// request predictions for the stops in the favorites screen
 	[NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
@@ -439,14 +434,5 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-
-	[buttonRowPlaceholder release];
-	[contents release];
-	[dateFormatter release];
-	[trip release];
-
-	[super dealloc];
-}
 
 @end

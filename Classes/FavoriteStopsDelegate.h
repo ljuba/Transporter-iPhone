@@ -15,7 +15,7 @@
 
 }
 
-@property (nonatomic, retain) NSMutableDictionary *predictions;
+@property (nonatomic) NSMutableDictionary *predictions;
 
 - (void) loadFavoritesFile;
 - (void) saveContentsToFavoritesFile;

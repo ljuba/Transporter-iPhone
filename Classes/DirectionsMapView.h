@@ -26,11 +26,11 @@
 	CLLocationManager *locationManager;
 }
 
-@property (nonatomic, retain) NSArray *directions;
-@property (nonatomic, retain) Route *route;
+@property (nonatomic) NSArray *directions;
+@property (nonatomic) Route *route;
 
-@property (nonatomic, retain) IBOutlet UIImageView *routeMap;
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic) IBOutlet UIImageView *routeMap;
+@property (nonatomic) CLLocationManager *locationManager;
 
 @property CLLocationCoordinate2D centerCoordinate;
 @property int zoomLevel;

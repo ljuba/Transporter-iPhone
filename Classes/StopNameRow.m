@@ -33,7 +33,6 @@
 		stopNameLabel.shadowOffset = CGSizeMake(-1, -1);
 
 		[self addSubview:stopNameLabel];
-		[stopNameLabel release];
 
 	}
 	return(self);
@@ -44,9 +43,9 @@
 	self.stopName = name;
 	self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 
-	if ([agencyShortTitle isEqual:@"bart"])	backgroundImage = [[UIImage imageNamed:@"fav-bart-stop-background.png"] retain];
-	else if ([agencyShortTitle isEqual:@"sf-muni"])	backgroundImage = [[UIImage imageNamed:@"fav-muni-stop-background.png"] retain];
-	else if ([agencyShortTitle isEqual:@"actransit"]) backgroundImage = [[UIImage imageNamed:@"fav-actransit-stop-background.png"] retain];
+	if ([agencyShortTitle isEqual:@"bart"])	backgroundImage = [UIImage imageNamed:@"fav-bart-stop-background.png"];
+	else if ([agencyShortTitle isEqual:@"sf-muni"])	backgroundImage = [UIImage imageNamed:@"fav-muni-stop-background.png"];
+	else if ([agencyShortTitle isEqual:@"actransit"]) backgroundImage = [UIImage imageNamed:@"fav-actransit-stop-background.png"];
 }
 
 - (void) drawRect:(CGRect)rect {
@@ -57,12 +56,5 @@
 
 }
 
-- (void) dealloc {
-
-	[stopName release];
-	[backgroundImage release];
-
-	[super dealloc];
-}
 
 @end

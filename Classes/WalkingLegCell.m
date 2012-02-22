@@ -17,14 +17,10 @@
 
 		walkingLegView = [[WalkingLegView alloc] initWithFrame:frame];
 		[self.contentView addSubview:walkingLegView];
-		[walkingLegView release];
 
 	}
 	return(self);
 }
 
-- (void) dealloc {
-	[super dealloc];
-}
 
 @end

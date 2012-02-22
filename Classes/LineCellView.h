@@ -39,19 +39,19 @@ extern const CGFloat kLineCellViewHeight;
 }
 
 @property (copy, nonatomic) NSString *majorTitle;
-@property (retain, nonatomic) UIColor *textColor;
-@property (nonatomic, retain) UIButton *favoriteButton;
-@property (nonatomic, retain) UIActivityIndicatorView *spinner;
-@property (nonatomic, retain) Stop *stop;
-@property (nonatomic, retain) UIFont *font;
+@property ( nonatomic) UIColor *textColor;
+@property (nonatomic) UIButton *favoriteButton;
+@property (nonatomic) UIActivityIndicatorView *spinner;
+@property (nonatomic) Stop *stop;
+@property (nonatomic) UIFont *font;
 
 @property int cellStatus;
 @property BOOL isFavorite;
 
-@property (nonatomic, retain) PredictionLabel *prediction1Label;
-@property (nonatomic, retain) PredictionLabel *prediction2Label;
-@property (nonatomic, retain) PredictionLabel *prediction3Label;
-@property (nonatomic, retain) UILabel *minuteLabel;
+@property (nonatomic) PredictionLabel *prediction1Label;
+@property (nonatomic) PredictionLabel *prediction2Label;
+@property (nonatomic) PredictionLabel *prediction3Label;
+@property (nonatomic) UILabel *minuteLabel;
 
 - (void) setCellStatus:(int)status withArrivals:(NSArray *)arrivals;
 - (void) toggleFavorite;

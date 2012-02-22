@@ -48,9 +48,9 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 		centerImageView.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:centerImageView];
 
-		time = [@"9:10 pm" retain];
-		majorTitle = [@"Walk 15 minutes" retain];
-		minorTitle = [@"to Ashby BART" retain];
+		time = @"9:10 pm";
+		majorTitle = @"Walk 15 minutes";
+		minorTitle = @"to Ashby BART";
 		[self setOpaque:NO];
 	}
 	return(self);
@@ -61,28 +61,18 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	self = [super initWithCoder:coder];
 
 	if (self) {
-		time = [@"9:10 pm" retain];
-		majorTitle = [@"Walk 15 minutes" retain];
-		minorTitle = [@"to Ashby BART" retain];
+		time = @"9:10 pm";
+		majorTitle = @"Walk 15 minutes";
+		minorTitle = @"to Ashby BART";
 		[self setOpaque:NO];
 	}
 	return(self);
 }
 
-- (void) dealloc
-{
-
-	[centerImageView release];
-	[time release];
-	[majorTitle release];
-	[minorTitle release];
-	[super dealloc];
-}
 
 - (void) setTime:(NSString *)value
 {
 	if ([time isEqualToString:value]) return;
-	[time release];
 	time = [value copy];
 	[self setNeedsDisplay];
 }
@@ -90,7 +80,6 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 - (void) setMajorTitle:(NSString *)value
 {
 	if ([majorTitle isEqualToString:value])	return;
-	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -98,7 +87,6 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 - (void) setMinorTitle:(NSString *)value
 {
 	if ([minorTitle isEqualToString:value])	return;
-	[minorTitle release];
 	minorTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -152,7 +140,7 @@ const CGFloat kWalkingLegViewHeight = 53.0;
 	color = [UIColor colorWithRed:0.802 green:0.802 blue:0.802 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

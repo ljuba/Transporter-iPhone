@@ -18,8 +18,8 @@
 
 }
 
-@property (nonatomic, retain) Trip *trip;
-@property (nonatomic, retain) UILabel *durationLabel;
-@property (nonatomic, retain) UILabel *costLabel;
+@property (nonatomic) Trip *trip;
+@property (nonatomic) UILabel *durationLabel;
+@property (nonatomic) UILabel *costLabel;
 
 @end

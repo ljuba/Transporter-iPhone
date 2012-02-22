@@ -40,7 +40,7 @@
 // loads the favorites.plist file into the contents array and restructures it to include the agency for each stop
 - (void) loadFavoritesFile {
 
-	self.contents = [[[NSMutableArray alloc] initWithArray:[FavoritesManager getFavorites]] autorelease];
+	self.contents = [[NSMutableArray alloc] initWithArray:[FavoritesManager getFavorites]];
 
 	// NSLog(@"%@", contents); /* DEBUG LOG */
 
@@ -96,7 +96,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		cell.showsReorderControl = YES;
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 	}
@@ -183,11 +183,9 @@
 
 		}
 		[cell.contentView addSubview:lineRow];
-		[lineRow release];
 
 	}
 	[cell.contentView addSubview:stopNameRow];
-	[stopNameRow release];
 
 	return(cell);
 }
@@ -208,12 +206,11 @@
 	int fromRowIndex = fromIndexPath.row;
 	int toRowIndex = toIndexPath.row;
 
-	id fromRow = [[contents objectAtIndex:fromRowIndex] retain];
+	id fromRow = [contents objectAtIndex:fromRowIndex];
 
 	[contents removeObjectAtIndex:fromRowIndex];
 	[contents insertObject:fromRow atIndex:toRowIndex];
 
-	[fromRow release];
 
 }
 
@@ -296,11 +293,5 @@
 
 }
 
-- (void) dealloc {
-
-	[predictions release];
-
-	[super dealloc];        // selectedItem and contents are released in super
-}
 
 @end

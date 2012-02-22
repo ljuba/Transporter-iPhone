@@ -25,10 +25,10 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *stops;
-@property (nonatomic, retain) Direction *direction;
+@property (nonatomic) NSMutableArray *stops;
+@property (nonatomic) Direction *direction;
 
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic) CLLocationManager *locationManager;
 
 - (void) displayClosestStopToLocation:(CLLocation *)location;
 - (void) toggleLocationUpdating:(NSNotification *)note;

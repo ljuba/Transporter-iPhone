@@ -28,7 +28,6 @@ static NSMutableArray *closestStops;
 + (void) setClosestStops:(NSMutableArray *)_closestStops {
 
 	if (closestStops != _closestStops) {
-		[closestStops release];
 		closestStops = [_closestStops copy];
 	}
 }
@@ -60,20 +59,16 @@ static NSMutableArray *closestStops;
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
 	[allStops sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
 
-	[sorter release];
 
 	// the first element will be the closest stop
 
 	if ([closestStops count] != 0) {
 		NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:closestStops, allStops, nil];
 		self.contents = array;
-		[array release];
 	} else {
 		NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:[NSMutableArray arrayWithObject:[NSNull null]], allStops, nil];
 		self.contents = array;
-		[array release];
 	}
-	[allStops release];
 
 }
 
@@ -141,7 +136,7 @@ static NSMutableArray *closestStops;
 	// remove spinner for every new cell
 	for (UIView *view in cell.contentView.subviews)	[view removeFromSuperview];
 
-	if (cell == nil) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	int row = indexPath.row;
 	int section = indexPath.section;
 
@@ -159,7 +154,6 @@ static NSMutableArray *closestStops;
 		spinner.center = CGPointMake(16, 18);
 		[spinner startAnimating];
 		[cell.contentView addSubview:spinner];
-		[spinner release];
 
 		return(cell);
 	}
@@ -176,7 +170,7 @@ static NSMutableArray *closestStops;
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-	RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
 	if (section == 0) header.title = @"Nearest Stops";
 	else header.title = @"Stops A-Z";
@@ -209,11 +203,5 @@ static NSMutableArray *closestStops;
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-
-	[closestStops release];
-	[super dealloc];
-
-}
 
 @end

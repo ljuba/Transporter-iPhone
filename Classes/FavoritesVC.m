@@ -30,7 +30,6 @@
 
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 
 	segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Stops", @"Trips", nil]];
 	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -142,7 +141,6 @@
 
 		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(toggleEditingMode)];
 		self.navigationItem.rightBarButtonItem = rightButton;
-		[rightButton release];
 
 		// save contents to favorites to capture and changes to the order
 		[stopsDelegate saveContentsToFavoritesFile];
@@ -152,7 +150,6 @@
 
 		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(toggleEditingMode)];
 		self.navigationItem.rightBarButtonItem = rightButton;
-		[rightButton release];
 
 	}
 }
@@ -187,7 +184,6 @@
 					request.stopTag = stopTag;
 
 					[requests addObject:request];
-					[request release];
 
 				} else
 
@@ -201,7 +197,6 @@
 						request.isMainRoute = NO;
 
 						[requests addObject:request];
-						[request release];
 					}
 			}
 			// request predictions for the stops in the favorites screen
@@ -313,13 +308,11 @@
 			bartStopDetails.stop = (Stop *)note.object;
 
 			[self.navigationController pushViewController:bartStopDetails animated:YES];
-			[bartStopDetails release];
 		} else {
 			NextBusStopDetails *stopDetails = [[NextBusStopDetails alloc] init];
 			stopDetails.stop = (Stop *)note.object;
 
 			[self.navigationController pushViewController:stopDetails animated:YES];
-			[stopDetails release];
 		}
 	}
 }
@@ -342,15 +335,5 @@
 	self.editButton = nil;
 }
 
-- (void) dealloc {
-
-	[timer release];
-	[noFavoritesMessageView release];
-	[segmentedControl release];
-	[stopsDelegate release];
-	[participateButton release];
-
-	[super dealloc];
-}
 
 @end

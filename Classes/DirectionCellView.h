@@ -16,8 +16,8 @@
 	UILabel *directionTitleLabel;
 }
 
-@property (nonatomic, retain) Direction *direction;
-@property (nonatomic, retain) UILabel *directionTitleLabel;
+@property (nonatomic) Direction *direction;
+@property (nonatomic) UILabel *directionTitleLabel;
 - (void) setFavoriteStatus;
 - (void) toggleFavorite;
 

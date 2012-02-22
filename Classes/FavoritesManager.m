@@ -22,13 +22,11 @@
 
 	[contents writeToFile:favoritesPath atomically:YES];
 
-	// NSLog(@"SAVED FAVORITES: %@", contents); /* DEBUG LOG */
 
 }
 
 + (void) checkExistanceOfFavorites {
 
-	NSLog(@"CHECK EXISTANCE OF FAVORITES");
 
 	NSArray *favorites = [self getFavorites];
 	NSMutableArray *newFavorites = [NSMutableArray array];
@@ -113,7 +111,6 @@
 				      message:@"Due to transit service changes, some of your favorite stops/lines have been removed."
 				      delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alert show];
-		[alert release];
 	}
 	// set the new favorites as favorites
 	[self saveFavorites:newFavorites];
@@ -157,19 +154,16 @@
 					    [[directionItem valueForKey:@"name"] isEqual:direction.name]&&
 					    [[directionItem valueForKey:@"routeTag"] isEqual:direction.route.tag]) {
 
-						[favoriteStops release];
 						return(YES);
 					}
 				} else
 				// only if the route tag, direction name and directoin title match
 				if ([[directionItem valueForKey:@"destinationStopTag"] isEqual:destination.destinationStop.tag]) {
-					[favoriteStops release];
 					return(YES);
 				}
 			}
 		}
 	}
-	[favoriteStops release];
 	return(NO);
 
 }
@@ -220,7 +214,6 @@
 
 	// if a stop already exists for a given agency, add the direction to it
 	if (stopItem != nil) {
-		NSLog(@"add direction to existing stop");
 
 		// find the existing array of directions favorited at this stop
 		NSMutableArray *linesItem = [NSMutableArray arrayWithArray:[stopItem objectForKey:@"lines"]];
@@ -262,7 +255,6 @@
 	} else {
 		// otherwise, add the stop tag and the direction tag (to the agency node)
 
-		NSLog(@"add direction to new stop");
 
 		// create a stopItem dictionary and add the direction tag, stop tag, and stop title
 		NSMutableDictionary *stopItem = [[NSMutableDictionary alloc] init];
@@ -301,15 +293,12 @@
 
 		// add the stopItem (we removed the current stop earlier so we could do this now)
 		[favoriteStops addObject:[self sortLinesInStopItem:stopItem]];
-		[stopItem release];
 
 		// write the favorites array to the favorites file
 		[favoriteStops writeToFile:favoritesPath atomically:YES];
 
 	}
-	NSLog(@"FavoritesManager: Favorites: %@", favoriteStops);
 
-	[favoriteStops release];
 
 	return(YES);
 
@@ -324,9 +313,6 @@
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
 	NSArray *sortedLineItems = [lineItems sortedArrayUsingDescriptors:[NSArray arrayWithObjects:nextBusSorter, directionTitleSorter, bartSorter, nil]];
 
-	[nextBusSorter release];
-	[bartSorter release];
-	[directionTitleSorter release];
 
 	[stopItem setValue:sortedLineItems forKey:@"lines"];
 
@@ -335,7 +321,6 @@
 }
 
 + (BOOL) removeStopFromFavorites:(Stop *)stop forLine:(id)line; {
-	NSLog(@"remove direction from stop");
 
 	Direction *direction = nil;
 	Destination *destination = nil;
@@ -404,7 +389,6 @@
 
 			// if there are still more directions in the stopItem, return the stopItem to the agencyItem
 			if ([directionItems count] != 0) {
-				NSLog(@"more lines remain at stop");
 				[stopItem setObject:directionItems forKey:@"lines"];
 
 				// add the stopItem (we removed the current stop earlier so we could do this now)
@@ -420,8 +404,6 @@
 			break;  // don't repeat through the agency loop anymore
 		}
 	}
-	NSLog(@"FavoritesManager: Favorites: %@", favoriteStops);
-	[favoriteStops release];
 	return(YES);
 }
 
@@ -444,14 +426,10 @@
 		// create new plist file in the documents directory
 		[emptyFavorites writeToFile:favoritesPath atomically:YES];
 
-		[emptyFavorites release];
 
-		NSLog(@"FAVORITES MANAGER: new file created");
 	} else {
-		// NSLog(@"file already exists");
 	}
 	// object that recieves this array needs to retain it
-	// NSLog(@"FAVORITES MANAGER: loaded favorites from file at %@", favoritesPath);
 	return([NSArray arrayWithContentsOfFile:favoritesPath]);
 
 }

@@ -50,25 +50,25 @@
 
 }
 
-@property (nonatomic, retain) Stop *stop;
+@property (nonatomic) Stop *stop;
 
-@property (nonatomic, retain) UIImageView *stopTitleImageView;
-@property (nonatomic, retain) UILabel *stopTitleLabel;
+@property (nonatomic) UIImageView *stopTitleImageView;
+@property (nonatomic) UILabel *stopTitleLabel;
 
-@property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) NSMutableArray *contents;
+@property (nonatomic) UITableView *tableView;
+@property (nonatomic) NSMutableArray *contents;
 
-@property (nonatomic, retain) NSIndexPath *lastIndexPath;
-@property (nonatomic, retain) NSNull *buttonRowPlaceholder;
+@property (nonatomic) NSIndexPath *lastIndexPath;
+@property (nonatomic) NSNull *buttonRowPlaceholder;
 
 @property int cellStatus;
 
-@property (nonatomic, retain) NSMutableArray *errors;
-@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic) NSMutableArray *errors;
+@property (nonatomic) NSTimer *timer;
 
 @property BOOL isFirstPredictionsFetch;
 
-@property (nonatomic, retain) NSMutableDictionary *predictions;
+@property (nonatomic, strong) NSMutableDictionary *predictions;
 
 @property int tableHeaderHeight;
 @property int tableFooterHeight;

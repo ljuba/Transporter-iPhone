@@ -20,13 +20,12 @@
 	self.title = @"Arrivals";
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 
 	self.view.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1.0];
 	cellStatus = kCellStatusSpinner;
 	isFirstPredictionsFetch = YES;
 	buttonRowPlaceholder = [[NSNull alloc] init];
-	self.predictions = [[[NSMutableDictionary alloc] init] autorelease];
+	self.predictions = [[NSMutableDictionary alloc] init];
 
 	// SETUP TABLE VIEW
 	tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 69, 320, 298)];
@@ -49,8 +48,6 @@
 	self.tableHeaderHeight = tableHeader.frame.size.height;
 	self.tableFooterHeight = tableFooter.frame.size.height;
 
-	[tableFooter release];
-	[tableHeader release];
 
 	// Have the tableview ignore our 2 views when computing size
 	tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
@@ -158,7 +155,6 @@
 
 	[self.navigationController pushViewController:liveRouteTVC animated:YES];
 
-	[liveRouteTVC release];
 
 }
 
@@ -312,19 +308,5 @@
 	return(nil);
 }
 
-- (void) dealloc {
-
-	[errors release];
-	[timer release];
-	[predictions release];
-	[buttonRowPlaceholder release];
-	[contents release];
-	[stop release];
-	[stopTitleLabel release];
-	[stopTitleImageView release];
-	[tableView release];
-
-	[super dealloc];
-}
 
 @end

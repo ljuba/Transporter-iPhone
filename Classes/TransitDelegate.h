@@ -23,8 +23,8 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *contents;
-@property (nonatomic, retain) id selectedItem;
+@property (nonatomic) NSMutableArray *contents;
+@property (nonatomic) id selectedItem;
 
 - (void) setContentsForAgency:(Agency *)agency;
 - (NSArray *) formatContentsForAgency:(Agency *)agency;

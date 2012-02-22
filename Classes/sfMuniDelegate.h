@@ -19,7 +19,7 @@
 
 }
 
-@property (nonatomic, retain) NSArray *formattedContents;
+@property (nonatomic) NSArray *formattedContents;
 
 - (id) initWithAgency:(Agency *)agency;
 

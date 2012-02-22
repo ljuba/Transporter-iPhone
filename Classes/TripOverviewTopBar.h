@@ -18,10 +18,10 @@
 
 }
 
-@property (nonatomic, retain) UIButton *nextTripButton;
-@property (nonatomic, retain) UIButton *previousTripButton;
-@property (nonatomic, retain) UILabel *timespanLabel;
-@property (nonatomic, retain) UILabel *tripOptionLabel;
+@property (nonatomic) UIButton *nextTripButton;
+@property (nonatomic) UIButton *previousTripButton;
+@property (nonatomic) UILabel *timespanLabel;
+@property (nonatomic) UILabel *tripOptionLabel;
 
 - (void) previousTripButtonTapped;
 - (void) nextTripButtonTapped;

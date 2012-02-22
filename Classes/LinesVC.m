@@ -21,7 +21,6 @@
 
 - (void) viewDidLoad {
 
-	NSLog(@"LINESVC: %@", @"VIEW DID LOAD"); /* DEBUG LOG */
 
 	// tableViewSettings
 	tableView.showsVerticalScrollIndicator = NO;
@@ -76,7 +75,6 @@
 
 		[self.navigationController pushViewController:directionsTableViewController animated:YES];
 
-		[directionsTableViewController release];
 
 	} else if (note.name == @"stopSelected") {
 
@@ -89,7 +87,6 @@
 
 		[self.navigationController pushViewController:bartStopDetailsVC animated:YES];
 
-		[bartStopDetailsVC release];
 	}
 }
 
@@ -113,7 +110,7 @@
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
 
-		self.transitDelegate = [[[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]] autorelease];
+		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
 
 		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		tableView.backgroundColor = [UIColor colorWithWhite:0.369 alpha:1.0];
@@ -125,7 +122,7 @@
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
 
-		self.transitDelegate = [[[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]] autorelease];
+		self.transitDelegate = [[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]];
 		locationManager.delegate = self.transitDelegate;
 
 		tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -138,7 +135,7 @@
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
 
-		self.transitDelegate = [[[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]] autorelease];
+		self.transitDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
 
 		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		tableView.backgroundColor = [UIColor colorWithWhite:0.369 alpha:1.0];
@@ -178,14 +175,10 @@
 	NSMutableArray *agencies = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 
 	if (agencies == nil) {
-		NSLog(@"Could not fetch agencies!");
-		[request release];
 		return(nil);
 	}
-	[request release];
 
 	Agency *fetchedAgency = [agencies objectAtIndex:0];
-	[agencies release];
 
 	return(fetchedAgency);
 }
@@ -210,11 +203,9 @@
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
 
-	[segmentedControl release];
-	[locationManager release];      // created in viewDidLoad
-	[transitDelegate release];              // created in tapAgency, which is called in viewDidLoad
+	      // created in viewDidLoad
+	              // created in tapAgency, which is called in viewDidLoad
 
-	[super dealloc];
 }
 
 @end

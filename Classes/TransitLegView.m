@@ -82,38 +82,22 @@ const CGFloat kTransitLegViewHeight = 154.0;
 		bartColor.hidden = YES;
 		[self addSubview:bartColor];
 
-		startTime = [@"9:10 pm" retain];
-		endTime = [@"10:42 pm" retain];
-		startStopTitle = [@"Start stop" retain];
-		endStopTitle = [@"End stop" retain];
-		transferText = [@"timed transfer" retain];
-		majorTitle = [@"Outbound" retain];
-		minorTitle = [@"Broadway and Blanding" retain];
+		startTime = @"9:10 pm";
+		endTime = @"10:42 pm";
+		startStopTitle = @"Start stop";
+		endStopTitle = @"End stop";
+		transferText = @"timed transfer";
+		majorTitle = @"Outbound";
+		minorTitle = @"Broadway and Blanding";
 		[self setOpaque:NO];
 	}
 	return(self);
 }
 
-- (void) dealloc
-{
-	[bartColor release];
-	[routeTagLabel release];
-	[routeBackground release];
-
-	[startTime release];
-	[endTime release];
-	[startStopTitle release];
-	[endStopTitle release];
-	[transferText release];
-	[majorTitle release];
-	[minorTitle release];
-	[super dealloc];
-}
 
 - (void) setStartTime:(NSString *)value
 {
 	if ([startTime isEqualToString:value]) return;
-	[startTime release];
 	startTime = [value copy];
 	[self setNeedsDisplay];
 }
@@ -121,7 +105,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setEndTime:(NSString *)value
 {
 	if ([endTime isEqualToString:value]) return;
-	[endTime release];
 	endTime = [value copy];
 	[self setNeedsDisplay];
 }
@@ -129,7 +112,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setStartStopTitle:(NSString *)value
 {
 	if ([startStopTitle isEqualToString:value]) return;
-	[startStopTitle release];
 	startStopTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -137,7 +119,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setEndStopTitle:(NSString *)value
 {
 	if ([endStopTitle isEqualToString:value]) return;
-	[endStopTitle release];
 	endStopTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -145,7 +126,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setTransferText:(NSString *)value
 {
 	if ([transferText isEqualToString:value]) return;
-	[transferText release];
 	transferText = [value copy];
 	[self setNeedsDisplay];
 }
@@ -153,7 +133,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setMajorTitle:(NSString *)value
 {
 	if ([majorTitle isEqualToString:value])	return;
-	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -161,7 +140,6 @@ const CGFloat kTransitLegViewHeight = 154.0;
 - (void) setMinorTitle:(NSString *)value
 {
 	if ([minorTitle isEqualToString:value])	return;
-	[minorTitle release];
 	minorTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -216,7 +194,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.802 green:0.802 blue:0.802 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);
@@ -283,7 +261,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.25 green:0.25 blue:0.25 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[3] = 0.289;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);
@@ -399,7 +377,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);
@@ -444,7 +422,7 @@ const CGFloat kTransitLegViewHeight = 154.0;
 	color = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

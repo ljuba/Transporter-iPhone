@@ -28,9 +28,9 @@ extern const CGFloat kTransitLegViewHeight;
 	UIImageView *bartColor;
 }
 
-@property (nonatomic, retain) UILabel *routeTagLabel;
-@property (nonatomic, retain) UIImageView *routeBackground;
-@property (nonatomic, retain) UIImageView *bartColor;
+@property (nonatomic) UILabel *routeTagLabel;
+@property (nonatomic) UIImageView *routeBackground;
+@property (nonatomic) UIImageView *bartColor;
 
 @property (copy, nonatomic) NSString *startTime;
 @property (copy, nonatomic) NSString *endTime;

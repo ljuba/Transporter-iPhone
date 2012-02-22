@@ -16,7 +16,7 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *contents;
-@property (nonatomic, retain) id selectedItem;
+@property (nonatomic, strong) NSMutableArray *contents;
+@property (nonatomic) id selectedItem;
 
 @end

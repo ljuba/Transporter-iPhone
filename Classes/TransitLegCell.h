@@ -15,7 +15,7 @@
 
 }
 
-@property (nonatomic, retain) TransitLegView *transitLegView;
+@property (nonatomic) TransitLegView *transitLegView;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier frame:(CGRect)frame;
 

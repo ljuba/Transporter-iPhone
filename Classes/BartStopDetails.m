@@ -38,7 +38,7 @@
 	NSString *platformsPath = [[NSBundle mainBundle] pathForResource:@"bart-platforms" ofType:@"xml"];
 	NSData *platformsData = [NSData dataWithContentsOfFile:platformsPath];
 
-	CXMLDocument *platformParser = [[[CXMLDocument alloc] initWithData:platformsData options:0 error:nil] autorelease];
+	CXMLDocument *platformParser = [[CXMLDocument alloc] initWithData:platformsData options:0 error:nil];
 
 	NSString *xPath = [NSString stringWithFormat:@"//agency/stop[@tag='%@']/platform", stop.tag];
 
@@ -58,13 +58,11 @@
 		}
 		NSString *platformNumber = [[platformElement attributeForName:@"number"] stringValue];
 		[platformsDict setObject:destinationStopTags forKey:platformNumber];
-		[destinationStopTags release];
 	}
 	// CREATE ARRAY OF SORTED PLATFORMS FROM THE NUMBERS AT THIS STOP
 	self.platforms = [NSMutableArray arrayWithArray:[platformsDict allKeys]];
 	NSSortDescriptor *platformSorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
 	[platforms sortUsingDescriptors:[NSArray arrayWithObject:platformSorter]];
-	[platformSorter release];
 
 	NSLog(@"PLATFORMS: %@", platforms); /* DEBUG LOG */
 
@@ -84,20 +82,16 @@
 
 			Destination *dest = [[Destination alloc] initWithDestinationStop:destinationStop forStop:stop];
 			[platformDestinations addObject:dest];
-			[dest release];
 
 		}
 		// sort the destination objects by the stop title
 		NSSortDescriptor *alphabeticSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStop.title" ascending:YES];
 		[platformDestinations sortUsingDescriptors:[NSArray arrayWithObject:alphabeticSorter]];
-		[alphabeticSorter release];
 
 		[contents addObject:platformDestinations];
 
-		[platformDestinations release];
 
 	}
-	[platformsDict release];
 
 }
 
@@ -181,7 +175,6 @@
 
 	[self.navigationController pushViewController:liveRouteTVC animated:YES];
 
-	[liveRouteTVC release];
 
 }
 
@@ -204,7 +197,6 @@
 	request.isMainRoute = NO;
 
 	[requests addObject:request];
-	[request release];
 
 	// request predictions for the stops in the favorites screen
 	[NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
@@ -232,7 +224,6 @@
 			NSLog(@"BartStopDetails: %@", @"ERROR"); /* DEBUG LOG */
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error.userInfo objectForKey:@"message"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 			[alertView show];
-			[alertView release];
 
 		}
 		// store the error in the errors array
@@ -324,16 +315,13 @@
 		Destination *destinationToAdd = [[Destination alloc] initWithDestinationStop:destinationStop forStop:stop];
 
 		[[contents objectAtIndex:sectionIndex] addObject:destinationToAdd];
-		[destinationToAdd release];
 
 		NSSortDescriptor *destinationTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStop.title" ascending:YES];
 
 		[[contents objectAtIndex:sectionIndex] sortUsingDescriptors:[NSMutableArray arrayWithObject:destinationTitleSorter]];
 
-		[destinationTitleSorter release];
 
 	}
-	[leftoverDestinationArrivals release];
 
 	// NSLog(@"PREDICTIONS: %@", predictions); /* DEBUG LOG */
 
@@ -346,7 +334,7 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-	RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
 	NSString *platformNumber = [platforms objectAtIndex:section];
 	header.title = [NSString stringWithFormat:@"Platform %@", platformNumber];
@@ -395,8 +383,8 @@
 
 		if (cell == nil) {
 
-			cell = [[[LineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LineCellIdentifier] autorelease];
-			cell.lineCellView = [[[DestinationCellView alloc] init] autorelease];
+			cell = [[LineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LineCellIdentifier];
+			cell.lineCellView = [[DestinationCellView alloc] init];
 			[cell.contentView addSubview:cell.lineCellView];
 			[cell.lineCellView release];
 		}
@@ -430,10 +418,5 @@
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-
-	[platforms release];
-	[super dealloc];
-}
 
 @end

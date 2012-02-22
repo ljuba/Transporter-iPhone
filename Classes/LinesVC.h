@@ -24,13 +24,13 @@
 
 }
 
-@property (nonatomic, retain) UISegmentedControl *segmentedControl;
+@property (nonatomic) UISegmentedControl *segmentedControl;
 
-@property (nonatomic, retain) IBOutlet LinesTableView *tableView;
+@property (nonatomic) IBOutlet LinesTableView *tableView;
 
-@property (nonatomic, retain) TransitDelegate *transitDelegate;
+@property (nonatomic, strong) TransitDelegate *transitDelegate;
 
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic) CLLocationManager *locationManager;
 
 - (void) tapAgency;
 - (Agency *) fetchAgencyData:(NSString *)agency;

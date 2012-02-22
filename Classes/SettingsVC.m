@@ -26,7 +26,6 @@
 	[controller setSubject:@"Bug Report"];
 	[controller setToRecipients:[NSArray arrayWithObject:@"ljuba.miljkovic@gmail.com"]];
 	[self presentModalViewController:controller animated:YES];
-	[controller release];
 
 }
 
@@ -46,8 +45,5 @@
 	[super viewDidUnload];
 }
 
-- (void) dealloc {
-	[super dealloc];
-}
 
 @end

@@ -19,8 +19,8 @@
 - (id) initWithStopName:(NSString *)name agencyShortTitle:(NSString *)agencyShortTitle;
 - (void) setBackgroundWithStopName:(NSString *)name agencyShortTitle:(NSString *)agencyShortTitle;
 
-@property (nonatomic, retain) NSString *stopName;
+@property (nonatomic) NSString *stopName;
 
-@property (nonatomic, retain) UIImage *backgroundImage;
+@property (nonatomic) UIImage *backgroundImage;
 
 @end

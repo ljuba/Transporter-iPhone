@@ -76,11 +76,5 @@
 
 #pragma mark -
 
-- (void) dealloc {
-
-	[agency release];
-	[stop release];
-	[super dealloc];
-}
 
 @end

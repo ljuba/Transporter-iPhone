@@ -24,14 +24,14 @@
 
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *previousStopButton;
-@property (nonatomic, retain) IBOutlet UIButton *nextStopButton;
-@property (nonatomic, retain) IBOutlet UIButton *liveRouteButton;
+@property (nonatomic) IBOutlet UIButton *previousStopButton;
+@property (nonatomic) IBOutlet UIButton *nextStopButton;
+@property (nonatomic) IBOutlet UIButton *liveRouteButton;
 
-@property (nonatomic, retain) Direction *direction;
-@property (nonatomic, retain) Stop *stop;
-@property (nonatomic, retain) Stop *nextStop;
-@property (nonatomic, retain) Stop *previousStop;
+@property (nonatomic) Direction *direction;
+@property (nonatomic) Stop *stop;
+@property (nonatomic) Stop *nextStop;
+@property (nonatomic) Stop *previousStop;
 
 - (IBAction) goToPreviousStop:(id)sender;
 - (IBAction) goToNextStop:(id)sender;

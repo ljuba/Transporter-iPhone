@@ -15,6 +15,6 @@
 
 }
 
-@property (nonatomic, retain) LineCellView *lineCellView;
+@property (nonatomic, strong) LineCellView *lineCellView;
 
 @end

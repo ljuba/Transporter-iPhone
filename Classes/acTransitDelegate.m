@@ -69,7 +69,7 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-	RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
 	header.title = @"Bus Lines";
 
@@ -83,7 +83,7 @@
 
 	RoutesCell *cell = (RoutesCell *)[tableView dequeueReusableCellWithIdentifier:ACTransitRoutesCellIdentifier];
 
-	if (cell == nil) cell = [[[RoutesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ACTransitRoutesCellIdentifier] autorelease];
+	if (cell == nil) cell = [[RoutesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ACTransitRoutesCellIdentifier];
 	// current row index
 	int row = indexPath.row;
 	NSArray *rowRoutes = [formattedContents objectAtIndex:row];
@@ -164,12 +164,5 @@
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-
-	[formattedContents release];
-	[selectedItem release];
-	[super dealloc];
-
-}
 
 @end

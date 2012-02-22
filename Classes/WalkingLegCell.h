@@ -15,7 +15,7 @@
 
 }
 
-@property (nonatomic, retain) WalkingLegView *walkingLegView;
+@property (nonatomic) WalkingLegView *walkingLegView;
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier frame:(CGRect)frame;
 
 @end

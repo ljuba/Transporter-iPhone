@@ -27,8 +27,8 @@
 
 @property NSTimeInterval duration;
 
-@property (nonatomic, retain) NSDate *date;
+@property (nonatomic, strong) NSDate *date;
 
-@property (nonatomic, retain) NSString *destinationTitle;
+@property (nonatomic) NSString *destinationTitle;
 
 @end

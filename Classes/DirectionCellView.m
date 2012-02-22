@@ -98,10 +98,5 @@
 	}
 }
 
-- (void) dealloc {
-	[directionTitleLabel release];
-	[direction release];
-	[super dealloc];
-}
 
 @end

@@ -54,7 +54,7 @@
 
 - (void) setDestination:(Destination *)dest {
 
-	destination = [dest retain];
+	destination = dest;
 
 	[bartColorsView removeFromSuperview];           // remove bartColorsView from dequeued destinationcellview
 
@@ -92,10 +92,5 @@
 	}
 }
 
-- (void) dealloc {
-
-	[destination release];
-	[super dealloc];
-}
 
 @end

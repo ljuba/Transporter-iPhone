@@ -79,7 +79,7 @@
 // set annotation based on direction
 - (void) setDirection:(Direction *)_direction {
 
-	direction = [_direction retain];
+	direction = _direction;
 	title.text = direction.name;
 	subtitle.text = direction.title;
 
@@ -121,11 +121,5 @@
 
 }
 
-- (void) dealloc {
-
-	[direction release];
-
-	[super dealloc];
-}
 
 @end

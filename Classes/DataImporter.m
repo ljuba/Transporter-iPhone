@@ -19,7 +19,6 @@
 
 	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 
-	NSLog(@"importing transit information...");
 
 	NSArray *agencyShortTitles = [NSArray arrayWithObjects:@"actransit", @"sf-muni", @"bart", nil];
 
@@ -31,14 +30,13 @@
 		NSData *transitData = [NSData dataWithContentsOfFile:filePath];
 
 		// get the agency node (root node)
-		CXMLDocument *transitParser = [[[CXMLDocument alloc] initWithData:transitData options:0 error:nil] autorelease];
+		CXMLDocument *transitParser = [[CXMLDocument alloc] initWithData:transitData options:0 error:nil];
 		NSArray *agencyNodes = [transitParser nodesForXPath:@"/agency" error:nil];
 		CXMLElement *agencyElement = [agencyNodes objectAtIndex:0];
 
 		// get agency info
 		CXMLNode *agencyTitle = [agencyElement attributeForName:@"title"];
 
-		NSLog(@"%@, %@", [agencyTitle stringValue], agencyShortTitle);
 
 		// create current agency object to add routes to
 		Agency *agency = (Agency *)[NSEntityDescription insertNewObjectForEntityForName:@"Agency"
@@ -117,9 +115,7 @@
 
 			route.sortOrder = [formatter numberFromString:[routeSortOrder stringValue]];
 
-			[formatter release];
 
-			NSLog(@"  Route: %@, %@, %@, %@", [routeTag stringValue], [routeTitle stringValue], [route.sortOrder stringValue], [routeVehicle stringValue]);
 
 			// find active directions and their stops
 			NSArray *directionNodes = [routeElement nodesForXPath:@"./direction" error:nil];
@@ -146,7 +142,6 @@
 				direction.show = [NSNumber numberWithBool:[[directionShow stringValue] boolValue]];
 				direction.route = route;
 
-				NSLog(@"     -Direction: %@, %@, %@", [directionTag stringValue], [directionTitle stringValue], [directionName stringValue]);
 
 				// link the stops in the direction to the stops in the agencyStops dictionary
 
@@ -164,7 +159,6 @@
 
 						// tag of the stop in the current direction
 						NSString *stopTag = [[stopElement attributeForName:@"tag"] stringValue];
-						// NSLog(@"         %@", stopTag); /* DEBUG LOG */
 						// fetch that stop from the agencyStops dictionary
 						Stop *stop = [agencyStops objectForKey:stopTag];
 
@@ -186,22 +180,12 @@
 
 				// set the stops and order for the current direction to the accumulated stops for it
 				direction.stops = stopsSet;
-				[stopsSet release];
 
 				direction.stopOrder = stopOrder;
-<<<<<<< HEAD
-				
-			}	//end direction loop
-		
-			//set the directions for a route
-=======
-				[stopOrder release];
 			}       // end direction loop
 
 			// set the directions for a route
->>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
 			route.directions = directionsSet;
-			[directionsSet release];
 
 			// add the current route to the routesSet for use in the agency
 			[routesSet addObject:route];
@@ -210,16 +194,10 @@
 
 		// set the routes for the agency
 		agency.routes = routesSet;
-		[routesSet release];
-
-		NSError *error;
-
-		if (![managedObjectContext save:&error]) NSLog(@"There was an error saving the routes, %@", error);
 	} // end of agency loop
 
 	appDelegate.importing = NO;
 
-	NSLog(@"Done!");
 
 }
 

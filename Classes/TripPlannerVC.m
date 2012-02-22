@@ -37,7 +37,6 @@
 	// SETUP "CANCEL" BUTTON
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelTrip)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
 
 	// SETUP "ROUTE" BUTTON
 	CustomButton *blueButton = [[CustomButton alloc] initWithColor:@"blue"];
@@ -48,13 +47,10 @@
 	button.enabled = NO;
 	self.navigationItem.rightBarButtonItem = button;
 
-	[button release];
-	[blueButton release];
 
 	// SETUP BACK BUTTON
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back-arrow.png"] style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	[backButton release];
 
 	// fixes blurry text bug to have the fields be 32px high
 	startField.frame = CGRectMake(startField.frame.origin.x, startField.frame.origin.y, startField.frame.size.width, 32);
@@ -72,7 +68,6 @@
 
 	startField.leftViewMode = UITextFieldViewModeAlways;
 	startField.leftView = startPrompt;
-	[startPrompt release];
 
 	UILabel *endPrompt = [[UILabel alloc] initWithFrame:promptRect];
 	endPrompt.text = @"End:";
@@ -83,7 +78,6 @@
 
 	endField.leftViewMode = UITextFieldViewModeAlways;
 	endField.leftView = endPrompt;
-	[endPrompt release];
 
 	// SETUP INITIAL TEXT FIELD CONDITIONS
 	// startField.text = @"1 Post St, SF";
@@ -170,7 +164,6 @@
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Find Trips" message:[error.userInfo valueForKey:@"message"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alert show];
 
-	[alert release];
 
 }
 
@@ -221,7 +214,6 @@
 	// SETUP EDIT BUTTON
 	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editTrip)];
 	self.navigationItem.leftBarButtonItem = editButton;
-	[editButton release];
 
 	// SETUP THE START TRIP BUTTON
 	CustomButton *startButton = [[CustomButton alloc] initWithColor:@"green"];
@@ -231,8 +223,6 @@
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:startButton];
 	self.navigationItem.rightBarButtonItem = button;
 
-	[button release];
-	[startButton release];
 
 	// SHOW OVERVIEW BARS
 	bottomBar.hidden = NO;
@@ -345,8 +335,6 @@
 			[self.mapView addAnnotation:startStopAnnotation];
 			[self.mapView addAnnotation:endStopAnnotation];
 
-			[startStopAnnotation release];
-			[endStopAnnotation release];
 		}
 	}
 }
@@ -378,7 +366,6 @@
 	// SETUP CANCEL BUTTON
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelTrip)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
 
 	// SETUP ROUTE BUTTON
 	CustomButton *blueButton = [[CustomButton alloc] initWithColor:@"blue"];
@@ -389,8 +376,6 @@
 	button.enabled = NO;
 	self.navigationItem.rightBarButtonItem = button;
 
-	[button release];
-	[blueButton release];
 
 	// HIDE OVERVIEW BOTTOM BAR
 	bottomBar.hidden = YES;
@@ -416,7 +401,6 @@
 	TripDetailsTVC *tripDetailsVC = [[TripDetailsTVC alloc] init];
 	tripDetailsVC.trip = selectedTrip;
 	[self.navigationController pushViewController:tripDetailsVC animated:YES];
-	[tripDetailsVC release];
 
 }
 
@@ -524,7 +508,6 @@
 	startField.text = endField.text;
 	endField.text = storedStartField;
 
-	[storedStartField release];
 
 	// switch which text field is first responder
 	if ([startField isFirstResponder]) {
@@ -556,17 +539,7 @@
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter removeObserver:self];
 
-	[mapDelegate release];
-	[locationManager release];
-	[tripFetcher release];
-	[dateFormatter release];
-	[trips release];
-	[mapOverlay release];
-	[topBar release];
-	[bottomBar release];
-	[tripFetchSpinner release];
 
-	[super dealloc];
 }
 
 @end

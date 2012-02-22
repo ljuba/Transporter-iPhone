@@ -19,7 +19,7 @@
 
 }
 
-@property (nonatomic, retain) NSArray *formattedContents;
+@property (nonatomic) NSArray *formattedContents;
 
 - (void) tapRoute:(UIButton *)sender;
 - (id) initWithAgency:(Agency *)agency;

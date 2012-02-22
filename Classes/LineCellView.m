@@ -24,8 +24,8 @@ const CGFloat kLineCellViewHeight = 61.0;
 	self = [super initWithFrame:frame];
 
 	if (self) {
-		majorTitle = [@"60 Outbound" retain];
-		textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+		majorTitle = @"60 Outbound";
+		textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 		[self setOpaque:NO];
 
 		// ADD THE FAVORITES BUTTON
@@ -110,7 +110,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 
 - (void) setFont:(UIFont *)_font {
 
-	font = [_font retain];
+	font = _font;
 	[self setNeedsDisplay];
 
 }
@@ -124,7 +124,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 	if (cellStatus == kCellStatusSpinner) {
 		spinner.hidden = NO;
 		minuteLabel.hidden = YES;
-		textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+		textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 		prediction1Label.alpha = 1.0;
 		[prediction1Label clear];
 		[prediction2Label clear];
@@ -153,22 +153,22 @@ const CGFloat kLineCellViewHeight = 61.0;
 			prediction1Label.alpha = 0.6;
 			prediction2Label.text = @"";
 			prediction3Label.text = @"";
-			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:0.6] retain];
+			textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:0.6];
 			minuteLabel.hidden = YES;
 			break;
 		case 1:
-			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 			prediction2Label.text = @"-";
 			prediction3Label.text = @"-";
 			prediction1Label.alpha = 1.0;
 			break;
 		case 2:
 			prediction3Label.text = @"-";
-			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 			prediction1Label.alpha = 1.0;
 			break;
 		default:
-			textColor = [[UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0] retain];
+			textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 			prediction1Label.alpha = 1.0;
 			break;
 		}
@@ -187,21 +187,11 @@ const CGFloat kLineCellViewHeight = 61.0;
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
 
-	[minuteLabel release];
-	[spinner release];
-	[prediction1Label release];
-	[prediction2Label release];
-	[prediction3Label release];
-	[favoriteButton release];
-	[majorTitle release];
-	[textColor release];
-	[super dealloc];
 }
 
 - (void) setMajorTitle:(NSString *)value
 {
 	if ([majorTitle isEqualToString:value])	return;
-	[majorTitle release];
 	majorTitle = [value copy];
 	[self setNeedsDisplay];
 }
@@ -209,8 +199,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 - (void) setTextColor:(UIColor *)value
 {
 	if ([textColor isEqual:value]) return;
-	[textColor release];
-	textColor = [value retain];
+	textColor = value;
 	[self setNeedsDisplay];
 }
 
@@ -262,7 +251,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 	color = [UIColor colorWithRed:0.783f green:0.783f blue:0.793f alpha:1.0f];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0f;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

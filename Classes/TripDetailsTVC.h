@@ -22,11 +22,11 @@ extern const CGFloat kTransitLegTransferHeight;
 
 }
 
-@property (nonatomic, retain) NSNull *buttonRowPlaceholder;
-@property (nonatomic, retain) Trip *trip;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-@property (nonatomic, retain) NSMutableArray *contents;
-@property (nonatomic, retain) NSIndexPath *lastIndexPath;
+@property (nonatomic) NSNull *buttonRowPlaceholder;
+@property (nonatomic) Trip *trip;
+@property (nonatomic) NSDateFormatter *dateFormatter;
+@property (nonatomic) NSMutableArray *contents;
+@property (nonatomic) NSIndexPath *lastIndexPath;
 
 - (void) requestPredictions;
 - (void) didReceivePredictions:(NSDictionary *)predictions;

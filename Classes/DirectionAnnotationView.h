@@ -29,13 +29,13 @@
 
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *pinView;
+@property (nonatomic) IBOutlet UIImageView *pinView;
 
-@property (nonatomic, retain) IBOutlet UIView *calloutView;
-@property (nonatomic, retain) IBOutlet UIButton *calloutButton;
+@property (nonatomic) IBOutlet UIView *calloutView;
+@property (nonatomic) IBOutlet UIButton *calloutButton;
 
-@property (nonatomic, retain) IBOutlet UILabel *title;
-@property (nonatomic, retain) IBOutlet UILabel *subtitle;
+@property (nonatomic) IBOutlet UILabel *title;
+@property (nonatomic) IBOutlet UILabel *subtitle;
 
 @property (nonatomic) CGRect mapFrame;
 

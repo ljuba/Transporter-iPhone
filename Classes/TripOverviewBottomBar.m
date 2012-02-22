@@ -29,7 +29,6 @@
 		backgroundImageView.contentMode = UIViewContentModeScaleToFill;
 		backgroundImageView.alpha = 0.95;
 		[self addSubview:backgroundImageView];
-		[backgroundImageView release];
 
 		// SETUP COST LABEL
 		costLabel = [[UILabel alloc] initWithFrame:CGRectMake(26, 0, 100, self.frame.size.height)];
@@ -53,14 +52,13 @@
 		clockImageView.center = CGPointMake(kTripOverviewBottomBarMargin + 10, 10);
 
 		[self addSubview:clockImageView];
-		[clockImageView release];
 	}
 	return(self);
 }
 
 - (void) setTrip:(Trip *)_trip {
 
-	trip = [_trip retain];
+	trip = _trip;
 
 	// SETUP TRIP DURATION
 	durationLabel.text = [trip durationLabelText];
@@ -112,20 +110,11 @@
 			} else icon.image = [UIImage imageNamed:@"bus-icon.png"];
 		}
 		[iconView addSubview:icon];
-		[icon release];
 	}
 	[self addSubview:iconView];
 
-	[iconView release];
 
 }
 
-- (void) dealloc {
-
-	[durationLabel release];
-	[costLabel release];
-
-	[super dealloc];
-}
 
 @end

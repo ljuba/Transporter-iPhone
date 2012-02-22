@@ -25,11 +25,5 @@
 	return(self);
 }
 
-- (void) dealloc {
-
-	[arrivals release];
-	[bartPlatform release];
-	[super dealloc];
-}
 
 @end

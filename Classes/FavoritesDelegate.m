@@ -29,13 +29,5 @@
 	return(nil);
 }
 
-- (void) dealloc {
-
-	[contents release];
-	[selectedItem release];
-
-	[super dealloc];
-
-}
 
 @end

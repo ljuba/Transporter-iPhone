@@ -32,8 +32,8 @@
 
 		self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 
-		if (isLastRow) backgroundImage = [[UIImage imageNamed:@"fav-last-line-background.png"] retain];
-		else backgroundImage = [[UIImage imageNamed:@"fav-line-background.png"] retain];
+		if (isLastRow) backgroundImage = [UIImage imageNamed:@"fav-last-line-background.png"];
+		else backgroundImage = [UIImage imageNamed:@"fav-line-background.png"];
 		rowHeight = [UIImage imageNamed:@"fav-line-background.png"].size.height;
 
 		// SET ROW POSITION
@@ -148,7 +148,7 @@
 
 - (void) setArrivals:(NSArray *)_arrivals {
 
-	arrivals = [_arrivals retain];
+	arrivals = _arrivals;
 
 	BOOL isBART = NO;
 
@@ -237,18 +237,5 @@
 	}
 }
 
-- (void) dealloc {
-
-	[colorsView release];
-	[majorTitle release];
-	[minorTitle release];
-	[spinner release];
-	[prediction1Label release];
-	[prediction2Label release];
-	[prediction3Label release];
-	[backgroundImage release];
-
-	[super dealloc];
-}
 
 @end

@@ -78,7 +78,7 @@ const CGFloat kTripInputViewHeight = 77.0;
 	color = [UIColor colorWithRed:0.641 green:0.665 blue:0.693 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

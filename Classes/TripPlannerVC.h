@@ -42,27 +42,27 @@
 	
 }
 
-@property (nonatomic, retain) TripOverviewBottomBar *bottomBar;
-@property (nonatomic, retain) TripOverviewTopBar *topBar;
+@property (nonatomic) TripOverviewBottomBar *bottomBar;
+@property (nonatomic) TripOverviewTopBar *topBar;
 
-@property (nonatomic, retain) UIControl *mapOverlay;
-@property (nonatomic, retain) IBOutlet MKMapView *mapView;
+@property (nonatomic) UIControl *mapOverlay;
+@property (nonatomic) IBOutlet MKMapView *mapView;
 
-@property (nonatomic, retain) IBOutlet TripInputView *inputView;
-@property (nonatomic, retain) IBOutlet UITextField *startField;
-@property (nonatomic, retain) IBOutlet UITextField *endField;
-@property (nonatomic, retain) IBOutlet UIButton *changeTimeButton;
-@property (nonatomic, retain) IBOutlet UIButton *switchFieldsButton;
+@property (nonatomic) IBOutlet TripInputView *inputView;
+@property (nonatomic) IBOutlet UITextField *startField;
+@property (nonatomic) IBOutlet UITextField *endField;
+@property (nonatomic) IBOutlet UIButton *changeTimeButton;
+@property (nonatomic) IBOutlet UIButton *switchFieldsButton;
 
-@property (nonatomic, retain) TripFetcher *tripFetcher;
+@property (nonatomic) TripFetcher *tripFetcher;
 
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic) CLLocationManager *locationManager;
 
-@property (nonatomic, retain) NSArray *trips;
-@property (nonatomic, retain) Trip *selectedTrip;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic) NSArray *trips;
+@property (nonatomic) Trip *selectedTrip;
+@property (nonatomic) NSDateFormatter *dateFormatter;
 
-@property (nonatomic, retain) UIActivityIndicatorView *tripFetchSpinner;
+@property (nonatomic) UIActivityIndicatorView *tripFetchSpinner;
 
 - (IBAction) switchFieldsContents;
 - (void) cancelTrip;

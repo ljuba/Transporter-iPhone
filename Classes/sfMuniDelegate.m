@@ -71,7 +71,7 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-	RowDivider *header = [[[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)] autorelease];
+	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
 	switch (section) {
 	case 0:
@@ -110,7 +110,7 @@
 
 	RoutesCell *cell = (RoutesCell *)[tableView dequeueReusableCellWithIdentifier:SFMuniRoutesCellIdentifier];
 
-	if (cell == nil) cell = [[[RoutesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SFMuniRoutesCellIdentifier] autorelease];
+	if (cell == nil) cell = [[RoutesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SFMuniRoutesCellIdentifier];
 	// current row index
 	int row = indexPath.row;
 	int section = indexPath.section;
@@ -241,12 +241,5 @@
 #pragma mark -
 #pragma mark Memory
 
-- (void) dealloc {
-
-	[formattedContents release];    // reatined in init
-	[selectedItem release];                 // superclass ivar. retained in tapRoute. set to nil in init
-	[super dealloc];
-
-}
 
 @end

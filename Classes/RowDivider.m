@@ -21,7 +21,7 @@ const CGFloat kRowDividerWidth = 320.0;
 	self = [super initWithFrame:frame];
 
 	if (self) {
-		title = [@"New Title" retain];
+		title = @"New Title";
 		[self setOpaque:NO];
 	}
 	return(self);
@@ -32,22 +32,16 @@ const CGFloat kRowDividerWidth = 320.0;
 	self = [super initWithCoder:coder];
 
 	if (self) {
-		title = [@"New Title" retain];
+		title = @"New Title";
 		[self setOpaque:NO];
 	}
 	return(self);
 }
 
-- (void) dealloc
-{
-	[title release];
-	[super dealloc];
-}
 
 - (void) setTitle:(NSString *)value
 {
 	if ([title isEqualToString:value]) return;
-	[title release];
 	title = [value copy];
 	[self setNeedsDisplay];
 }
@@ -100,7 +94,7 @@ const CGFloat kRowDividerWidth = 320.0;
 	color = [UIColor colorWithRed:0.319 green:0.319 blue:0.319 alpha:1.0];
 	[colors addObject:(id)[color CGColor]];
 	locations[1] = 1.0;
-	gradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, locations);
+	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
 	CGContextAddPath(context, path);
 	CGContextSaveGState(context);
 	CGContextEOClip(context);

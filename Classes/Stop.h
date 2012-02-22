@@ -14,14 +14,14 @@
 @interface Stop :  NSManagedObject
 {}
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSNumber *lon;
-@property (nonatomic, retain) NSString *tag;
-@property (nonatomic, retain) NSString *group;
-@property (nonatomic, retain) NSNumber *lat;
-@property (nonatomic, retain) Agency *agency;
-@property (nonatomic, retain) Stop *oppositeStop;
-@property (nonatomic, retain) NSSet *directions;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSNumber *lon;
+@property (nonatomic) NSString *tag;
+@property (nonatomic) NSString *group;
+@property (nonatomic) NSNumber *lat;
+@property (nonatomic) Agency *agency;
+@property (nonatomic) Stop *oppositeStop;
+@property (nonatomic) NSSet *directions;
 
 @end
 

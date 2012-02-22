@@ -13,13 +13,5 @@
 
 @synthesize stopTag, isMainRoute, agencyShortTitle, route;
 
-- (void) dealloc {
-
-	[stopTag release];
-	[agencyShortTitle release];
-	[route release];
-	[super dealloc];
-
-}
 
 @end
