@@ -49,7 +49,11 @@
     //[DataImporter importTransitData]; return;
 	
 	//PUBLIC
-	[FlurryAnalytics startSession:@"PLACEHOLDERAPIKEY"];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *finalPath = [path stringByAppendingPathComponent:@"config.plist"];
+    NSDictionary *configData = [[NSDictionary dictionaryWithContentsOfFile:finalPath] retain];
+	NSString *flurryKey = [configData valueForKey:@"flurryKey"];
+    [FlurryAnalytics startSession:flurryKey];
 	
     [FlurryAnalytics setSessionReportsOnCloseEnabled:NO];
     [FlurryAnalytics setSessionReportsOnPauseEnabled:NO];

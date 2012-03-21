@@ -4,5 +4,7 @@
 <dict>
 	<key>checkForUpdateURL</key>
 	<string></string>
+	<key>flurryKey</key>
+	<string></string>
 </dict>
 </plist>
