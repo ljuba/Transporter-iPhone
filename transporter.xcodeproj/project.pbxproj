@@ -498,7 +498,6 @@
 		32CA4F630368D1EE00C91783 /* transporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transporter_Prefix.pch; sourceTree = "<group>"; };
 		3F4B5E22125D58740056014D /* FavoritesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesTest.h; sourceTree = "<group>"; };
 		3F4B5E23125D58740056014D /* FavoritesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesTest.m; sourceTree = "<group>"; };
-		3FAEC6E4125D50AF00F75025 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		3FAEC71F125D515200F75025 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3FAEC744125D521B00F75025 /* FavoritesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesTest.h; sourceTree = "<group>"; };
 		3FAEC745125D521B00F75025 /* FavoritesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesTest.m; sourceTree = "<group>"; };
@@ -1112,7 +1111,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				3FAEC6E4125D50AF00F75025 /* Test-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
