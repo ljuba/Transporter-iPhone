@@ -59,7 +59,6 @@
 		FA48893F118657D900D04227 /* BartStopDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = FA48893E118657D900D04227 /* BartStopDetails.m */; };
 		FA48B544117E92DA009A8583 /* TripPlannerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA48B542117E92DA009A8583 /* TripPlannerVC.m */; };
 		FA48B545117E92DA009A8583 /* TripPlannerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA48B543117E92DA009A8583 /* TripPlannerVC.xib */; };
-		FA490E2E14EC42C10043D6CB /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA490E2D14EC42C10043D6CB /* config.plist */; };
 		FA4ABB6411729E2C000B66BE /* route-wide-button-background-enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4ABB6311729E2C000B66BE /* route-wide-button-background-enabled.png */; };
 		FA4ABB7111729FEC000B66BE /* route-wide-button-background-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4ABB7011729FEC000B66BE /* route-wide-button-background-highlighted.png */; };
 		FA4C47C912681C890078F6EB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C47C712681C890078F6EB /* Default@2x.png */; };
@@ -378,6 +377,7 @@
 		FAD37690145CBCA300C5654A /* NSString+PercentEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD3768F145CBCA300C5654A /* NSString+PercentEncode.m */; };
 		FAD690A01460C42500D4DD9C /* ParticipateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6909E1460C42500D4DD9C /* ParticipateVC.m */; };
 		FAD690A11460C42500D4DD9C /* ParticipateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD6909F1460C42500D4DD9C /* ParticipateVC.xib */; };
+		FAD9F211151A8B7600C3DFFD /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD9F210151A8B7600C3DFFD /* config.plist */; };
 		FADAF16B11685DCF00A76945 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FADAF16A11685DCF00A76945 /* QuartzCore.framework */; };
 		FADB2C931153214B00F60A09 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = FADB2C921153214B00F60A09 /* location.png */; };
 		FADB358712664E4E008501E6 /* seg-topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = FADB357F12664E4E008501E6 /* seg-topbar.png */; };
@@ -567,7 +567,6 @@
 		FA48B541117E92DA009A8583 /* TripPlannerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripPlannerVC.h; sourceTree = "<group>"; };
 		FA48B542117E92DA009A8583 /* TripPlannerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripPlannerVC.m; sourceTree = "<group>"; };
 		FA48B543117E92DA009A8583 /* TripPlannerVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripPlannerVC.xib; sourceTree = "<group>"; };
-		FA490E2D14EC42C10043D6CB /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		FA4ABB6311729E2C000B66BE /* route-wide-button-background-enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "route-wide-button-background-enabled.png"; sourceTree = "<group>"; };
 		FA4ABB7011729FEC000B66BE /* route-wide-button-background-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "route-wide-button-background-highlighted.png"; sourceTree = "<group>"; };
 		FA4C47C712681C890078F6EB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -937,6 +936,7 @@
 		FAD6909D1460C42500D4DD9C /* ParticipateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipateVC.h; sourceTree = "<group>"; };
 		FAD6909E1460C42500D4DD9C /* ParticipateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipateVC.m; sourceTree = "<group>"; };
 		FAD6909F1460C42500D4DD9C /* ParticipateVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ParticipateVC.xib; sourceTree = "<group>"; };
+		FAD9F210151A8B7600C3DFFD /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		FADAF16A11685DCF00A76945 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FADB2C921153214B00F60A09 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		FADB357F12664E4E008501E6 /* seg-topbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seg-topbar.png"; sourceTree = "<group>"; };
@@ -1139,7 +1139,7 @@
 				FA2DBDFB114DD8AF003F9407 /* images */,
 				8D1107310486CEB800E47090 /* transporter-Info.plist */,
 				FA705B1A118281D600F37DA4 /* Entitlements.plist */,
-				FA490E2D14EC42C10043D6CB /* config.plist */,
+				FAD9F210151A8B7600C3DFFD /* config.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2566,7 +2566,7 @@
 				FA70F52514CDF5A40061F3AC /* sf-muni_T OWL.jpg in Resources */,
 				FA0F4DB214CE3705003CEF27 /* kronos.sqlite in Resources */,
 				FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */,
-				FA490E2E14EC42C10043D6CB /* config.plist in Resources */,
+				FAD9F211151A8B7600C3DFFD /* config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
