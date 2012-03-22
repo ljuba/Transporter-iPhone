@@ -1,7 +1,5 @@
 .DS_Store
-transporter.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad/UserInterfaceState.xcuserstate
-transporter.xcodeproj/xcuserdata/*.xcuserdatad/xcschemes/transporter.xcscheme
-transporter.xcodeproj/xcuserdata/*.xcuserdatad/xcschemes/xcschememanagement.plist
-transporter.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+transporter.xcodeproj/xcuserdata*
+transporter.xcodeproj/project.xcworkspace*
 *build*
 
