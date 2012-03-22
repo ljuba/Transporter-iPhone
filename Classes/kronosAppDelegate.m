@@ -33,55 +33,33 @@
 #import "LiveRouteTVC.h"
 #import "FlurryAnalytics.h"
 #import "TouchXML.h"
-<<<<<<< HEAD
-=======
 #import "FlurryAnalytics.h"
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 #import "Appirater.h"
 
 @implementation kronosAppDelegate
 
-<<<<<<< HEAD
-@synthesize window, tabBarController, predictionsManager, updateManager, importing;
 
-=======
 @synthesize window, tabBarController, predictionsManager, importing, updateManager;
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
+
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-<<<<<<< HEAD
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-	
-
-=======
 - (void) applicationDidFinishLaunching:(UIApplication *)application {
 	
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
     //[DataImporter importTransitData]; return;
 	
 	//PUBLIC
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *finalPath = [path stringByAppendingPathComponent:@"config.plist"];
-<<<<<<< HEAD
-    NSDictionary *configData = [[NSDictionary dictionaryWithContentsOfFile:finalPath] retain];
-=======
     NSDictionary *configData = [NSDictionary dictionaryWithContentsOfFile:finalPath];
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 	NSString *flurryKey = [configData valueForKey:@"flurryKey"];
+
     [FlurryAnalytics startSession:flurryKey];
 	
     [FlurryAnalytics setSessionReportsOnCloseEnabled:NO];
     [FlurryAnalytics setSessionReportsOnPauseEnabled:NO];
-<<<<<<< HEAD
 
-    
-	
-	
-=======
-    
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 	[application setStatusBarStyle:UIStatusBarStyleBlackOpaque]; 
 	
 	predictionsManager = [[PredictionsManager alloc] init];
@@ -110,11 +88,7 @@
 	[window makeKeyAndVisible];
 	
 	[Appirater appLaunched:YES];
-<<<<<<< HEAD
-		
-=======
-    
->>>>>>> Updated with the previous few commits (added Readme, added config.plist)
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -182,10 +156,9 @@
 		if ([navController.topViewController isKindOfClass:[StopDetails class]]) {
 			NSLog(@"StopDetails Saved"); /* DEBUG LOG */
 			
-			Stop *stop = [[(StopDetails *)(navController.topViewController) stop] retain];
+			Stop *stop = [(StopDetails *)(navController.topViewController) stop];
 			
 			[DataHelper saveStopObjectIDInUserDefaults:stop];
-			[stop release];
 			[userDefaults setObject:@"StopDetails" forKey:@"savedViewController"];
 		}
 		else if ([navController.topViewController isMemberOfClass:[LiveRouteTVC class]]) {
@@ -193,14 +166,11 @@
 			
 			LiveRouteTVC *liveRouteTVC = (LiveRouteTVC *)navController.topViewController;
 			
-			Stop *stop = [[liveRouteTVC startingStop] retain];
-			Direction *direction = [[liveRouteTVC direction] retain];
+			Stop *stop = [liveRouteTVC startingStop];
+			Direction *direction = [liveRouteTVC direction];
 			
 			[DataHelper saveStopObjectIDInUserDefaults:stop];
 			[DataHelper saveDirectionIDInUserDefaults:direction forKey:@"liveRouteDirectionURIData"];
-			
-			[stop release];
-			[direction release];
 			
 			[userDefaults setObject:@"LiveRoute" forKey:@"savedViewController"];
 		}
@@ -271,8 +241,7 @@
 		//favorites VC is already loaded from nib
 		FavoritesVC *favoritesVC = (FavoritesVC *)[favoritesNavController topViewController];
 		UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
-		favoritesVC.navigationItem.backBarButtonItem = backButton;
-		[backButton release];		
+		favoritesVC.navigationItem.backBarButtonItem = backButton;		
 		
 		[self restoreStopDetailsWithStop:savedStop mainDirection:nil toNavController:favoritesNavController];
 		
@@ -346,7 +315,6 @@
 			directionsVC.navigationItem.backBarButtonItem = directionsBackButton;					
 			
 			[linesNavController pushViewController:directionsVC animated:NO];
-			[directionsVC release];
 			
 			//load stops screen
 			StopsTVC *stopsTVC = [[StopsTVC alloc] init];
@@ -357,7 +325,6 @@
 			stopsTVC.navigationItem.backBarButtonItem = stopBackButton;
 			
 			[linesNavController pushViewController:stopsTVC animated:NO];
-			[stopsTVC release];
 			
 			[self restoreStopDetailsWithStop:savedStop mainDirection:mainDirection toNavController:linesNavController];
 						
@@ -380,7 +347,6 @@
 	liveRouteTVC.startingStop = stop;
 	liveRouteTVC.direction = [self savedDirectionFromUserDefaultsForKey:@"liveRouteDirectionURIData"];
 	[navController pushViewController:liveRouteTVC animated:NO];
-	[liveRouteTVC release];
 	
 }
 
@@ -404,7 +370,6 @@
 		bartStopDetails.stop = stop;
 		bartStopDetails.navigationItem.backBarButtonItem = backButton;
 		[navController pushViewController:bartStopDetails animated:NO];
-		[bartStopDetails release];
 		
 		
 	}
@@ -419,7 +384,6 @@
 		
 		nextBusStopDetails.navigationItem.backBarButtonItem = backButton;
 		[navController pushViewController:nextBusStopDetails animated:NO];
-		[nextBusStopDetails release];
 	}
 }
 
@@ -500,7 +464,7 @@
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
     return managedObjectModel;
 }
 
@@ -578,23 +542,6 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
-	
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-	
-	[updateManager release];
-	[predictionsManager release];
-	
-	[tabBarController release];
-	[window release];
-	[super dealloc];
-}
 
 
 @end
