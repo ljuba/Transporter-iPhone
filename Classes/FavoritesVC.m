@@ -82,7 +82,8 @@
 
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	BOOL declinedToParticipate = [userDefaults boolForKey:@"declinedToParticipate"];
-
+    declinedToParticipate = YES;    //REMOVE THE BANNER: force the choice of participation to NO
+    
 	// don't show the participate banner. force this choice.
 	if (declinedToParticipate == YES) {
 
