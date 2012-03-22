@@ -3,5 +3,5 @@ transporter.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad/UserInterface
 transporter.xcodeproj/xcuserdata/*.xcuserdatad/xcschemes/transporter.xcscheme
 transporter.xcodeproj/xcuserdata/*.xcuserdatad/xcschemes/xcschememanagement.plist
 transporter.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-
+*build*
 
