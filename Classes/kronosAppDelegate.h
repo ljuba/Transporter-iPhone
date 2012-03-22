@@ -7,6 +7,7 @@
 //
 #import "PredictionsManager.h"
 #import "Stop.h"
+#import "UpdateManager.h"
 
 @interface kronosAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 
@@ -20,6 +21,8 @@
 	UITabBarController *tabBarController;
 
 	BOOL importing;
+    
+    UpdateManager *updateManager;
 
 }
 
@@ -32,6 +35,8 @@
 @property (nonatomic) IBOutlet UIWindow *window;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
 @property BOOL importing;
+
+@property (nonatomic) UpdateManager *updateManager;
 
 - (NSTimeInterval) secondsSinceLastLaunch;
 - (void) restoreToSavedRootViewController;

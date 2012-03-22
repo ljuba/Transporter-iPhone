@@ -320,6 +320,8 @@
 		FAAD342A128B46B800901771 /* update.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAAD3429128B46B800901771 /* update.plist */; };
 		FAB0EF1F118B83BD00E64756 /* radar.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB0EF1E118B83BD00E64756 /* radar.png */; };
 		FAB0EF42118B882500E64756 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB0EF41118B882500E64756 /* star.png */; };
+		FAB11D60151BB42A0058D9B3 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAB11D5F151BB42A0058D9B3 /* config.plist */; };
+		FAB11D69151BB5EF0058D9B3 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = FAB11D68151BB5EF0058D9B3 /* README.txt */; };
 		FAB36CD9115B03DA0037939D /* PredictorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB36CD8115B03DA0037939D /* PredictorOperation.m */; };
 		FABA609F114F41AA0005DB9A /* DirectionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA609E114F41AA0005DB9A /* DirectionsVC.m */; };
 		FABA61A6114F4FA70005DB9A /* StopsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA61A5114F4FA70005DB9A /* StopsTVC.m */; };
@@ -843,6 +845,8 @@
 		FAAD3429128B46B800901771 /* update.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = update.plist; sourceTree = "<group>"; };
 		FAB0EF1E118B83BD00E64756 /* radar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radar.png; sourceTree = "<group>"; };
 		FAB0EF41118B882500E64756 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		FAB11D5F151BB42A0058D9B3 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = config.plist; path = ../config.plist; sourceTree = "<group>"; };
+		FAB11D68151BB5EF0058D9B3 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		FAB36CD7115B03DA0037939D /* PredictorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredictorOperation.h; sourceTree = "<group>"; };
 		FAB36CD8115B03DA0037939D /* PredictorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredictorOperation.m; sourceTree = "<group>"; wrapsLines = 1; };
 		FABA609D114F41AA0005DB9A /* DirectionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionsVC.h; sourceTree = "<group>"; };
@@ -1128,12 +1132,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FAB11D68151BB5EF0058D9B3 /* README.txt */,
 				FA7AA04C123CA0DD004FDDBE /* Icon-72.png */,
 				FA7AA02D123C9EC7004FDDBE /* Icon.png */,
 				FA7AA01E123C9E9F004FDDBE /* Icon@2x.png */,
 				FA65F8A3116291580004D8B3 /* data */,
 				FA2DBDFB114DD8AF003F9407 /* images */,
 				8D1107310486CEB800E47090 /* transporter-Info.plist */,
+				FAB11D5F151BB42A0058D9B3 /* config.plist */,
 				FA705B1A118281D600F37DA4 /* Entitlements.plist */,
 			);
 			name = Resources;
@@ -2565,6 +2571,8 @@
 				FA07A2A0151BA3CC001CCC6E /* bart-icon.png in Resources */,
 				FA07A2A2151BA3FC001CCC6E /* rail-icon.png in Resources */,
 				FA07A2A4151BA41E001CCC6E /* blue-button.png in Resources */,
+				FAB11D60151BB42A0058D9B3 /* config.plist in Resources */,
+				FAB11D69151BB5EF0058D9B3 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

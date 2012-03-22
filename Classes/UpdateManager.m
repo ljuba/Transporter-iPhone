@@ -94,10 +94,12 @@
     @autoreleasepool {
        
         NSLog(@"checking for remote update");
-	
-        NSString *urlString = @"http://www.exergydesign.com/check.php";
-	
-        NSLog(@"%@", urlString); /* DEBUG LOG */
+        
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSString *finalPath = [path stringByAppendingPathComponent:@"config.plist"];
+        NSDictionary *configData = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+        
+        NSString *urlString = [configData valueForKey:@"checkForUpdateURL"];
 	
         //have to replace the unicode character | with escape characters 
         NSURL *url = [[NSURL alloc] initWithString:urlString];

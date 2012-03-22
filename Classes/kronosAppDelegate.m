@@ -33,34 +33,55 @@
 #import "LiveRouteTVC.h"
 #import "FlurryAnalytics.h"
 #import "TouchXML.h"
+<<<<<<< HEAD
+=======
+#import "FlurryAnalytics.h"
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 #import "Appirater.h"
 
 @implementation kronosAppDelegate
 
+<<<<<<< HEAD
 @synthesize window, tabBarController, predictionsManager, updateManager, importing;
 
+=======
+@synthesize window, tabBarController, predictionsManager, importing, updateManager;
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 
 #pragma mark -
 #pragma mark Application lifecycle
 
+<<<<<<< HEAD
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
 	
 
+=======
+- (void) applicationDidFinishLaunching:(UIApplication *)application {
+	
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
     //[DataImporter importTransitData]; return;
 	
 	//PUBLIC
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *finalPath = [path stringByAppendingPathComponent:@"config.plist"];
+<<<<<<< HEAD
     NSDictionary *configData = [[NSDictionary dictionaryWithContentsOfFile:finalPath] retain];
+=======
+    NSDictionary *configData = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 	NSString *flurryKey = [configData valueForKey:@"flurryKey"];
     [FlurryAnalytics startSession:flurryKey];
 	
     [FlurryAnalytics setSessionReportsOnCloseEnabled:NO];
     [FlurryAnalytics setSessionReportsOnPauseEnabled:NO];
+<<<<<<< HEAD
 
     
 	
 	
+=======
+    
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 	[application setStatusBarStyle:UIStatusBarStyleBlackOpaque]; 
 	
 	predictionsManager = [[PredictionsManager alloc] init];
@@ -89,7 +110,11 @@
 	[window makeKeyAndVisible];
 	
 	[Appirater appLaunched:YES];
+<<<<<<< HEAD
 		
+=======
+    
+>>>>>>> Updated with the previous few commits (added Readme, added config.plist)
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

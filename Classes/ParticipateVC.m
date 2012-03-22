@@ -8,7 +8,6 @@
 
 #import "ParticipateVC.h"
 #import "kronosAppDelegate.h"
-#import "FlurryAnalytics.h"
 
 @implementation ParticipateVC
 
@@ -123,9 +122,7 @@
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:YES forKey:@"declinedToParticipate"];
         [self.navigationController popToRootViewControllerAnimated:YES];        
-        
-        [FlurryAnalytics logEvent:@"Hide Participation Message"];
-    
+            
     }
  
 }
