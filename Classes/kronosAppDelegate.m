@@ -21,8 +21,6 @@
 #import "DataImporter.h"
 #import "Stop.h"
 #import "DataHelper.h"
-
-
 #import "BartStopDetails.h"
 #import "NextBusStopDetails.h"
 #import "FavoritesVC.h"
