@@ -24,13 +24,7 @@
 }
 
 
-- (void) dealloc
-{	
-	[updateTime release];
-	[dataURL release];
-	[imagesURL release];
-	[super dealloc];
-}
+
 
 
 @end

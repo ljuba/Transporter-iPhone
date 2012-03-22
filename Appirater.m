@@ -105,11 +105,11 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 }
 
 - (void)showRatingAlert {
-	UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:APPIRATER_MESSAGE_TITLE
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:APPIRATER_MESSAGE_TITLE
 														 message:APPIRATER_MESSAGE
 														delegate:self
 											   cancelButtonTitle:APPIRATER_CANCEL_BUTTON
-											   otherButtonTitles:APPIRATER_RATE_BUTTON, APPIRATER_RATE_LATER, nil] autorelease];
+											   otherButtonTitles:APPIRATER_RATE_BUTTON, APPIRATER_RATE_LATER, nil];
 	[alertView show];
 }
 
@@ -258,33 +258,35 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 @implementation Appirater
 
 - (void)incrementAndRate:(NSNumber*)_canPromptForRating {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	[self incrementUseCount];
-	
-	if ([_canPromptForRating boolValue] == YES &&
-		[self ratingConditionsHaveBeenMet] &&
-		[self connectedToNetwork])
-	{
-		[self performSelectorOnMainThread:@selector(showRatingAlert) withObject:nil waitUntilDone:NO];
+    @autoreleasepool {
+    
+    
+        [self incrementUseCount];
+        
+        if ([_canPromptForRating boolValue] == YES &&
+            [self ratingConditionsHaveBeenMet] &&
+            [self connectedToNetwork])
+        {
+            [self performSelectorOnMainThread:@selector(showRatingAlert) withObject:nil waitUntilDone:NO];
+        }
 	}
-	
-	[pool release];
 }
 
 - (void)incrementSignificantEventAndRate:(NSNumber*)_canPromptForRating {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	[self incrementSignificantEventCount];
-	
-	if ([_canPromptForRating boolValue] == YES &&
-		[self ratingConditionsHaveBeenMet] &&
-		[self connectedToNetwork])
-	{
-		[self performSelectorOnMainThread:@selector(showRatingAlert) withObject:nil waitUntilDone:NO];
-	}
-	
-	[pool release];
+    @autoreleasepool {
+        
+        [self incrementSignificantEventCount];
+        
+        if ([_canPromptForRating boolValue] == YES &&
+            [self ratingConditionsHaveBeenMet] &&
+            [self connectedToNetwork])
+        {
+            [self performSelectorOnMainThread:@selector(showRatingAlert) withObject:nil waitUntilDone:NO];
+        }
+    }
+    
 }
 
 + (void)appLaunched {
@@ -307,7 +309,6 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 	[NSThread detachNewThreadSelector:@selector(incrementAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];
-	[_canPromptForRating release];
 }
 
 + (void)appEnteredForeground:(BOOL)canPromptForRating {
@@ -315,7 +316,6 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 	[NSThread detachNewThreadSelector:@selector(incrementAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];
-	[_canPromptForRating release];
 }
 
 + (void)userDidSignificantEvent:(BOOL)canPromptForRating {
@@ -323,7 +323,6 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 	[NSThread detachNewThreadSelector:@selector(incrementSignificantEventAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];
-	[_canPromptForRating release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

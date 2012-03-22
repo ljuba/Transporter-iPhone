@@ -29,7 +29,6 @@
 - (NSString *) durationLabelText;
 - (NSString *) costLabelText;
 
-- (void) printDescription;
 - (void) processData;
 
 @end

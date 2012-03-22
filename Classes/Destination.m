@@ -19,16 +19,9 @@
 
 		self.destinationStop = _destinationStop;
 		self.stop = _stop;
-		self.routes = [DataHelper uniqueRoutesForStop:_stop];
-<<<<<<< HEAD
-		
-		self.colors = [[NSMutableArray alloc] init];
-		
-=======
-
+		self.routes = [DataHelper uniqueRoutesForStop:_stop];		
 		self.colors = [[NSMutableArray alloc] init];
 
->>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
 		for (Route *route in routes) {
 
 			for (Direction *dir in [route.directions allObjects])

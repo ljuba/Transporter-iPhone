@@ -137,8 +137,10 @@
 	[mapView setRegion:region animated:NO];
 	[mapView regionThatFits:region];
 
-	mapDelegate = [[TripOverviewMapDelegate alloc] init];
-	mapView.delegate = mapDelegate;
+    
+    //DON'T KNOW WHAT'S UP WITH THESE LINES OF CODE
+	//mapDelegate = [[TripOverviewMapDelegate alloc] init];
+	//mapView.delegate = mapDelegate;
 
 }
 

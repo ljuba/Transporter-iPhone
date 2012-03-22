@@ -91,75 +91,65 @@
 // Get the active update, compare with current version
 - (void)checkForRemoteUpdate {
 	
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
+       
+        NSLog(@"checking for remote update");
 	
-	NSLog(@"checking for remote update");
+        NSString *urlString = @"http://www.exergydesign.com/check.php";
 	
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSString *finalPath = [path stringByAppendingPathComponent:@"config.plist"];
-    NSDictionary *configData = [[NSDictionary dictionaryWithContentsOfFile:finalPath] retain];
-    
-	NSString *urlString = [configData valueForKey:@"checkForUpdateURL"];
+        NSLog(@"%@", urlString); /* DEBUG LOG */
 	
-	NSLog(@"%@", urlString); /* DEBUG LOG */
-	
-	//have to replace the unicode character | with escape characters 
-	NSURL *url = [[NSURL alloc] initWithString:urlString];
-	
-	//get the contents of the URL
-	NSError *error;
-	CXMLDocument *updateDocument = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error] autorelease];
-		
-	[url release];
-	
-	if (error != nil) {
-		
-		NSLog(@"update check not working...");
-		
-	}
-	
-	//PARSE THE RETURNED PREDICTIONS XML FILE
-	
-	//the xml nodes that contain arrivals for a particular stop/route
-	NSArray *updateNodes = [updateDocument nodesForXPath:@"/update" error:nil];
-	
-	CXMLElement *updateElement = [updateNodes objectAtIndex:0];
-	
-	int activeDataVersion = [[[updateElement attributeForName:@"version"] stringValue] intValue];
-	
-	if (activeDataVersion > [self dataVersion]) {
-		
-		NSLog(@"Time to download some data");
-		
-		CXMLElement *dataElement = [[updateElement nodesForXPath:@"data" error:nil] objectAtIndex:0];
-		NSString *dataURLString = [[dataElement attributeForName:@"resource"] stringValue];
-		NSURL *dataURL = [[NSURL alloc] initWithString:dataURLString];
-		
-		NSLog(@"%@", dataURLString);
-		
-		CXMLElement *imagesElement = [[updateElement nodesForXPath:@"images" error:nil] objectAtIndex:0];
-		NSString *imagesURLString = [[imagesElement attributeForName:@"resource"] stringValue];
-		NSURL *imagesURL = [[NSURL alloc] initWithString:imagesURLString];
-		
-		NSLog(@"%@", imagesURLString);
-		
-		Update *update = [[Update alloc] init];
-		update.version = activeDataVersion;
-		update.dataURL = dataURL;
-		update.imagesURL = imagesURL;
-		
-		[dataURL release];
-		[imagesURL release];
-		
-		[self downloadUpdate:update];
-		
-		[update release];
-	}
-	else {
-		NSLog(@"You have the latest version of the data");
-	}
+        //have to replace the unicode character | with escape characters 
+        NSURL *url = [[NSURL alloc] initWithString:urlString];
+        
+        //get the contents of the URL
+        NSError *error;
+        CXMLDocument *updateDocument = [[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
+                
+        if (error != nil) {
+            
+            NSLog(@"update check not working...");
+            
+        }
+        
+        //PARSE THE RETURNED PREDICTIONS XML FILE
+        
+        //the xml nodes that contain arrivals for a particular stop/route
+        NSArray *updateNodes = [updateDocument nodesForXPath:@"/update" error:nil];
+        
+        CXMLElement *updateElement = [updateNodes objectAtIndex:0];
+        
+        int activeDataVersion = [[[updateElement attributeForName:@"version"] stringValue] intValue];
+        
+        if (activeDataVersion > [self dataVersion]) {
+            
+            NSLog(@"Time to download some data");
+            
+            CXMLElement *dataElement = [[updateElement nodesForXPath:@"data" error:nil] objectAtIndex:0];
+            NSString *dataURLString = [[dataElement attributeForName:@"resource"] stringValue];
+            NSURL *dataURL = [[NSURL alloc] initWithString:dataURLString];
+            
+            NSLog(@"%@", dataURLString);
+            
+            CXMLElement *imagesElement = [[updateElement nodesForXPath:@"images" error:nil] objectAtIndex:0];
+            NSString *imagesURLString = [[imagesElement attributeForName:@"resource"] stringValue];
+            NSURL *imagesURL = [[NSURL alloc] initWithString:imagesURLString];
+            
+            NSLog(@"%@", imagesURLString);
+            
+            Update *update = [[Update alloc] init];
+            update.version = activeDataVersion;
+            update.dataURL = dataURL;
+            update.imagesURL = imagesURL;
+            
+            [self downloadUpdate:update];
+            
+        }
+        else {
+            NSLog(@"You have the latest version of the data");
+        }
 
-	[pool drain];
+	}
 	
 }
 

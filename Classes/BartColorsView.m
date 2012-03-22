@@ -12,18 +12,6 @@
 
 @synthesize redImage, orangeImage, yellowImage, greenImage, blueImage, colors;
 
-<<<<<<< HEAD
-- (id)initWithColors:(NSArray *)_colors atPoint:(CGPoint)point {
-   
-	if ((self = [super init])) {
-		
-		self.redImage = [[UIImage imageNamed:@"bart-red.png"] retain];
-		self.orangeImage = [[UIImage imageNamed:@"bart-orange.png"] retain];
-		self.yellowImage = [[UIImage imageNamed:@"bart-yellow.png"] retain];
-		self.greenImage = [[UIImage imageNamed:@"bart-green.png"] retain];
-		self.blueImage = [[UIImage imageNamed:@"bart-blue.png"] retain];
-		
-=======
 - (id) initWithColors:(NSArray *)_colors atPoint:(CGPoint)point {
 
 	if ( (self = [super init]) ) {
@@ -33,8 +21,7 @@
 		self.yellowImage = [UIImage imageNamed:@"bart-yellow.png"];
 		self.greenImage = [UIImage imageNamed:@"bart-green.png"];
 		self.blueImage = [UIImage imageNamed:@"bart-blue.png"];
-
->>>>>>> f934f2f... shove code through an uncrustify profile. Not ideal formatting, but, at least its consistent
+        
 		self.opaque = NO;
 
 		colors = _colors;

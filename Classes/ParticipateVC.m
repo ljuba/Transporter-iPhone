@@ -84,7 +84,6 @@
 	[controller setSubject:@"Transporter, heck ya!"];
 	[controller setMessageBody:body isHTML:NO];
 	[self presentModalViewController:controller animated:YES];
-	[controller release];
     
  
 }
@@ -98,7 +97,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Great To Have You!" message:@"Hang tight for an invitation to the \n Bay Area Public Transit Future Group." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
-        [alert release];
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:YES forKey:@"declinedToParticipate"];
@@ -115,7 +113,6 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:@"Are you sure you never want \n to see this message again?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
     
     [alert show];
-    [alert release];
     
 }
 
@@ -147,9 +144,4 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
-    [hideButton release];
-    [signUpButton release];
-    [super dealloc];
-}
 @end

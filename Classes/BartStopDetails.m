@@ -386,7 +386,7 @@
 			cell = [[LineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LineCellIdentifier];
 			cell.lineCellView = [[DestinationCellView alloc] init];
 			[cell.contentView addSubview:cell.lineCellView];
-			[cell.lineCellView release];
+
 		}
 		Destination *destination = (Destination *)object;
 

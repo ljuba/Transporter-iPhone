@@ -2686,8 +2686,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FlurryLibWithLocation\"",
-					"\"$(SRCROOT)/FlurryLib\"",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2716,8 +2714,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FlurryLibWithLocation\"",
-					"\"$(SRCROOT)/FlurryLib\"",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2848,8 +2844,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FlurryLibWithLocation\"",
-					"\"$(SRCROOT)/FlurryLib\"",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2913,8 +2907,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FlurryLibWithLocation\"",
-					"\"$(SRCROOT)/FlurryLib\"",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
