@@ -497,8 +497,6 @@
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* transporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transporter_Prefix.pch; sourceTree = "<group>"; };
-		3F4B5E22125D58740056014D /* FavoritesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesTest.h; sourceTree = "<group>"; };
-		3F4B5E23125D58740056014D /* FavoritesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesTest.m; sourceTree = "<group>"; };
 		3FAEC71F125D515200F75025 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3FAEC744125D521B00F75025 /* FavoritesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesTest.h; sourceTree = "<group>"; };
 		3FAEC745125D521B00F75025 /* FavoritesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesTest.m; sourceTree = "<group>"; };
@@ -595,6 +593,8 @@
 		FA5605011152F5C800ABF7C8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FA56057C1152FD9800ABF7C8 /* StopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopAnnotation.m; sourceTree = "<group>"; };
 		FA56057D1152FD9800ABF7C8 /* StopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopAnnotation.h; sourceTree = "<group>"; };
+		FA5F0C2B151D71850047EAA4 /* FavoritesTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoritesTest.h; sourceTree = "<group>"; };
+		FA5F0C2C151D71850047EAA4 /* FavoritesTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FavoritesTest.m; sourceTree = "<group>"; };
 		FA60826F115B208F00062EC6 /* PredictionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredictionRequest.h; sourceTree = "<group>"; };
 		FA608270115B208F00062EC6 /* PredictionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredictionRequest.m; sourceTree = "<group>"; };
 		FA608314115B264A00062EC6 /* Prediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prediction.h; sourceTree = "<group>"; };
@@ -1167,8 +1167,8 @@
 		3F4B5D62125D54620056014D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				3F4B5E22125D58740056014D /* FavoritesTest.h */,
-				3F4B5E23125D58740056014D /* FavoritesTest.m */,
+				FA5F0C2B151D71850047EAA4 /* FavoritesTest.h */,
+				FA5F0C2C151D71850047EAA4 /* FavoritesTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
