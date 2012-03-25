@@ -46,6 +46,9 @@
     
     self.tableView.dataSource = self.stopsDelegate;
     self.tableView.delegate = self.stopsDelegate;
+    
+         
+
 }
 
 // turns off the timer that fetches predictions when the app is locked, and turns it back on again when it unlocks
