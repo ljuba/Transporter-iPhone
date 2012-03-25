@@ -239,7 +239,8 @@
 	[self setGoogleLogo:nil];
 	// Release any retained subviews of the main view.
 	self.routeMap = nil;
-
+    
+    locationManager.delegate = nil;
 }
 
 

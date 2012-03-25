@@ -82,9 +82,8 @@
 
 		Stop *stop = (Stop *)note.object;
 
-		BartStopDetails *bartStopDetailsVC = [[BartStopDetails alloc] init];
-		bartStopDetailsVC.stop = stop;
-
+		BartStopDetails *bartStopDetailsVC = [[BartStopDetails alloc] initWithStop:stop];
+        
 		[self.navigationController pushViewController:bartStopDetailsVC animated:YES];
 
 	}
@@ -111,7 +110,7 @@
 		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
 
 		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
-
+        
 		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		tableView.backgroundColor = [UIColor colorWithWhite:0.369 alpha:1.0];
 	}
@@ -194,7 +193,7 @@
 	// Release any retained subviews of the main view.
 
 	self.tableView = nil;
-
+    self.locationManager.delegate = nil;
 }
 
 - (void) dealloc {

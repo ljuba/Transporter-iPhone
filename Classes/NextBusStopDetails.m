@@ -14,6 +14,14 @@
 
 @synthesize mainDirection;
 
+- (id)initWithStop:(Stop *)newStop mainDirection:(Direction *)newMainDirection {
+    if (!(self = [super initWithStop:newStop])) return nil;
+    
+    self.mainDirection = newMainDirection;
+    
+    return self;
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad {
 	[super viewDidLoad];

@@ -15,7 +15,12 @@
 
 @implementation FavoritesVC
 
-@synthesize segmentedControl, tableView, reloadPredictionsButton, timer, stopsDelegate, editButton, noFavoritesMessageView;
+@synthesize tableView, timer, stopsDelegate, editButton, noFavoritesMessageView;
+
+- (void)dealloc {
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad {
@@ -30,21 +35,12 @@
 
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-
-	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Stops", @"Trips", nil]];
-	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	[self.segmentedControl addTarget:self action:@selector(tapSegmentedControl) forControlEvents:UIControlEventValueChanged];
-	self.segmentedControl.selectedSegmentIndex = 0;
-	[self.segmentedControl setWidth:95.0 forSegmentAtIndex:0];
-	[self.segmentedControl setWidth:95.0 forSegmentAtIndex:1];
-	self.segmentedControl.tintColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
-
-	// VERSION 1: Remove this to support trip planning
-	// self.navigationItem.titleView = segmentedControl;
-
+    
 	// setup the favorites delegates
 	self.stopsDelegate = [[FavoriteStopsDelegate alloc] init];
-
+    
+    self.tableView.dataSource = self.stopsDelegate;
+    self.tableView.delegate = self.stopsDelegate;
 }
 
 // turns off the timer that fetches predictions when the app is locked, and turns it back on again when it unlocks
@@ -68,11 +64,26 @@
 // load the favorites file everytime the view appears, not just when it loads
 - (void) viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-
-	// check the segmented control selection and load the appropriate favorites
-	// request predictions if you're looking at stops
-	[self tapSegmentedControl];
-
+    
+    // reload table contents from the favorites.plist file
+    [self.stopsDelegate loadFavoritesFile];
+    
+    // SETTINGS FOR WHEN THERE ARE NO FAVORITE STOPS
+    int numberOfFavorites = [self.stopsDelegate.contents count];
+    
+    if (numberOfFavorites == 0) {
+        [self.view addSubview:self.noFavoritesMessageView];
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    } else if (numberOfFavorites == 1) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        [self.noFavoritesMessageView removeFromSuperview];
+    } else {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        [self.noFavoritesMessageView removeFromSuperview];
+        
+    }
+    
+	[self.tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -88,7 +99,9 @@
 	[notificationCenter addObserver:self selector:@selector(toggleRequestPredictionsTimer:) name:UIApplicationWillResignActiveNotification object:nil];
 	[notificationCenter addObserver:self selector:@selector(toggleRequestPredictionsTimer:) name:UIApplicationDidBecomeActiveNotification object:nil];
 	// [notificationCenter addObserver:self selector:@selector(toggleRequestPredictionsTimer:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-
+    
+    // request predictions if you're looking at stops
+    [self requestPredictions];
 }
 
 // stop the automatic fetching of predictions once the view is gone
@@ -130,54 +143,49 @@
 
 // submits a request to the PredictionsManager for predictions of the displayed stops/routes. the results will come to the FavoriteStops Delegate
 - (void) requestPredictions {
-
-	// only load predictions for the stops screen. trips don't need predictions
-	if (self.segmentedControl.selectedSegmentIndex == 0) {
-
-		kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
-		PredictionsManager *predictionsManager = appDelegate.predictionsManager;
-
-		// NSLog(@"%@", self.favoritesDelegate.contents); /* DEBUG LOG */
-
-		// only request predictions of there are favorited stops
-		if ([self.stopsDelegate.contents count] > 0) {
-
-			NSMutableArray *requests = [NSMutableArray array];
-
-			// iterate through the stops on screen and create prediction requests from them
-			for (NSDictionary *stopItem in self.stopsDelegate.contents) {
-
-				NSString *agencyShortTitle = [stopItem valueForKey:@"agencyShortTitle"];
-				NSString *stopTag = [stopItem valueForKey:@"tag"];
-
-				if ([agencyShortTitle isEqual:@"bart"]) {
-
-					PredictionRequest *request = [[PredictionRequest alloc] init];
-					request.isMainRoute = NO;
-					request.agencyShortTitle = agencyShortTitle;
-					request.stopTag = stopTag;
-
-					[requests addObject:request];
-
-				} else
-
-					// iterate through the directions for all the stops to create prediction requests from them
-					for (NSDictionary *directionItem in [stopItem objectForKey : @"lines"]) {
-
-						PredictionRequest *request = [[PredictionRequest alloc] init];
-						request.stopTag = stopTag;
-						request.route = [DataHelper routeWithTag:[directionItem valueForKey:@"routeTag"] inAgencyWithShortTitle:agencyShortTitle];
-						request.agencyShortTitle = agencyShortTitle;
-						request.isMainRoute = NO;
-
-						[requests addObject:request];
-					}
-			}
-			// request predictions for the stops in the favorites screen
-			[NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
-			NSLog(@"FavoritesVC: predictions requested"); /* DEBUG LOG */
-		}
-	}
+    kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
+    PredictionsManager *predictionsManager = appDelegate.predictionsManager;
+    
+    // NSLog(@"%@", self.favoritesDelegate.contents); /* DEBUG LOG */
+    
+    // only request predictions of there are favorited stops
+    if ([self.stopsDelegate.contents count] > 0) {
+        
+        NSMutableArray *requests = [NSMutableArray array];
+        
+        // iterate through the stops on screen and create prediction requests from them
+        for (NSDictionary *stopItem in self.stopsDelegate.contents) {
+            NSLog(@"requesting with stop item: %@", stopItem);
+            NSString *agencyShortTitle = [stopItem valueForKey:@"agencyShortTitle"];
+            NSString *stopTag = [stopItem valueForKey:@"tag"];
+            
+            if ([agencyShortTitle isEqual:@"bart"]) {
+                
+                PredictionRequest *request = [[PredictionRequest alloc] init];
+                request.isMainRoute = NO;
+                request.agencyShortTitle = agencyShortTitle;
+                request.stopTag = stopTag;
+                
+                [requests addObject:request];
+                
+            } else
+                
+                // iterate through the directions for all the stops to create prediction requests from them
+                for (NSDictionary *directionItem in [stopItem objectForKey : @"lines"]) {
+                    
+                    PredictionRequest *request = [[PredictionRequest alloc] init];
+                    request.stopTag = stopTag;
+                    request.route = [DataHelper routeWithTag:[directionItem valueForKey:@"routeTag"] inAgencyWithShortTitle:agencyShortTitle];
+                    request.agencyShortTitle = agencyShortTitle;
+                    request.isMainRoute = NO;
+                    
+                    [requests addObject:request];
+                }
+        }
+        // request predictions for the stops in the favorites screen
+        [NSThread detachNewThreadSelector:@selector(requestPredictionsForRequests:) toTarget:predictionsManager withObject:requests];
+        NSLog(@"FavoritesVC: predictions requested"); /* DEBUG LOG */
+    }
 }
 
 // method called when PredictionsManager returns predictions. set the predictions variable in the favoritestops delegate and reload the tableview
@@ -223,51 +231,6 @@
 
 }
 
-// responds to the tap of the favorites segmented control and loads the appropriate favorites (stops or trips)
-- (void) tapSegmentedControl {
-
-	// stops
-	if (self.segmentedControl.selectedSegmentIndex == 0) {
-		self.reloadPredictionsButton.enabled = YES;
-
-		// reload table contents from the favorites.plist file
-		[self.stopsDelegate loadFavoritesFile];
-
-		self.tableView.dataSource = self.stopsDelegate;
-		self.tableView.delegate = self.stopsDelegate;
-
-		// SETTINGS FOR WHEN THERE ARE NO FAVORITE STOPS
-		int numberOfFavorites = [self.stopsDelegate.contents count];
-
-		if (numberOfFavorites == 0) {
-			[self.view addSubview:self.noFavoritesMessageView];
-			self.navigationItem.rightBarButtonItem.enabled = NO;
-		} else if (numberOfFavorites == 1) {
-			self.navigationItem.rightBarButtonItem.enabled = NO;
-			[self.noFavoritesMessageView removeFromSuperview];
-		} else {
-			self.navigationItem.rightBarButtonItem.enabled = YES;
-			[self.noFavoritesMessageView removeFromSuperview];
-
-		}
-		[self requestPredictions];
-
-	}
-	// trips
-	else if (self.segmentedControl.selectedSegmentIndex == 1) {
-		self.reloadPredictionsButton.enabled = NO;
-		self.tableView.dataSource = nil;
-		self.tableView.delegate = nil;
-
-		[self.noFavoritesMessageView removeFromSuperview];
-	}
-	[self.tableView reloadData];
-
-	// NSIndexPath *topPath = [NSIndexPath indexPathForRow:0 inSection:0];
-	// [tableView scrollToRowAtIndexPath:topPath atScrollPosition: UITableViewScrollPositionNone animated:NO];
-
-}
-
 // loads the stop screen if a favorite stop is selected or a trip screen is a favorite trip is selected
 - (void) loadNextViewController:(NSNotification *)note {
 
@@ -278,14 +241,12 @@
 		NSString *agencyShortTitle = [[DataHelper agencyFromStop:stop] shortTitle];
 
 		if ([agencyShortTitle isEqualToString:@"bart"]) {
-			BartStopDetails *bartStopDetails = [[BartStopDetails alloc] init];
-			bartStopDetails.stop = (Stop *)note.object;
-
+			BartStopDetails *bartStopDetails = [[BartStopDetails alloc] initWithStop:(Stop *)note.object];
+            
 			[self.navigationController pushViewController:bartStopDetails animated:YES];
 		} else {
-			NextBusStopDetails *stopDetails = [[NextBusStopDetails alloc] init];
-			stopDetails.stop = (Stop *)note.object;
-
+			NextBusStopDetails *stopDetails = [[NextBusStopDetails alloc] initWithStop:(Stop *)note.object];
+            
 			[self.navigationController pushViewController:stopDetails animated:YES];
 		}
 	}
@@ -305,9 +266,7 @@
 	// Release any retained subviews of the main view.
 
 	self.tableView = nil;
-	self.reloadPredictionsButton = nil;
 	self.editButton = nil;
-    self.segmentedControl = nil;
 }
 
 

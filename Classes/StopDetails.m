@@ -13,13 +13,15 @@
 @synthesize stop, stopTitleImageView, stopTitleLabel, tableView, contents, lastIndexPath, buttonRowPlaceholder, cellStatus;
 @synthesize timer, errors, isFirstPredictionsFetch, predictions, tableFooterHeight, tableHeaderHeight;
 
-- (id)init {
+- (id)initWithStop:(Stop *)newStop {
     if (!(self = [super initWithNibName:nil bundle:nil])) return nil;
     
     self.title = @"Arrivals";
     
     isFirstPredictionsFetch = YES;
     self.predictions = [[NSMutableDictionary alloc] init];
+    
+    self.stop = newStop;
     
     [self setupInitialContents];
     

@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) Direction *mainDirection;
 
+- (id)initWithStop:(Stop *)newStop mainDirection:(Direction *)newMainDirection;
 - (void) switchDirections;
 
 @end

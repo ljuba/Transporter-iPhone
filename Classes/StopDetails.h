@@ -48,6 +48,8 @@
 @property int tableHeaderHeight;
 @property int tableFooterHeight;
 
+- (id)initWithStop:(Stop *)newStop;
+
 - (void) setupInitialContents;
 - (void) setupContentsBasedOnPredictions;
 
