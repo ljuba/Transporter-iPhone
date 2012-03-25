@@ -18,7 +18,7 @@
     
     self.title = @"Arrivals";
     
-    isFirstPredictionsFetch = YES;
+    self.isFirstPredictionsFetch = YES;
     self.predictions = [[NSMutableDictionary alloc] init];
     
     self.stop = newStop;
@@ -41,8 +41,8 @@
 	self.navigationItem.backBarButtonItem = backButton;
     
 
-	cellStatus = kCellStatusSpinner;
-	buttonRowPlaceholder = [[NSNull alloc] init];
+	self.cellStatus = kCellStatusSpinner;
+	self.buttonRowPlaceholder = [[NSNull alloc] init];
 
 	// SETUP TABLE VIEW
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 69, 320, 298)];
@@ -67,22 +67,22 @@
 
 
 	// Have the tableview ignore our 2 views when computing size
-	self.tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
+	self.tableView.contentInset = UIEdgeInsetsMake(-self.tableHeaderHeight, 0, -self.tableFooterHeight, 0);
 
 	// SETUP STOP TITLE IMAGE VIEW
-	stopTitleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 76)];
-	[self.view addSubview:stopTitleImageView];
+	self.stopTitleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 76)];
+	[self.view addSubview:self.stopTitleImageView];
 
 	// SETUP STOP TITLE LABEL
-	stopTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 4, 304, 60)];
-	stopTitleLabel.font = [UIFont boldSystemFontOfSize:22];
-	stopTitleLabel.textAlignment = UITextAlignmentCenter;
-	stopTitleLabel.numberOfLines = 2;
-	stopTitleLabel.textColor = [UIColor whiteColor];
-	stopTitleLabel.shadowColor = [UIColor colorWithWhite:0.5 alpha:0.5];
-	stopTitleLabel.shadowOffset = CGSizeMake(-1, -1);
-	stopTitleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-	[self.view addSubview:stopTitleLabel];
+	self.stopTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 4, 304, 60)];
+	self.stopTitleLabel.font = [UIFont boldSystemFontOfSize:22];
+	self.stopTitleLabel.textAlignment = UITextAlignmentCenter;
+	self.stopTitleLabel.numberOfLines = 2;
+	self.stopTitleLabel.textColor = [UIColor whiteColor];
+	self.stopTitleLabel.shadowColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+	self.stopTitleLabel.shadowOffset = CGSizeMake(-1, -1);
+	self.stopTitleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+	[self.view addSubview:self.stopTitleLabel];
     
     
     //BACKGROUND IMAGE
@@ -111,7 +111,7 @@
 - (void) setupInitialContents {
 
 	// reset lastIndexPath because whenever you load a new contents array, all rows are retracted
-	lastIndexPath = nil;
+	self.lastIndexPath = nil;
 
 	// SETUP CONTENTS ARRAY
 	self.contents = [[NSMutableArray alloc] init];
@@ -157,7 +157,7 @@
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
 		NSLog(@"STOPDETAILS: Prediction Requests ON"); /* DEBUG LOG */
-		cellStatus = kCellStatusSpinner;
+		self.cellStatus = kCellStatusSpinner;
 		[self.tableView reloadData];
 		self.timer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(requestPredictions) userInfo:nil repeats:YES];
 		[self.timer fire];
@@ -175,7 +175,7 @@
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 	LiveRouteTVC *liveRouteTVC = [[LiveRouteTVC alloc] init];
 	liveRouteTVC.direction = cell.direction;
-	liveRouteTVC.startingStop = stop;
+	liveRouteTVC.startingStop = self.stop;
 
 	[self.navigationController pushViewController:liveRouteTVC animated:YES];
 
@@ -231,7 +231,7 @@
 	int section = indexPath.section;
 	int row = indexPath.row;
 
-	id rowContents = [[contents objectAtIndex:section] objectAtIndex:row];
+	id rowContents = [[self.contents objectAtIndex:section] objectAtIndex:row];
 
 	if ([rowContents isMemberOfClass:[NSNull class]]) return(nil);
 	return(indexPath);
@@ -245,86 +245,86 @@
 	int section = indexPath.section;
 
 	// if you tapped on a row that is already activated, retract it's buttons...
-	if ([indexPath compare:lastIndexPath] == NSOrderedSame) {
+	if ([indexPath compare:self.lastIndexPath] == NSOrderedSame) {
 		NSLog(@"retract tapped");
-		lastIndexPath = nil;
+		self.lastIndexPath = nil;
 
-		int buttonRowIndex = [[self.contents objectAtIndex:section] indexOfObject:buttonRowPlaceholder];
+		int buttonRowIndex = [[self.contents objectAtIndex:section] indexOfObject:self.buttonRowPlaceholder];
 		[[self.contents objectAtIndex:section] removeObjectAtIndex:buttonRowIndex];
 
-		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
+		[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
 		 withRowAnimation:UITableViewRowAnimationFade];
 
 	} else {
 		// if you tap a retracted row, show its button
-		if (lastIndexPath == nil) {
+		if (self.lastIndexPath == nil) {
 			NSLog(@"show tapped");
 
-			[[self.contents objectAtIndex:section] insertObject:buttonRowPlaceholder atIndex:row + 1];
+			[[self.contents objectAtIndex:section] insertObject:self.buttonRowPlaceholder atIndex:row + 1];
 
 			NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
+			[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
 
 			self.lastIndexPath = indexPath;  // retained so it stays in the ivar
 
 			tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-			[tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row + 1 inSection:section]
+			[_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row + 1 inSection:section]
 			 atScrollPosition:UITableViewScrollPositionNone animated:YES];
-			tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
+			_tableView.contentInset = UIEdgeInsetsMake(-self.tableHeaderHeight, 0, -self.tableFooterHeight, 0);
 
 		} else {
 			// otherwise retract the previously active row's buttons and show the current ones
 			NSLog(@"retract previous and show tapped");
 
 			// FIND THE LEG OBJECT THAT WAS TAPPED
-			id object = [[contents objectAtIndex:section] objectAtIndex:row];
+			id object = [[self.contents objectAtIndex:section] objectAtIndex:row];
 
 			// remove button bar placeholder from content array and record its indexpath
 			NSIndexPath *buttonRowIndexPath = nil;
 
-			for (NSMutableArray *sectionArray in contents)
+			for (NSMutableArray *sectionArray in self.contents)
 
-				if ([sectionArray containsObject:buttonRowPlaceholder]) {
+				if ([sectionArray containsObject:self.buttonRowPlaceholder]) {
 
-					int sectionIndex = [contents indexOfObject:sectionArray];
-					int rowIndex = [sectionArray indexOfObject:buttonRowPlaceholder];
+					int sectionIndex = [self.contents indexOfObject:sectionArray];
+					int rowIndex = [sectionArray indexOfObject:self.buttonRowPlaceholder];
 
 					buttonRowIndexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
-					[sectionArray removeObject:buttonRowPlaceholder];
+					[sectionArray removeObject:self.buttonRowPlaceholder];
 
 					break;
 				}
 			// determine the next index of the row that was tapped and add a button row placeholder there
-			int indexToAdd = [[contents objectAtIndex:section] indexOfObject:object];
-			[[contents objectAtIndex:section] insertObject:buttonRowPlaceholder atIndex:indexToAdd + 1];
+			int indexToAdd = [[self.contents objectAtIndex:section] indexOfObject:object];
+			[[self.contents objectAtIndex:section] insertObject:self.buttonRowPlaceholder atIndex:indexToAdd + 1];
 
-			[tableView beginUpdates];
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:buttonRowIndexPath]
+			[_tableView beginUpdates];
+			[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:buttonRowIndexPath]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
+			[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
-			[tableView endUpdates];
+			[_tableView endUpdates];
 
 			self.lastIndexPath = [NSIndexPath indexPathForRow:indexToAdd inSection:section];         // retained so it stays in the ivar
 
-			tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-			[tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]
+			_tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+			[_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]
 			 atScrollPosition:UITableViewScrollPositionNone animated:YES];
-			tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
+			_tableView.contentInset = UIEdgeInsetsMake(-self.tableHeaderHeight, 0, -self.tableFooterHeight, 0);
 		}
 	}
-	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
+	[_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:NO];
 
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)_tableView {
-	return([contents count]);
+	return([self.contents count]);
 }
 
 - (NSInteger) tableView:(UITableView *)_tableView numberOfRowsInSection:(NSInteger)section {
-	return([[contents objectAtIndex:section] count]);
+	return([[self.contents objectAtIndex:section] count]);
 }
 
 // Overriden by subclasses

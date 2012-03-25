@@ -28,14 +28,14 @@
 	[super viewDidLoad];
 
 	// general settings
-	if ([direction.route.agency.shortTitle isEqual:@"bart"]) {
-		self.title = [NSString stringWithFormat:@"%@ Line", direction.title];
-		locationAccuracy = 600;
-		isBART = YES;
+	if ([self.direction.route.agency.shortTitle isEqual:@"bart"]) {
+		self.title = [NSString stringWithFormat:@"%@ Line", self.direction.title];
+		self.locationAccuracy = 600;
+		self.isBART = YES;
 	} else {
-		self.title = [NSString stringWithFormat:@"%@ %@", direction.route.tag, direction.name];
-		locationAccuracy = 200;
-		isBART = NO;
+		self.title = [NSString stringWithFormat:@"%@ %@", self.direction.route.tag, self.direction.name];
+		self.locationAccuracy = 200;
+		self.isBART = NO;
 	}
 	// setup refresh predictions button
 	UIBarButtonItem *findLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(findLocation)];
@@ -43,41 +43,41 @@
 	self.navigationItem.rightBarButtonItem = findLocationButton;
 
 	// setup for saving state
-	[DataHelper saveDirectionIDInUserDefaults:direction forKey:@"liveRouteDirectionURIData"];
+	[DataHelper saveDirectionIDInUserDefaults:self.direction forKey:@"liveRouteDirectionURIData"];
 
 	// tableView setting
-	_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	_tableView.delegate = self;
-	_tableView.dataSource = self;
+	self._tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self._tableView.delegate = self;
+	self._tableView.dataSource = self;
 
 	// SETUP VEHICLE FETCHER & PREDICTIONS
-	vehicleFetcher = [[VehicleFetcher alloc] init];
-	predictions = [[NSMutableDictionary alloc] init];
+	self.vehicleFetcher = [[VehicleFetcher alloc] init];
+	self.predictions = [[NSMutableDictionary alloc] init];
 
 	// add userMarker view to the tableView;
-	userMarker = [UIButton buttonWithType:UIButtonTypeCustom];
-	[userMarker setImage:[UIImage imageNamed:@"TrackingDot.png"] forState:UIControlStateNormal];
-	[userMarker setImage:[UIImage imageNamed:@"TrackingDotPressed.png"] forState:UIControlStateHighlighted];
-	userMarker.hidden = YES;
-	[_tableView addSubview:userMarker];
+	self.userMarker = [UIButton buttonWithType:UIButtonTypeCustom];
+	[self.userMarker setImage:[UIImage imageNamed:@"TrackingDot.png"] forState:UIControlStateNormal];
+	[self.userMarker setImage:[UIImage imageNamed:@"TrackingDotPressed.png"] forState:UIControlStateHighlighted];
+	self.userMarker.hidden = YES;
+	[self._tableView addSubview:self.userMarker];
 
 	// setup core location
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-	savedNextStop = nil;
-	savedPreviousStop = nil;
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	self.savedNextStop = nil;
+	self.savedPreviousStop = nil;
 
-	self.stops = (NSMutableArray *)[direction.stops allObjects];
+	self.stops = (NSMutableArray *)[self.direction.stops allObjects];
 
-	NSArray *sortOrder = (NSArray *)direction.stopOrder;             // the order of stops for this direction
+	NSArray *sortOrder = (NSArray *)self.direction.stopOrder;             // the order of stops for this direction
 	NSMutableArray *orderedStops = [[NSMutableArray alloc] init];
 
 	// find stop in self.stops and add it to the orderedStops array
 	for (NSString *stopTag in sortOrder) {
 
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag=%@", stopTag];
-		NSSet *temp = [direction.stops filteredSetUsingPredicate:predicate];
+		NSSet *temp = [self.direction.stops filteredSetUsingPredicate:predicate];
 
 		Stop *thisStop = [temp anyObject];
 
@@ -90,8 +90,8 @@
 
 	[super viewWillDisappear:animated];
 
-	locationManager.delegate = nil;
-	[locationManager stopUpdatingLocation];
+	self.locationManager.delegate = nil;
+	[self.locationManager stopUpdatingLocation];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter removeObserver:self];
@@ -101,12 +101,12 @@
 - (void) viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 
-	self.scrollStop = startingStop;
+	self.scrollStop = self.startingStop;
 
-	locationManager.delegate = self;
-	[locationManager startUpdatingLocation];
+	self.locationManager.delegate = self;
+	[self.locationManager startUpdatingLocation];
 
-	label.text = kLiveRouteFindingLocation;
+	self.label.text = kLiveRouteFindingLocation;
 
 	// stop updating location after 40 seconds if you Cannot find anything
 	self.locationFixTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:40.0 target:self selector:@selector(giveupLocationFix) userInfo:nil repeats:NO];
@@ -125,10 +125,10 @@
 // sends a request for vehicles serving this direction
 - (void) fetchVehicles {
 
-	label.text = @"Locating transit vehicles...";
+	self.label.text = @"Locating transit vehicles...";
 
 	// request trips
-	[vehicleFetcher performSelectorInBackground:@selector(fetchVehiclesForDirection:) withObject:direction];
+	[self.vehicleFetcher performSelectorInBackground:@selector(fetchVehiclesForDirection:) withObject:self.direction];
 
 }
 
@@ -138,33 +138,33 @@
 	if ([vehicles count] == 0) {
 		NSLog(@"LIVEROUTE: NO VEHICLES FOUND"); /* DEBUG LOG */
 
-		label.text = kLiveRouteNotOnBusMessage;
+		self.label.text = kLiveRouteNotOnBusMessage;
 		return;
 	}
 	// FIND MATCHING VEHICLE WITHIN 1000m meter radius
 	self.vehicleID = [self matchingVehicleID:vehicles];
 
 	// IF THE CLOSEST VEHICLE IS TOO FAR AWAY, TELL THE USER THEY'RE NOT ON A BUS
-	if (vehicleID == nil) {
+	if (self.vehicleID == nil) {
 
 		NSLog(@"LIVEROUTE: NO MATCHING VEHILES FOUND"); /* DEBUG LOG */
 
-		label.text = kLiveRouteNotOnBusMessage;
+		self.label.text = kLiveRouteNotOnBusMessage;
 		return;
 	}
-	label.text = kLiveRouteOnBusMessage;
+	self.label.text = kLiveRouteOnBusMessage;
 
-	[_tableView reloadData];
+	[self._tableView reloadData];
 
 	// NSLog(@"VEHICLES: %@", vehicles); /* DEBUG LOG */
-	NSLog(@"DESIRED VEHICLE: %@", vehicleID); /* DEBUG LOG */
+	NSLog(@"DESIRED VEHICLE: %@", self.vehicleID); /* DEBUG LOG */
 
 }
 
 // return the vehicle id that matches the user location
 - (NSString *) matchingVehicleID:(NSMutableArray *)vehicles {
 
-	CLLocation *userLocation = locationManager.location;
+	CLLocation *userLocation = self.locationManager.location;
 
 	NSDictionary *closestVehicle = nil;
 	double closestVehicleDistance = 999999999;               // init so that the first stop looked at will be the closest for sure
@@ -194,7 +194,7 @@
 
 - (void) fetchPredictions {
 
-	label.text = @"Calculating arrival time...";
+	self.label.text = @"Calculating arrival time...";
 
 	kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
 	PredictionsManager *predictionsManager = appDelegate.predictionsManager;
@@ -203,9 +203,9 @@
 
 	PredictionRequest *request = [[PredictionRequest alloc] init];
 
-	request.agencyShortTitle = direction.route.agency.shortTitle;
-	request.route = direction.route;
-	request.stopTag = tappedStop.tag;
+	request.agencyShortTitle = self.direction.route.agency.shortTitle;
+	request.route = self.direction.route;
+	request.stopTag = self.tappedStop.tag;
 	request.isMainRoute = NO;
 
 	[requests addObject:request];
@@ -221,19 +221,19 @@
 
 - (void) didReceivePredictions:(NSMutableDictionary *)_predictions {
 
-	label.text = kLiveRouteOnBusMessage;
+	self.label.text = kLiveRouteOnBusMessage;
 
-	NSString *predictionKey = [PredictionsManager predictionKeyFromAgencyShortTitle:direction.route.agency.shortTitle routeTag:direction.route.tag stopTag:tappedStop.tag];
+	NSString *predictionKey = [PredictionsManager predictionKeyFromAgencyShortTitle:self.direction.route.agency.shortTitle routeTag:self.direction.route.tag stopTag:self.tappedStop.tag];
 
 	// prevents stray predicion returns from popping up an alert dialog
 	if ([_predictions objectForKey:predictionKey] == nil) return;
-	[predictions addEntriesFromDictionary:_predictions];
+	[self.predictions addEntriesFromDictionary:_predictions];
 
-	Prediction *prediction = [predictions objectForKey:predictionKey];
+	Prediction *prediction = [self.predictions objectForKey:predictionKey];
 
 	// NSLog(@"ARRIVALS: %@", prediction.arrivals); /* DEBUG LOG */
 
-	NSPredicate *vehicleFilter = [NSPredicate predicateWithFormat:@"vehicle == %@", vehicleID];
+	NSPredicate *vehicleFilter = [NSPredicate predicateWithFormat:@"vehicle == %@", self.vehicleID];
 
 	NSMutableArray *filteredArrivals = [NSMutableArray array];
 
@@ -249,7 +249,7 @@
 				      message:@"No ETA available for this stop"
 				      delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 
-		[_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
+		[self._tableView deselectRowAtIndexPath:[self._tableView indexPathForSelectedRow] animated:YES];
 
 		[alert show];
 
@@ -257,7 +257,7 @@
 
 	}
 	// SHOW ETA DIALOG BOX
-	NSLog(@"VEHICLE ID: %@", vehicleID); /* DEBUG LOG */
+	NSLog(@"VEHICLE ID: %@", self.vehicleID); /* DEBUG LOG */
 	NSLog(@"FILTERED ARRIVALS: %@", filteredArrivals); /* DEBUG LOG */
 
 	NSDictionary *arrival = [filteredArrivals objectAtIndex:0];
@@ -274,9 +274,9 @@
 	NSString *message = [NSString stringWithFormat:@"Estimated arrival in \n%@ minutes (%@)", duration, [dateFormatter stringFromDate:date]];
 
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:tappedStop.title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.tappedStop.title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
-	[_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
+	[self._tableView deselectRowAtIndexPath:[self._tableView indexPathForSelectedRow] animated:YES];
 
 	[alert show];
 }
@@ -287,8 +287,8 @@
 // activated when the locationFixTimeoutTimer is fired
 - (void) giveupLocationFix {
 
-	[locationManager stopUpdatingLocation];
-	label.text = @"Cannot find your location";
+	[self.locationManager stopUpdatingLocation];
+	self.label.text = @"Cannot find your location";
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
@@ -297,12 +297,12 @@
 
 	[self scrollToStopAnimated:YES];
 
-	[locationManager startUpdatingLocation];
+	[self.locationManager startUpdatingLocation];
 
-	label.text = kLiveRouteFindingLocation;  // reset message
+	self.label.text = kLiveRouteFindingLocation;  // reset message
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 
-	if (!isBART) [self fetchVehicles];
+	if (!self.isBART) [self fetchVehicles];
 	self.locationFixTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:40.0 target:self selector:@selector(giveupLocationFix) userInfo:nil repeats:NO];
 }
 
@@ -312,7 +312,7 @@
 	if ([note.name isEqual:UIApplicationWillResignActiveNotification]) {
 
 		NSLog(@"LiveRoute: Location Updating OFF"); /* DEBUG LOG */
-		[locationManager stopUpdatingLocation];
+		[self.locationManager stopUpdatingLocation];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
 		NSLog(@"LiveRoute: Location Updating ON"); /* DEBUG LOG */
@@ -324,10 +324,10 @@
 // scroll to the stop immediately behind you
 - (void) scrollToStopAnimated:(BOOL)animated {
 
-	NSLog(@"SCROLL TO STOP: %@", scrollStop.title); /* DEBUG LOG */
+	NSLog(@"SCROLL TO STOP: %@", self.scrollStop.title); /* DEBUG LOG */
 
-	[_tableView reloadData];        // must reload data when you scroll to a stop the first time
-	[_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[stops indexOfObject:scrollStop] inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+	[self._tableView reloadData];        // must reload data when you scroll to a stop the first time
+	[self._tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.stops indexOfObject:self.scrollStop] inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
 
 }
 
@@ -337,8 +337,8 @@
 	// we need good location fixes for both old and new locations
 	// don't update location if either location fix accuracy is invalid (negative) or > 50m. Or if the timestamp is more then 120 seconds old
 	if ( (newLocation == nil)||(oldLocation == nil)||
-	     (newLocation.horizontalAccuracy < 0)||(newLocation.horizontalAccuracy > locationAccuracy)||([newLocation.timestamp timeIntervalSinceNow] < -120)||
-	     oldLocation.horizontalAccuracy < 0||oldLocation.horizontalAccuracy > locationAccuracy||([oldLocation.timestamp timeIntervalSinceNow] < -120) )
+	     (newLocation.horizontalAccuracy < 0)||(newLocation.horizontalAccuracy > self.locationAccuracy)||([newLocation.timestamp timeIntervalSinceNow] < -120)||
+	     oldLocation.horizontalAccuracy < 0||oldLocation.horizontalAccuracy > self.locationAccuracy||([oldLocation.timestamp timeIntervalSinceNow] < -120) )
 		// NSLog(@"%@", @"BAD FIX"); /* DEBUG LOG */
 		// NSLog(@"Old: Accuracy:%f, Time:%f", oldLocation.horizontalAccuracy,[oldLocation.timestamp timeIntervalSinceNow] ); /* DEBUG LOG */
 		// NSLog(@"New: Accuracy:%f, Time:%f", newLocation.horizontalAccuracy,[newLocation.timestamp timeIntervalSinceNow] ); /* DEBUG LOG */
@@ -346,7 +346,7 @@
 	// NSLog(@"%@", @"FIX GOOD"); /* DEBUG LOG */
 
 	// turn of the timer that would tell the user that we Cannot find their position
-	[locationFixTimeoutTimer invalidate];
+	[self.locationFixTimeoutTimer invalidate];
 
 	[self positionUserMarkerToNewLocation:newLocation fromLocation:oldLocation];
 
@@ -360,7 +360,7 @@
 	Stop *closestStop = nil;
 	double closestStopDistance = 999999999;          // init so that the first stop looked at will be the closest for sure
 
-	for (Stop *stop in stops) {
+	for (Stop *stop in self.stops) {
 
 		double stopDistance = [newLocation distanceFromLocation:[DataHelper locationOfStop:stop]];
 
@@ -378,7 +378,7 @@
 	// Given the closest stop B, previous stop A and next stop C
 	// You are not on the line if you are simultaneously further from A than B is && futher from C than B is
 
-	int closestStopIndex = [stops indexOfObjectIdenticalTo:closestStop];
+	int closestStopIndex = [self.stops indexOfObjectIdenticalTo:closestStop];
 
 	Stop *stopA = nil;
 	Stop *stopC = nil;
@@ -387,37 +387,37 @@
 	if (closestStopIndex == 0) {
 
 		// there is no stopA
-		stopC = [stops objectAtIndex:closestStopIndex + 1];
+		stopC = [self.stops objectAtIndex:closestStopIndex + 1];
 
 		// if you are further from the closest stop (B) than the next stop in the line (stopC), you are not on the line
 		if ([newLocation distanceFromLocation:[DataHelper locationOfStop:closestStop]] > [[DataHelper locationOfStop:stopC] distanceFromLocation:[DataHelper locationOfStop:closestStop]]) {
-			NSLog(@"TOO FAR FROM START OF LINE: %@", direction.route.tag); /* DEBUG LOG */
-			label.text = @"You don't appear to be on this line.";
+			NSLog(@"TOO FAR FROM START OF LINE: %@", self.direction.route.tag); /* DEBUG LOG */
+			self.label.text = @"You don't appear to be on this line.";
 			self.navigationItem.rightBarButtonItem.enabled = YES;
-			[locationManager stopUpdatingLocation];
+			[self.locationManager stopUpdatingLocation];
 			return;
 		}
 	}
 	// if the closest stop is the last stop in the direction...
-	else if (closestStopIndex == [stops count] - 1) {
+	else if (closestStopIndex == [self.stops count] - 1) {
 
 		// there is no stopC
-		stopA = [stops objectAtIndex:closestStopIndex - 1];
+		stopA = [self.stops objectAtIndex:closestStopIndex - 1];
 
 		// if you are further from the closest stop (B) than the previous stop in the line (stopA), you are not on the line
 		if ([newLocation distanceFromLocation:[DataHelper locationOfStop:closestStop]] > [[DataHelper locationOfStop:stopA] distanceFromLocation:[DataHelper locationOfStop:closestStop]]) {
-			NSLog(@"TOO FAR FROM END OF LINE: %@", direction.route.tag); /* DEBUG LOG */
-			label.text = @"You don't appear to be on this line.";
+			NSLog(@"TOO FAR FROM END OF LINE: %@", self.direction.route.tag); /* DEBUG LOG */
+			self.label.text = @"You don't appear to be on this line.";
 			self.navigationItem.rightBarButtonItem.enabled = YES;
-			[locationManager stopUpdatingLocation];
+			[self.locationManager stopUpdatingLocation];
 			return;
 		}
 	}
 	// now that we've handled the edge cases, check if you're on the line if the closest stop is not the first or last stop in the line
 	else {
 
-		stopA = [stops objectAtIndex:closestStopIndex - 1];
-		stopC = [stops objectAtIndex:closestStopIndex + 1];
+		stopA = [self.stops objectAtIndex:closestStopIndex - 1];
+		stopC = [self.stops objectAtIndex:closestStopIndex + 1];
 
 		NSLog(@"Stop B: %@", closestStop.title); /* DEBUG LOG */
 		NSLog(@"Stop A: %@", stopA.title); /* DEBUG LOG */
@@ -435,19 +435,19 @@
 		// NSLog(@"CB %f < CX %f", CB, CX); /* DEBUG LOG */
 
 		if ( (AX > AB)&&(CX > CB) ) {
-			NSLog(@"TOO FAR FROM LINE: %@", direction.route.tag); /* DEBUG LOG */
-			label.text = @"You don't appear to be on this line.";
+			NSLog(@"TOO FAR FROM LINE: %@", self.direction.route.tag); /* DEBUG LOG */
+			self.label.text = @"You don't appear to be on this line.";
 			self.navigationItem.rightBarButtonItem.enabled = YES;
-			[locationManager stopUpdatingLocation];
+			[self.locationManager stopUpdatingLocation];
 			return;
 		}
 	}
 
-	if ([newLocation distanceFromLocation:[DataHelper locationOfStop:closestStop]] > locationAccuracy * 4) {
+	if ([newLocation distanceFromLocation:[DataHelper locationOfStop:closestStop]] > self.locationAccuracy * 4) {
 		NSLog(@"%@", @"LIVEROUTE: TOO FAR AWAY FROM ANY STOP"); /* DEBUG LOG */
-		label.text = @"You don't appear to be on this line.";
+		self.label.text = @"You don't appear to be on this line.";
 		self.navigationItem.rightBarButtonItem.enabled = YES;
-		[locationManager stopUpdatingLocation];
+		[self.locationManager stopUpdatingLocation];
 		return;
 	}
 	// NSLog(@"LIVEROUTE: Closest Stop: %@", closestStop.title); /* DEBUG LOG */
@@ -466,7 +466,7 @@
 	// if you're moving away from the closest stop...
 	if (newDistanceToClosestStop > oldDistanceToClosestStop) {
 		previousStop = closestStop;
-		nextStop = [stops objectAtIndex:[stops indexOfObject:closestStop] + 1];
+		nextStop = [self.stops objectAtIndex:[self.stops indexOfObject:closestStop] + 1];
 
 		self.savedNextStop = nextStop;
 		self.savedPreviousStop = previousStop;
@@ -475,7 +475,7 @@
 	}
 	// if you're moving towards the closest stop...
 	else if (newDistanceToClosestStop < oldDistanceToClosestStop) {
-		previousStop = [stops objectAtIndex:[stops indexOfObject:closestStop] - 1];
+		previousStop = [self.stops objectAtIndex:[self.stops indexOfObject:closestStop] - 1];
 		nextStop = closestStop;
 
 		self.savedNextStop = nextStop;
@@ -486,14 +486,14 @@
 	// you haven't moved, used the saved next/previous stops from the last time they were known
 	else {
 
-		previousStop = savedPreviousStop;
-		nextStop = savedNextStop;
+		previousStop = self.savedPreviousStop;
+		nextStop = self.savedNextStop;
 
 		if ( (previousStop == nil)||(nextStop == nil) ) {
 			previousStop = closestStop;
 
-			int prevStopIndex = [stops indexOfObject:previousStop];
-			nextStop = [stops objectAtIndex:prevStopIndex + 1];
+			int prevStopIndex = [self.stops indexOfObject:previousStop];
+			nextStop = [self.stops objectAtIndex:prevStopIndex + 1];
 
 		}
 		self.scrollStop = previousStop;
@@ -514,24 +514,24 @@
 	// NSLog(@"LIVEROUTE: Fractional Distance: %f", fractionalDistanceFromPreviousStop); /* DEBUG LOG */
 
 	// calculate the y position of the user location based on the index of the prevous stop, row height, and fractionalDistanceFromPreviousStop
-	double yPosition = kLiveRouteRowHeight * ([stops indexOfObject:previousStop] + fractionalDistanceFromPreviousStop) + kLiveRouteRowHeight / 2;
+	double yPosition = kLiveRouteRowHeight * ([self.stops indexOfObject:previousStop] + fractionalDistanceFromPreviousStop) + kLiveRouteRowHeight / 2;
 
 	// NSLog(@"LIVEROUTE: yPosition: %f", yPosition); /* DEBUG LOG */
 
 	// set marker position
-	userMarker.hidden = NO;
-	userMarker.frame = CGRectMake(0, 0, 21, 23);
-	userMarker.center = CGPointMake(12, yPosition);
+	self.userMarker.hidden = NO;
+	self.userMarker.frame = CGRectMake(0, 0, 21, 23);
+	self.userMarker.center = CGPointMake(12, yPosition);
 
-	[_tableView setNeedsDisplay];
+	[self._tableView setNeedsDisplay];
 
 	// only scroll to the current stop the first time the userMarker is placed
 	// only fetch vehicles onces
-	if (label.text == kLiveRouteFindingLocation) {
+	if (self.label.text == kLiveRouteFindingLocation) {
 		[self scrollToStopAnimated:YES];
 
-		if (!isBART) [self fetchVehicles];
-		else label.text = kLiveRouteBARTMessage;
+		if (!self.isBART) [self fetchVehicles];
+		else self.label.text = kLiveRouteBARTMessage;
 	}
 	// enable button for scrolling to current location
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -552,7 +552,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return([stops count]);
+	return([self.stops count]);
 }
 
 // Customize the appearance of table view cells.
@@ -568,19 +568,19 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 	}
-	Stop *currentStop = [stops objectAtIndex:row];
+	Stop *currentStop = [self.stops objectAtIndex:row];
 	NSString *agencyShortTitle = currentStop.agency.shortTitle;
 
 	cell.textLabel.text = currentStop.title;
 
 	// only show cell highlighting when you are on the route
-	if (vehicleID != nil) cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	if (self.vehicleID != nil) cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	else cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	// start, end, or mid line stop?
-	int stopIndex = [stops indexOfObjectIdenticalTo:currentStop];
+	int stopIndex = [self.stops indexOfObjectIdenticalTo:currentStop];
 
 	if (stopIndex == 0) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-beginning-route-%@.png", agencyShortTitle]];
-	else if (stopIndex == [stops count] - 1) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-end-route-%@.png", agencyShortTitle]];
+	else if (stopIndex == [self.stops count] - 1) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-end-route-%@.png", agencyShortTitle]];
 	else cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-mid-route-%@.png", agencyShortTitle]];
 	return(cell);
 
@@ -589,12 +589,12 @@
 // Only allow stops to be selected if you are on the route
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	if ( (vehicleID != nil)&&!isBART ) {
+	if ( (self.vehicleID != nil)&&!self.isBART ) {
 
 		int tappedRowIndex = indexPath.row;
 
 		// scrollStop is the stop behind you. dont' allow selection of this stop or any before it.
-		int scrollStopIndex = [stops indexOfObject:scrollStop];
+		int scrollStopIndex = [self.stops indexOfObject:self.scrollStop];
 
 		if (tappedRowIndex <= scrollStopIndex) {
 
@@ -611,7 +611,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 	int row = indexPath.row;
-	tappedStop = [stops objectAtIndex:row];
+	self.tappedStop = [self.stops objectAtIndex:row];
 
 	[self fetchPredictions];
 

@@ -14,28 +14,15 @@
 #define kVerticalPinOffset -45
 #define kMapInset 10                    // callout bubbles cannot get any closer to the edge of the screen than this
 
-@interface DirectionAnnotationView : UIView {
+@interface DirectionAnnotationView : UIView 
 
-	UIImageView *pinView;
-	UIView *calloutView;
-	UIButton *calloutButton;
+@property (nonatomic, strong) IBOutlet UIImageView *pinView;
+@property (nonatomic, strong) Direction *direction;
+@property (nonatomic, strong) IBOutlet UIView *calloutView;
+@property (nonatomic, strong) IBOutlet UIButton *calloutButton;
 
-	UILabel *title;
-	UILabel *subtitle;
-
-	Direction *direction;
-
-	CGRect mapFrame;
-
-}
-
-@property (nonatomic) IBOutlet UIImageView *pinView;
-
-@property (nonatomic) IBOutlet UIView *calloutView;
-@property (nonatomic) IBOutlet UIButton *calloutButton;
-
-@property (nonatomic) IBOutlet UILabel *title;
-@property (nonatomic) IBOutlet UILabel *subtitle;
+@property (nonatomic, strong) IBOutlet UILabel *title;
+@property (nonatomic, strong) IBOutlet UILabel *subtitle;
 
 @property (nonatomic) CGRect mapFrame;
 

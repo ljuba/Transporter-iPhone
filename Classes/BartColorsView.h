@@ -10,26 +10,16 @@
 
 #define kBartColorSpacer 3
 
-@interface BartColorsView : UIView {
+@interface BartColorsView : UIView 
 
-	NSArray *colors;
-
-	UIImage *redImage;
-	UIImage *orangeImage;
-	UIImage *yellowImage;
-	UIImage *blueImage;
-	UIImage *greenImage;
-
-}
+@property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) UIImage *redImage;
+@property (nonatomic, strong) UIImage *orangeImage;
+@property (nonatomic, strong) UIImage *yellowImage;
+@property (nonatomic, strong) UIImage *blueImage;
+@property (nonatomic, strong) UIImage *greenImage;
 
 - (id) initWithColors:(NSArray *)_colors atPoint:(CGPoint)point;
 
-@property (nonatomic) NSArray *colors;
-
-@property (nonatomic) UIImage *redImage;
-@property (nonatomic) UIImage *orangeImage;
-@property (nonatomic) UIImage *yellowImage;
-@property (nonatomic) UIImage *blueImage;
-@property (nonatomic) UIImage *greenImage;
 
 @end

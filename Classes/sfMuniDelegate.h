@@ -13,13 +13,9 @@
 
 #define kRowHeight 60
 
-@interface sfMuniDelegate : TransitDelegate {
+@interface sfMuniDelegate : TransitDelegate
 
-	NSArray *formattedContents;
-
-}
-
-@property (nonatomic) NSArray *formattedContents;
+@property (nonatomic, strong) NSArray *formattedContents;
 
 - (id) initWithAgency:(Agency *)agency;
 

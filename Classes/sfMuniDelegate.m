@@ -28,23 +28,6 @@
 		self.formattedContents = [self formatContentsForAgency:agency];
 
 	}
-	// FOR FINDING ROUTES WITH MORE THAN 2 DIRECTIONS
-
-	// for (Route *route in agency.routes) {
-//
-//
-//
-// if ([route.directions count] == 2) {
-// continue;
-// }
-// NSLog(@"  ROUTE: %@", route.tag); /* DEBUG LOG */
-// for (Direction *direction in route.directions) {
-//
-// NSLog(@"DIRECTION: %@", direction.tag); /* DEBUG LOG */
-//
-// }
-//
-// }
 
 	return(self);
 }
@@ -56,12 +39,12 @@
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-	return([formattedContents count]);
+	return([self.formattedContents count]);
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return([[formattedContents objectAtIndex:section] count]);
+	return([[self.formattedContents objectAtIndex:section] count]);
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -96,7 +79,7 @@
 
 	int tag = sender.tag;
 
-	self.selectedItem = [contents objectAtIndex:tag - 1];
+	self.selectedItem = [self.contents objectAtIndex:tag - 1];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter postNotificationName:@"routeSelected" object:self];
@@ -115,7 +98,7 @@
 	int row = indexPath.row;
 	int section = indexPath.section;
 
-	NSArray *rowRoutes = [[formattedContents objectAtIndex:section] objectAtIndex:row];
+	NSArray *rowRoutes = [[self.formattedContents objectAtIndex:section] objectAtIndex:row];
 
 	// button formatting
 	int buttonWidth;

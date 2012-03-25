@@ -12,25 +12,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
-@interface LinesVC : UIViewController {
+@interface LinesVC : UIViewController 
 
-	UISegmentedControl *segmentedControl;
-
-	LinesTableView *tableView;
-
-	TransitDelegate *transitDelegate;
-
-	CLLocationManager *locationManager;
-
-}
-
-@property (nonatomic) UISegmentedControl *segmentedControl;
-
-@property (nonatomic) IBOutlet LinesTableView *tableView;
-
+@property (nonatomic, strong) UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) IBOutlet LinesTableView *tableView;
 @property (nonatomic, strong) TransitDelegate *transitDelegate;
-
-@property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (void) tapAgency;
 - (Agency *) fetchAgencyData:(NSString *)agency;

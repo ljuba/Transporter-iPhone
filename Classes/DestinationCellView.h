@@ -11,15 +11,10 @@
 #import "LineCellView.h"
 #import <UIKit/UIKit.h>
 
-@interface DestinationCellView : LineCellView {
+@interface DestinationCellView : LineCellView 
 
-	Destination *destination;
-	BartColorsView *bartColorsView;
-
-}
-
-@property (nonatomic) Destination *destination;
-@property (nonatomic) BartColorsView *bartColorsView;
+@property (nonatomic, strong) Destination *destination;
+@property (nonatomic, strong) BartColorsView *bartColorsView;
 
 - (void) setFavoriteStatus;
 - (void) toggleFavorite;

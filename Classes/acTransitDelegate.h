@@ -13,13 +13,9 @@
 
 #define kRowHeight 60
 
-@interface acTransitDelegate : TransitDelegate {
+@interface acTransitDelegate : TransitDelegate 
 
-	NSArray *formattedContents;
-
-}
-
-@property (nonatomic) NSArray *formattedContents;
+@property (nonatomic, strong) NSArray *formattedContents;
 
 - (void) tapRoute:(UIButton *)sender;
 - (id) initWithAgency:(Agency *)agency;

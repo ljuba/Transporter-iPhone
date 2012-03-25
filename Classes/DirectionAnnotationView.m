@@ -10,7 +10,7 @@
 
 @implementation DirectionAnnotationView
 
-@synthesize pinView, calloutView, title, subtitle, mapFrame, calloutButton;
+@synthesize pinView, calloutView, title, subtitle, mapFrame, calloutButton, direction;
 
 - (id) initWithFrame:(CGRect)frame {
 	if (self = [super initWithFrame:frame]) {
@@ -27,7 +27,7 @@
 	int xLocalOffset;
 	int yLocalOffset;
 
-	NSString *agencyShortTitle = direction.route.agency.shortTitle;
+	NSString *agencyShortTitle = self.direction.route.agency.shortTitle;
 
 	if ([agencyShortTitle isEqualToString:@"actransit"]) {
 		xLocalOffset = -5;
@@ -46,21 +46,21 @@
 
 	// pin x-position
 	int pinX = self.center.x;
-	int calloutViewWidth = calloutView.frame.size.width;
+	int calloutViewWidth = self.calloutView.frame.size.width;
 
 	int deltaX = 0;          // the amount by which the calloutView is shifted left or right
 
 	// if the callout is too far to the left
 	if ( (pinX - calloutViewWidth / 2) < kMapInset ) {
 
-		int oldX = calloutView.center.x;
+		int oldX = self.calloutView.center.x;
 		int newX = oldX - (pinX - kMapInset - calloutViewWidth / 2);
 
 		deltaX = newX - oldX;
 
 	}
 	// if the callout is too far to the right
-	else if ( (pinX + calloutViewWidth / 2) > (mapFrame.size.width - kMapInset) ) deltaX = (mapFrame.size.width - kMapInset) - (pinX + calloutViewWidth / 2);
+	else if ( (pinX + calloutViewWidth / 2) > (self.mapFrame.size.width - kMapInset) ) deltaX = (self.mapFrame.size.width - kMapInset) - (pinX + calloutViewWidth / 2);
 	// move the whole frame by the deltaX amount, then move the pin back by the same amount
 	CGRect oldFrame = self.frame;
 	CGRect newFrame = CGRectMake(oldFrame.origin.x + deltaX, oldFrame.origin.y, oldFrame.size.width, oldFrame.size.height);
@@ -68,56 +68,29 @@
 	self.frame = newFrame;
 
 	// adjust the position of the pin to hit the right spot, now that the
-	pinView.center = CGPointMake(pinView.center.x - deltaX, pinView.center.y);
+	self.pinView.center = CGPointMake(self.pinView.center.x - deltaX, self.pinView.center.y);
 
-}
-
-- (void) drawRect:(CGRect)rect {
-	// Drawing code
 }
 
 // set annotation based on direction
 - (void) setDirection:(Direction *)_direction {
 
 	direction = _direction;
-	title.text = direction.name;
-	subtitle.text = direction.title;
+	self.title.text = self.direction.name;
+	self.subtitle.text = self.direction.title;
 
-	NSString *agencyShortTitle = direction.route.agency.shortTitle;
+	NSString *agencyShortTitle = self.direction.route.agency.shortTitle;
 
-	if ([agencyShortTitle isEqualToString:@"actransit"]) pinView.image = [UIImage imageNamed:@"direction-pin-actransit.png"];
+	if ([agencyShortTitle isEqualToString:@"actransit"]) self.pinView.image = [UIImage imageNamed:@"direction-pin-actransit.png"];
 
-	else pinView.image = [UIImage imageNamed:@"direction-pin-sfmuni.png"];
-	// ajust width of calloutView to subtitle text
-
-	// CGSize subtitleTextSize = [subtitle.text sizeWithFont:subtitle.font];
-//
-// //how much better is the subtitle than the its original label
-// int deltaW = subtitleTextSize.width - subtitle.bounds.size.width;
-//
-// //if the subtitle is larger than the label...
-// if (deltaW > 0) {
-//
-// NSLog(@"DOESN'T FIT: %@", subtitle.text); /* DEBUG LOG */
-//
-// //resize the contentView to fit
-// int oldWidth = self.bounds.size.width;
-//
-// self.bounds = CGRectMake(0, 0, oldWidth+deltaW, self.bounds.size.height);
-//
-// calloutView.frame = CGRectMake(0, 0, calloutView.bounds.size.width+deltaW, calloutView.bounds.size.height);
-// calloutButton.frame = calloutView.frame;
-// calloutButton.backgroundColor = [UIColor redColor];
-//
-// self.backgroundColor = [UIColor blueColor];
-// }
+	else self.pinView.image = [UIImage imageNamed:@"direction-pin-sfmuni.png"];
 
 }
 
 - (IBAction) buttonTapped:(id)sender {
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter postNotificationName:@"directionTapped" object:direction];
+	[notificationCenter postNotificationName:@"directionTapped" object:self.direction];
 
 }
 

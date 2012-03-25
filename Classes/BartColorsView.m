@@ -24,9 +24,9 @@
         
 		self.opaque = NO;
 
-		colors = _colors;
+		self.colors = _colors;
 
-		CGSize size = CGSizeMake(5 * redImage.size.width + 5 * kBartColorSpacer, redImage.size.height);
+		CGSize size = CGSizeMake(5 * self.redImage.size.width + 5 * kBartColorSpacer, self.redImage.size.height);
 
 		self.frame = CGRectMake(point.x, point.y, size.width, size.height);
 
@@ -39,17 +39,17 @@
 	int x = 0;
 	int y = 0;
 
-	for (NSString *color in colors) {
+	for (NSString *color in self.colors) {
 
-		x = [colors indexOfObject:color] * (redImage.size.width + kBartColorSpacer);
+		x = [self.colors indexOfObject:color] * (self.redImage.size.width + kBartColorSpacer);
 
 		CGPoint point = CGPointMake(x, y);
 
-		if ([color isEqual:@"red"]) [redImage drawAtPoint:point];
-		else if ([color isEqual:@"orange"]) [orangeImage drawAtPoint:point];
-		else if ([color isEqual:@"yellow"]) [yellowImage drawAtPoint:point];
-		else if ([color isEqual:@"green"]) [greenImage drawAtPoint:point];
-		else if ([color isEqual:@"blue"]) [blueImage drawAtPoint:point];
+		if ([color isEqual:@"red"]) [self.redImage drawAtPoint:point];
+		else if ([color isEqual:@"orange"]) [self.orangeImage drawAtPoint:point];
+		else if ([color isEqual:@"yellow"]) [self.yellowImage drawAtPoint:point];
+		else if ([color isEqual:@"green"]) [self.greenImage drawAtPoint:point];
+		else if ([color isEqual:@"blue"]) [self.blueImage drawAtPoint:point];
 	}
 }
 

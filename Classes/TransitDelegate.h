@@ -15,16 +15,10 @@
 #define kLinesPerRow 5
 #define kLargeLinesPerRow 3
 
-@interface TransitDelegate : NSObject <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate> {
+@interface TransitDelegate : NSObject <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
 
-	NSMutableArray *contents;
-
-	id selectedItem;
-
-}
-
-@property (nonatomic) NSMutableArray *contents;
-@property (nonatomic) id selectedItem;
+@property (nonatomic, strong) NSMutableArray *contents;
+@property (nonatomic, strong) id selectedItem;
 
 - (void) setContentsForAgency:(Agency *)agency;
 - (NSArray *) formatContentsForAgency:(Agency *)agency;

@@ -40,7 +40,7 @@
 
 	NSLog(@"acTransitDelegate: %@", @"Button Tapped"); /* DEBUG LOG */
 
-	self.selectedItem = [contents objectAtIndex:tag];
+	self.selectedItem = [self.contents objectAtIndex:tag];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter postNotificationName:@"routeSelected" object:self];
@@ -59,7 +59,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return([formattedContents count]);
+	return([self.formattedContents count]);
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -86,7 +86,7 @@
 	if (cell == nil) cell = [[RoutesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ACTransitRoutesCellIdentifier];
 	// current row index
 	int row = indexPath.row;
-	NSArray *rowRoutes = [formattedContents objectAtIndex:row];
+	NSArray *rowRoutes = [self.formattedContents objectAtIndex:row];
 
 	// button formatting
 	int buttonWidth = cell.frame.size.width / kLinesPerRow;

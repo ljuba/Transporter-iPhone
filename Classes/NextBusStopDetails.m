@@ -61,13 +61,13 @@
     
 	// FORMAT STOP TITLE
     
-	if (mainDirection != nil) {
+	if (self.mainDirection != nil) {
 
 		// add the main direction to the contents as arrays
-		[self.contents addObject:[NSMutableArray arrayWithObject:mainDirection]];
+		[self.contents addObject:[NSMutableArray arrayWithObject:self.mainDirection]];
 
 		// save the mainDirection to userDefaults so we can restore the path of view controllers to the NextBusStopDetailsVC
-		[DataHelper saveDirectionIDInUserDefaults:mainDirection forKey:@"mainDirectionURIData"];
+		[DataHelper saveDirectionIDInUserDefaults:self.mainDirection forKey:@"mainDirectionURIData"];
 
 	}
 	// an array of directions that serve this stop
@@ -80,9 +80,9 @@
 	// remove the mainDirections from this array if it exists
 	for (Direction *direction in otherDirections)
 
-		if ([direction.route.tag isEqualToString:mainDirection.route.tag]&&
-		    [direction.name isEqualToString:mainDirection.name]&&
-		    [direction.title isEqualToString:mainDirection.title]) {
+		if ([direction.route.tag isEqualToString:self.mainDirection.route.tag]&&
+		    [direction.name isEqualToString:self.mainDirection.name]&&
+		    [direction.title isEqualToString:self.mainDirection.title]) {
 
 			[otherDirections removeObject:direction];
 			NSLog(@"DIRECTION TO REMOVE FROM OTHER DIRECTIONS: %@ %@", direction.route.tag, direction.name); /* DEBUG LOG */
@@ -164,7 +164,7 @@
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
 	// if you don't want the previous stop of the main direction, the upcoming screen shouldn't have a main direction
-	if (![mainDirection isEqual:cell.direction]) mainDirection = nil;
+	if (![self.mainDirection isEqual:cell.direction]) self.mainDirection = nil;
 	CATransition *pushTransition = [CATransition animation];
 	pushTransition.duration = 0.5;
 	pushTransition.type = kCATransitionPush;
@@ -196,7 +196,7 @@
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
 	// if you don't want the next stop of the main direction, the upcoming screen shouldn't have a main direction
-	if (![mainDirection isEqual:cell.direction]) mainDirection = nil;
+	if (![self.mainDirection isEqual:cell.direction]) self.mainDirection = nil;
 	CATransition *pushTransition = [CATransition animation];
 	pushTransition.duration = 0.5;
 	pushTransition.type = kCATransitionPush;
@@ -242,7 +242,7 @@
 	self.cellStatus = kCellStatusSpinner;
 
 	self.stop = self.stop.oppositeStop;
-	mainDirection = nil;
+	self.mainDirection = nil;
 
 	self.isFirstPredictionsFetch = YES;
 
@@ -274,7 +274,7 @@
 		request.route = route;
 		request.stopTag = self.stop.tag;
 
-		if ([route isEqual:mainDirection.route]) {
+		if ([route isEqual:self.mainDirection.route]) {
 			request.isMainRoute = YES;
 			[requests insertObject:request atIndex:0];
 		} else {

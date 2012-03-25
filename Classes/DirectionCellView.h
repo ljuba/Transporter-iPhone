@@ -10,14 +10,11 @@
 #import "LineCellView.h"
 #import <UIKit/UIKit.h>
 
-@interface DirectionCellView : LineCellView {
+@interface DirectionCellView : LineCellView 
 
-	Direction *direction;
-	UILabel *directionTitleLabel;
-}
+@property (nonatomic, strong) Direction *direction;
+@property (nonatomic, strong) UILabel *directionTitleLabel;
 
-@property (nonatomic) Direction *direction;
-@property (nonatomic) UILabel *directionTitleLabel;
 - (void) setFavoriteStatus;
 - (void) toggleFavorite;
 

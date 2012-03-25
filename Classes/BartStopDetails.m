@@ -301,7 +301,7 @@
 		}
 		NSString *platformNumber = [firstArrivalDict objectForKey:@"platform"];
 
-		int sectionIndex = [platforms indexOfObject:platformNumber];
+		int sectionIndex = [self.platforms indexOfObject:platformNumber];
 
 		// CREATE THE PREDICTION OBJECT TO ADD TO THE CONTENTS
 
@@ -330,7 +330,7 @@
 
 	RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 
-	NSString *platformNumber = [platforms objectAtIndex:section];
+	NSString *platformNumber = [self.platforms objectAtIndex:section];
 	header.title = [NSString stringWithFormat:@"Platform %@", platformNumber];
 	return(header);
 

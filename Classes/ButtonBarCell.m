@@ -29,15 +29,15 @@
 // configure whether next/prev/switch buttons are active or not
 - (void) configureButtons {
 
-	nextStopButton.enabled = [self thereIsNextStop];
-	previousStopButton.enabled = [self thereIsPreviousStop];
+	self.nextStopButton.enabled = [self thereIsNextStop];
+	self.previousStopButton.enabled = [self thereIsPreviousStop];
 
 }
 
 - (BOOL) thereIsNextStop {
 
-	NSArray *stopOrder = direction.stopOrder;
-	NSString *stopTag = [NSString stringWithFormat:@"%@", stop.tag];
+	NSArray *stopOrder = self.direction.stopOrder;
+	NSString *stopTag = [NSString stringWithFormat:@"%@", self.stop.tag];
 
 	// if this is the last stop in the direction, the button should be disabled
 	if ([[stopOrder lastObject] isEqual:stopTag]) return(NO);
@@ -49,13 +49,13 @@
 		NSLog(@"Current Stop: %@", stopTag); /* DEBUG LOG */
 		NSLog(@"Next Stop: %@", nextStopTag); /* DEBUG LOG */
 
-		NSMutableSet *stops = [NSMutableSet setWithSet:direction.stops];
+		NSMutableSet *stops = [NSMutableSet setWithSet:self.direction.stops];
 
 		// filter all but the next stop
 		NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"tag == %@", nextStopTag];
 		[stops filterUsingPredicate:filterPredicate];
 
-		nextStop = [stops anyObject];
+		self.nextStop = [stops anyObject];
 
 		return(YES);
 	}
@@ -63,8 +63,8 @@
 
 - (BOOL) thereIsPreviousStop {
 
-	NSArray *stopOrder = direction.stopOrder;
-	NSString *stopTag = [NSString stringWithFormat:@"%@", stop.tag];
+	NSArray *stopOrder = self.direction.stopOrder;
+	NSString *stopTag = [NSString stringWithFormat:@"%@", self.stop.tag];
 
 	// if this is the first stop in the direction, the button should be disabled
 	if ([[stopOrder objectAtIndex:0] isEqual:stopTag]) return(NO);
@@ -74,13 +74,13 @@
 		NSLog(@"Current Stop: %@", stopTag); /* DEBUG LOG */
 		NSLog(@"Previous Stop: %@", previousStopTag); /* DEBUG LOG */
 
-		NSMutableSet *stops = [NSMutableSet setWithSet:direction.stops];
+		NSMutableSet *stops = [NSMutableSet setWithSet:self.direction.stops];
 
 		// filter all but the next stop
 		NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"tag == %@", previousStopTag];
 		[stops filterUsingPredicate:filterPredicate];
 
-		previousStop = [stops anyObject];
+		self.previousStop = [stops anyObject];
 
 		return(YES);
 	}

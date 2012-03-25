@@ -13,28 +13,15 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
-@interface DirectionsMapView : UIViewController <CLLocationManagerDelegate> {
+@interface DirectionsMapView : UIViewController <CLLocationManagerDelegate> 
 
-	NSArray *directions;
-	Route *route;
-
-	int zoomLevel;                                                          // used to position the user location on the static map
-	int yCropPixels;                                                        // used to position the user location on the static map
-	CLLocationCoordinate2D centerCoordinate;        // used to position the user location on the static map
-
-	UIImageView *routeMap;
-	CLLocationManager *locationManager;
-}
-
-@property (nonatomic) NSArray *directions;
-@property (nonatomic) Route *route;
-
-@property (nonatomic) IBOutlet UIImageView *routeMap;
-@property (nonatomic) CLLocationManager *locationManager;
-
-@property CLLocationCoordinate2D centerCoordinate;
-@property int zoomLevel;
-@property int yCropPixels;
+@property (nonatomic, strong) NSArray *directions;
+@property (nonatomic, strong) Route *route;
+@property (nonatomic, strong) IBOutlet UIImageView *routeMap;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property CLLocationCoordinate2D centerCoordinate;  // used to position the user location on the static map
+@property int zoomLevel;    // used to position the user location on the static map
+@property int yCropPixels;  // used to position the user location on the static map
 
 - (void) directionSelected:(NSNotification *)note;
 - (void) toggleLocationUpdating:(NSNotification *)note;

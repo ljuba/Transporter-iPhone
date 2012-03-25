@@ -22,7 +22,7 @@
 // sets the color of the star icon depending on whether the stop/direction combo is a favorite
 - (void) setFavoriteStatus {
 
-	if ([FavoritesManager isFavoriteStop:stop forLine:destination]) {
+	if ([FavoritesManager isFavoriteStop:stop forLine:self.destination]) {
 		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
 		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateHighlighted];
 		self.isFavorite = YES;
@@ -38,14 +38,14 @@
 	if (isFavorite) {
 
 		// toggle button if removal from plist is successful
-		if ([FavoritesManager removeStopFromFavorites:stop forLine:destination]) {
+		if ([FavoritesManager removeStopFromFavorites:stop forLine:self.destination]) {
 			isFavorite = NO;
 			[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateNormal];
 			[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateHighlighted];
 		}
 	} else
 	// toggle button if additing from plist is successful
-	if ([FavoritesManager addStopToFavorites:stop forLine:destination]) {
+	if ([FavoritesManager addStopToFavorites:stop forLine:self.destination]) {
 		isFavorite = YES;
 		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
 		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateHighlighted];
@@ -56,10 +56,10 @@
 
 	destination = dest;
 
-	[bartColorsView removeFromSuperview];           // remove bartColorsView from dequeued destinationcellview
+	[self.bartColorsView removeFromSuperview];           // remove bartColorsView from dequeued destinationcellview
 
-	bartColorsView = [[BartColorsView alloc] initWithColors:destination.colors atPoint:CGPointMake(37, 36)];
-	[self addSubview:bartColorsView];
+	self.bartColorsView = [[BartColorsView alloc] initWithColors:self.destination.colors atPoint:CGPointMake(37, 36)];
+	[self addSubview:self.bartColorsView];
 	[self setNeedsDisplay];
 
 }

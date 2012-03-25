@@ -8,12 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RoutesCell : UITableViewCell {
+@interface RoutesCell : UITableViewCell 
 
-	NSMutableArray *buttons;
-
-}
-
-@property (nonatomic) NSMutableArray *buttons;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 @end

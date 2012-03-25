@@ -17,9 +17,6 @@ extern const CGFloat kLineCellViewHeight;
 
 @interface LineCellView : UIView
 {
-	NSString *majorTitle;
-	UIColor *textColor;
-
 	UIButton *favoriteButton;
 	Stop *stop;
 
@@ -30,28 +27,22 @@ extern const CGFloat kLineCellViewHeight;
 	PredictionLabel *prediction3Label;
 
 	int cellStatus;
-
-	UIActivityIndicatorView *spinner;
-	UILabel *minuteLabel;
-
-	UIFont *font;
-
 }
 
 @property (copy, nonatomic) NSString *majorTitle;
-@property ( nonatomic) UIColor *textColor;
-@property (nonatomic) UIButton *favoriteButton;
-@property (nonatomic) UIActivityIndicatorView *spinner;
-@property (nonatomic) Stop *stop;
-@property (nonatomic) UIFont *font;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIButton *favoriteButton;
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) Stop *stop;
+@property (nonatomic, strong) UIFont *font;
 
 @property int cellStatus;
 @property BOOL isFavorite;
 
-@property (nonatomic) PredictionLabel *prediction1Label;
-@property (nonatomic) PredictionLabel *prediction2Label;
-@property (nonatomic) PredictionLabel *prediction3Label;
-@property (nonatomic) UILabel *minuteLabel;
+@property (nonatomic, strong) PredictionLabel *prediction1Label;
+@property (nonatomic, strong) PredictionLabel *prediction2Label;
+@property (nonatomic, strong) PredictionLabel *prediction3Label;
+@property (nonatomic, strong) UILabel *minuteLabel;
 
 - (void) setCellStatus:(int)status withArrivals:(NSArray *)arrivals;
 - (void) toggleFavorite;

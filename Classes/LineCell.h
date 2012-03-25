@@ -9,11 +9,7 @@
 #import "LineCellView.h"
 #import <UIKit/UIKit.h>
 
-@interface LineCell : UITableViewCell {
-
-	LineCellView *lineCellView;
-
-}
+@interface LineCell : UITableViewCell
 
 @property (nonatomic, strong) LineCellView *lineCellView;
 

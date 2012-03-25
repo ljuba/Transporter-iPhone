@@ -96,10 +96,10 @@ static NSMutableArray *closestStops;
 // calls the function to calculate the closest stop and displays it in the table view
 - (void) displayClosestStopToLocation:(CLLocation *)location {
 
-	closestStops = [DataHelper findClosestStopsFromLocation:location amongStops:[contents objectAtIndex:1] count:2];
+	closestStops = [DataHelper findClosestStopsFromLocation:location amongStops:[self.contents objectAtIndex:1] count:2];
 
 	// replace the empty "nearby" stop array added in "viewDidLoad"
-	[contents replaceObjectAtIndex:0 withObject:closestStops];
+	[self.contents replaceObjectAtIndex:0 withObject:closestStops];
 
 	// tell LinesVC to reload the table data
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -117,12 +117,12 @@ static NSMutableArray *closestStops;
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-	return([contents count]);
+	return([self.contents count]);
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return([[contents objectAtIndex:section] count]);
+	return([[self.contents objectAtIndex:section] count]);
 }
 
 // Customize the appearance of table view cells.
@@ -158,7 +158,7 @@ static NSMutableArray *closestStops;
 		return(cell);
 	}
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	cell.textLabel.text = [[[contents objectAtIndex:section] objectAtIndex:row] title];
+	cell.textLabel.text = [[[self.contents objectAtIndex:section] objectAtIndex:row] title];
 
 	return(cell);
 }
@@ -180,7 +180,7 @@ static NSMutableArray *closestStops;
 // don't allow Placeholder rows to be selectable
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	if ([[[contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isKindOfClass:[NSNull class]]) return(nil);
+	if ([[[self.contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isKindOfClass:[NSNull class]]) return(nil);
 	return(indexPath);
 
 }
@@ -194,7 +194,7 @@ static NSMutableArray *closestStops;
 	NSLog(@"bartDelegate: %@", @"Stop Tapped"); /* DEBUG LOG */
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter postNotificationName:@"stopSelected" object:[[contents objectAtIndex:section] objectAtIndex:row]];
+	[notificationCenter postNotificationName:@"stopSelected" object:[[self.contents objectAtIndex:section] objectAtIndex:row]];
 
 	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 

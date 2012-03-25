@@ -11,27 +11,16 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ButtonBarCell : UITableViewCell {
+@interface ButtonBarCell : UITableViewCell
 
-	UIButton *previousStopButton;
-	UIButton *nextStopButton;
-	UIButton *liveRouteButton;
+@property (nonatomic, strong) IBOutlet UIButton *previousStopButton;
+@property (nonatomic, strong) IBOutlet UIButton *nextStopButton;
+@property (nonatomic, strong) IBOutlet UIButton *liveRouteButton;
 
-	Direction *direction;
-	Stop *stop;
-	Stop *nextStop;
-	Stop *previousStop;
-
-}
-
-@property (nonatomic) IBOutlet UIButton *previousStopButton;
-@property (nonatomic) IBOutlet UIButton *nextStopButton;
-@property (nonatomic) IBOutlet UIButton *liveRouteButton;
-
-@property (nonatomic) Direction *direction;
-@property (nonatomic) Stop *stop;
-@property (nonatomic) Stop *nextStop;
-@property (nonatomic) Stop *previousStop;
+@property (nonatomic, strong) Direction *direction;
+@property (nonatomic, strong) Stop *stop;
+@property (nonatomic, strong) Stop *nextStop;
+@property (nonatomic, strong) Stop *previousStop;
 
 - (IBAction) goToPreviousStop:(id)sender;
 - (IBAction) goToNextStop:(id)sender;

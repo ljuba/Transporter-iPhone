@@ -47,28 +47,28 @@
 
 }
 
-@property (nonatomic) NSMutableArray *stops;
-@property (nonatomic) Direction *direction;
-@property (nonatomic) CLLocationManager *locationManager;
-@property (nonatomic) UIButton *userMarker;
-@property (nonatomic) IBOutlet UITableView *_tableView;
-@property (nonatomic) IBOutlet UILabel *label;
+@property (nonatomic, strong) NSMutableArray *stops;
+@property (nonatomic, strong) Direction *direction;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) UIButton *userMarker;
+@property (nonatomic, strong) IBOutlet UITableView *_tableView;
+@property (nonatomic, strong) IBOutlet UILabel *label;
 
-@property (nonatomic) Stop *startingStop;
-@property (nonatomic) Stop *scrollStop;
-@property (nonatomic) Stop *tappedStop;
+@property (nonatomic, strong) Stop *startingStop;
+@property (nonatomic, strong) Stop *scrollStop;
+@property (nonatomic, strong) Stop *tappedStop;
 
-@property (nonatomic) Stop *savedNextStop;
-@property (nonatomic) Stop *savedPreviousStop;
+@property (nonatomic, strong) Stop *savedNextStop;
+@property (nonatomic, strong) Stop *savedPreviousStop;
 
-@property (nonatomic) NSTimer *locationFixTimeoutTimer;
+@property (nonatomic, strong) NSTimer *locationFixTimeoutTimer;
 
 @property int locationAccuracy;
 
-@property (nonatomic) VehicleFetcher *vehicleFetcher;
-@property (nonatomic) NSMutableDictionary *predictions;
+@property (nonatomic, strong) VehicleFetcher *vehicleFetcher;
+@property (nonatomic, strong) NSMutableDictionary *predictions;
 
-@property (nonatomic) NSString *vehicleID;
+@property (nonatomic, strong) NSString *vehicleID;
 
 @property BOOL isBART;
 

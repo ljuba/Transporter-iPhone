@@ -38,14 +38,14 @@
 	NSNull *nullObject = [[NSNull alloc] init];
 	[self.stops addObject:[NSMutableArray arrayWithObject:nullObject]];  // add placeholder nearby "stop" array that will be determined in "viewDidAppear"
 
-	NSArray *sortOrder = (NSArray *)direction.stopOrder;             // the order of stops for this direction
+	NSArray *sortOrder = (NSArray *)self.direction.stopOrder;             // the order of stops for this direction
 	NSMutableArray *allStops = [[NSMutableArray alloc] initWithCapacity:1];
 
 	// find stop in self.stops and add it to the orderedStops array
 	for (NSString *stopTag in sortOrder) {
 
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag=%@", stopTag];
-		NSSet *temp = [direction.stops filteredSetUsingPredicate:predicate];
+		NSSet *temp = [self.direction.stops filteredSetUsingPredicate:predicate];
 
 		Stop *thisStop = [temp anyObject];
 
@@ -182,16 +182,16 @@
 		cell.indentationLevel = 0;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
-	Stop *currentStop = [[stops objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	Stop *currentStop = [[self.stops objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	NSString *agencyShortTitle = currentStop.agency.shortTitle;
 
 	cell.textLabel.text = currentStop.title;
 
 	// start, end, or mid line stop?
-	int stopIndex = [[stops objectAtIndex:1] indexOfObjectIdenticalTo:currentStop];
+	int stopIndex = [[self.stops objectAtIndex:1] indexOfObjectIdenticalTo:currentStop];
 
 	if (stopIndex == 0) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-beginning-route-%@.png", agencyShortTitle]];
-	else if (stopIndex == [[stops objectAtIndex:1] count] - 1) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-end-route-%@.png", agencyShortTitle]];
+	else if (stopIndex == [[self.stops objectAtIndex:1] count] - 1) cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-end-route-%@.png", agencyShortTitle]];
 	else cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stop-mid-route-%@.png", agencyShortTitle]];
 	return(cell);
 
@@ -214,7 +214,7 @@
 // don't allow Placeholder rows to be selectable
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	if ([[[stops objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isKindOfClass:[NSNull class]]) return(nil);
+	if ([[[self.stops objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isKindOfClass:[NSNull class]]) return(nil);
 	return(indexPath);
 
 }
@@ -224,7 +224,7 @@
 	NSUInteger section = [indexPath section];
 	NSUInteger row = [indexPath row];
 
-	NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] initWithStop:[[stops objectAtIndex:section] objectAtIndex:row] mainDirection:direction];
+	NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] initWithStop:[[self.stops objectAtIndex:section] objectAtIndex:row] mainDirection:self.direction];
 	
 	[self.navigationController pushViewController:nextBusStopDetails animated:YES];
 

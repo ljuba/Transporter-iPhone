@@ -26,17 +26,17 @@
 	tableView.showsVerticalScrollIndicator = NO;
 	tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-	segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"SF MUNI", @"BART", @"AC Transit", nil]];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	[segmentedControl addTarget:self action:@selector(tapAgency) forControlEvents:UIControlEventValueChanged];
+	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"SF MUNI", @"BART", @"AC Transit", nil]];
+	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	[self.segmentedControl addTarget:self action:@selector(tapAgency) forControlEvents:UIControlEventValueChanged];
 
     
-	[segmentedControl setWidth:100.0 forSegmentAtIndex:0];
-	[segmentedControl setWidth:98.0 forSegmentAtIndex:1];
-	[segmentedControl setWidth:102.0 forSegmentAtIndex:2];
+	[self.segmentedControl setWidth:100.0 forSegmentAtIndex:0];
+	[self.segmentedControl setWidth:98.0 forSegmentAtIndex:1];
+	[self.segmentedControl setWidth:102.0 forSegmentAtIndex:2];
     self.segmentedControl.bounds = CGRectMake(0, 0, 304.0, self.segmentedControl.frame.size.height);
 
-	self.navigationItem.titleView = segmentedControl;
+	self.navigationItem.titleView = self.segmentedControl;
 
 	// setup core location and fetch locations while you're on this screen (for use later)
 	locationManager = [[CLLocationManager alloc] init];
@@ -50,7 +50,7 @@
 
 	// sets the initial agency data depending on the segmented selected last
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	segmentedControl.selectedSegmentIndex = [userDefaults integerForKey:@"linesSegmentedControlIndex"];
+	self.segmentedControl.selectedSegmentIndex = [userDefaults integerForKey:@"linesSegmentedControlIndex"];
 
     //BACKGROUND IMAGE
     UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
@@ -64,7 +64,7 @@
 - (void) reloadSection0:(NSNotification *)note {
 
 	// only reload the section if bart is selected
-	if (segmentedControl.selectedSegmentIndex == 1)	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+	if (self.segmentedControl.selectedSegmentIndex == 1)	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 // respond to a notification that a (for ac transit and muni) or station (for bart) was tapped
@@ -110,11 +110,11 @@
 - (void) tapAgency {
 
 	// muni
-	if (segmentedControl.selectedSegmentIndex == 0) {
+	if (self.segmentedControl.selectedSegmentIndex == 0) {
 
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-muni-selected.png"] forSegmentAtIndex:0];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-selected.png"] forSegmentAtIndex:0];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
 
 		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
         
@@ -122,11 +122,11 @@
 		tableView.backgroundColor = [UIColor clearColor];
 	}
 	// bart
-	else if (segmentedControl.selectedSegmentIndex == 1) {
+	else if (self.segmentedControl.selectedSegmentIndex == 1) {
 
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
 
 		self.transitDelegate = [[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]];
 		locationManager.delegate = self.transitDelegate;
@@ -137,9 +137,9 @@
 	}
 	// ac transit
 	else {
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
-		[segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
+		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
 
 		self.transitDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
 
@@ -148,7 +148,7 @@
 	}
 	// remember which agency is selected, so we can reload it next time
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setInteger:segmentedControl.selectedSegmentIndex forKey:@"linesSegmentedControlIndex"];
+	[userDefaults setInteger:self.segmentedControl.selectedSegmentIndex forKey:@"linesSegmentedControlIndex"];
 
 	self.tableView.dataSource = transitDelegate;
 	self.tableView.delegate = transitDelegate;
