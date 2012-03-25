@@ -620,6 +620,8 @@
 - (void) viewDidUnload {
 	self.label = nil;
 	self._tableView = nil;
+    
+    self.locationManager.delegate = nil;
 }
 
 

@@ -230,7 +230,11 @@
 
 }
 
-- (void) viewDidUnload {}
+- (void) viewDidUnload {
+    [super viewDidUnload];
+    
+    self.locationManager.delegate = nil;
+}
 
 
 @end

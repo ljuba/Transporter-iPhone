@@ -237,7 +237,7 @@
 - (void) viewDidUnload {
 	// Release any retained subviews of the main view.
 	self.routeMap = nil;
-
+    self.locationManager.delegate = nil;
 }
 
 

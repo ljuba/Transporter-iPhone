@@ -193,7 +193,7 @@
 	// Release any retained subviews of the main view.
 
 	self.tableView = nil;
-
+    self.locationManager.delegate = nil;
 }
 
 - (void) dealloc {

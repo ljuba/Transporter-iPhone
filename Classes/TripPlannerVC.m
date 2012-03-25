@@ -527,7 +527,8 @@
 - (void) viewDidUnload {
 
 	[locationManager stopUpdatingLocation];
-
+    locationManager.delegate = nil;
+    
 	self.startField = nil;
 	self.endField = nil;
 	self.changeTimeButton = nil;
