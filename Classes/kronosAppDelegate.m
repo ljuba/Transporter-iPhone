@@ -84,12 +84,12 @@
 	
     //APPEARANCE
     //Edit Button
-    UIImage *editButtonImage = [[UIImage imageNamed:@"bar-button"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 12, 0, 12)];    
+    UIImage *editButtonImage = [[UIImage imageNamed:@"bar-button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 8, 0, 8)];    
     [[UIBarButtonItem appearance] setBackgroundImage:editButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
     
     //Back Button
-    UIImage *backButtonImage = [[UIImage imageNamed:@"back-button"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 12)];    
+    UIImage *backButtonImage = [[UIImage imageNamed:@"back-button.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 12)];    
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(3, 0) forBarMetrics:UIBarMetricsDefault];
