@@ -9,13 +9,9 @@
 #import "StopDetails.h"
 #import <UIKit/UIKit.h>
 
-@interface NextBusStopDetails : StopDetails {
+@interface NextBusStopDetails : StopDetails
 
-	Direction *mainDirection;
-
-}
-
-@property (nonatomic) Direction *mainDirection;
+@property (nonatomic, strong) Direction *mainDirection;
 
 - (void) switchDirections;
 

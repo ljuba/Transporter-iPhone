@@ -16,19 +16,12 @@
 #import "Stop.h"
 #import <CoreData/CoreData.h>
 
-@interface StopsTVC : UITableViewController <CLLocationManagerDelegate>{
+@interface StopsTVC : UITableViewController <CLLocationManagerDelegate>
 
-	NSMutableArray *stops;
-	Direction *direction;
+@property (nonatomic, strong) NSMutableArray *stops;
+@property (nonatomic, strong) Direction *direction;
 
-	CLLocationManager *locationManager;
-
-}
-
-@property (nonatomic) NSMutableArray *stops;
-@property (nonatomic) Direction *direction;
-
-@property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (void) displayClosestStopToLocation:(CLLocation *)location;
 - (void) toggleLocationUpdating:(NSNotification *)note;

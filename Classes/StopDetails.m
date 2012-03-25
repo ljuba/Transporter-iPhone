@@ -13,44 +13,59 @@
 @synthesize stop, stopTitleImageView, stopTitleLabel, tableView, contents, lastIndexPath, buttonRowPlaceholder, cellStatus;
 @synthesize timer, errors, isFirstPredictionsFetch, predictions, tableFooterHeight, tableHeaderHeight;
 
+- (id)init {
+    if (!(self = [super initWithNibName:nil bundle:nil])) return nil;
+    
+    self.title = @"Arrivals";
+    
+    isFirstPredictionsFetch = YES;
+    self.predictions = [[NSMutableDictionary alloc] init];
+    
+    [self setupInitialContents];
+    
+    return self;
+}
+
+- (void)dealloc {
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+}
+
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
 	// GENERAL SETTINGS
-	self.title = @"Arrivals";
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 
 	self.view.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1.0];
 	cellStatus = kCellStatusSpinner;
-	isFirstPredictionsFetch = YES;
 	buttonRowPlaceholder = [[NSNull alloc] init];
-	self.predictions = [[NSMutableDictionary alloc] init];
 
 	// SETUP TABLE VIEW
-	tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 69, 320, 298)];
-	tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	tableView.dataSource = self;
-	tableView.delegate = self;
-	tableView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-	tableView.showsVerticalScrollIndicator = NO;
-	tableView.delaysContentTouches = NO;
-	[self.view addSubview:tableView];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 69, 320, 298)];
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+	self.tableView.showsVerticalScrollIndicator = NO;
+	self.tableView.delaysContentTouches = NO;
+	[self.view addSubview:self.tableView];
 
 	// SETUP TABLE HEADER/FOOTER
 	// Table footer shadow
 	UIImageView *tableFooter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table-footer-shadow.png"]];
-	tableView.tableFooterView = tableFooter;
+	self.tableView.tableFooterView = tableFooter;
 
 	UIImageView *tableHeader = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table-header-shadow.png"]];
-	tableView.tableHeaderView = tableHeader;
+	self.tableView.tableHeaderView = tableHeader;
 
 	self.tableHeaderHeight = tableHeader.frame.size.height;
 	self.tableFooterHeight = tableFooter.frame.size.height;
 
 
 	// Have the tableview ignore our 2 views when computing size
-	tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
+	self.tableView.contentInset = UIEdgeInsetsMake(-tableHeaderHeight, 0, -tableFooterHeight, 0);
 
 	// SETUP STOP TITLE IMAGE VIEW
 	stopTitleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 76)];
@@ -90,10 +105,10 @@
 	lastIndexPath = nil;
 
 	// SETUP CONTENTS ARRAY
-	contents = [[NSMutableArray alloc] init];
+	self.contents = [[NSMutableArray alloc] init];
 
 	// REMOVE ANY OLD PREDICTIONS
-	[predictions removeAllObjects];
+	[self.predictions removeAllObjects];
 
 }
 
@@ -102,12 +117,12 @@
 
 	[super viewDidAppear:animated];
 
-	errors = [[NSMutableArray alloc] init];
-
+	self.errors = [[NSMutableArray alloc] init];
+    
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(requestPredictions) userInfo:nil repeats:YES];
-
+    
 	// fetch the first request for predictions
-	[timer fire];
+	[self.timer fire];
 
 }
 
@@ -116,7 +131,7 @@
 
 	[super viewWillDisappear:animated];
 
-	[timer invalidate];
+	[self.timer invalidate];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter removeObserver:self];
@@ -129,14 +144,14 @@
 	if ([note.name isEqual:UIApplicationWillResignActiveNotification]) {
 
 		NSLog(@"STOPDETAILS: Prediction Requests OFF"); /* DEBUG LOG */
-		[timer invalidate];
+		[self.timer invalidate];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
 		NSLog(@"STOPDETAILS: Prediction Requests ON"); /* DEBUG LOG */
 		cellStatus = kCellStatusSpinner;
-		[tableView reloadData];
+		[self.tableView reloadData];
 		self.timer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(requestPredictions) userInfo:nil repeats:YES];
-		[timer fire];
+		[self.timer fire];
 	}
 }
 
@@ -183,7 +198,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	id object = [[contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	id object = [[self.contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
 	if ([object isMemberOfClass:[Direction class]]||[object isMemberOfClass:[Destination class]]) return(kLineRowHeight);
 
