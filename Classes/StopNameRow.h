@@ -11,7 +11,6 @@
 @interface StopNameRow : UIView {
 
 	NSString *stopName;
-
 	UIImage *backgroundImage;
 
 }
@@ -19,8 +18,8 @@
 - (id) initWithStopName:(NSString *)name agencyShortTitle:(NSString *)agencyShortTitle;
 - (void) setBackgroundWithStopName:(NSString *)name agencyShortTitle:(NSString *)agencyShortTitle;
 
-@property (nonatomic) NSString *stopName;
+@property (nonatomic, strong) NSString *stopName;
 
-@property (nonatomic) UIImage *backgroundImage;
+@property (nonatomic, strong) UIImage *backgroundImage;
 
 @end

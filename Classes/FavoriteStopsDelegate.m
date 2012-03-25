@@ -30,7 +30,7 @@
 
 	if (self = [super init]) {
 
-		predictions = [[NSMutableDictionary alloc] init];
+		self.predictions = [[NSMutableDictionary alloc] init];
 		self.selectedItem = nil;
 	}
 	return(self);
@@ -127,13 +127,13 @@
 
 			colors = destination.colors;
 
-			prediction = [predictions objectForKey:stopTag];
+			prediction = [self.predictions objectForKey:stopTag];
 
 		} else {
 
 			NSString *routeTag = [lineItem objectForKey:@"routeTag"];
 			predictionKey = [PredictionsManager predictionKeyFromAgencyShortTitle:agencyShortTitle routeTag:routeTag stopTag:stopTag];
-			prediction = [predictions objectForKey:predictionKey];
+			prediction = [self.predictions objectForKey:predictionKey];
 
 		}
 		LineRow *lineRow = [[LineRow alloc] initWithLineItem:lineItem withColors:colors inRange:range];

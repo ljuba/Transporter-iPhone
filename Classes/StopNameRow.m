@@ -18,14 +18,14 @@
 
 		[self setBackgroundWithStopName:name agencyShortTitle:agencyShortTitle];
 
-		CGRect frame = CGRectMake(0, 0, backgroundImage.size.width, backgroundImage.size.height);
+		CGRect frame = CGRectMake(0, 0, self.backgroundImage.size.width, self.backgroundImage.size.height);
 
 		self.frame = frame;
 
 		CGRect labelFrame = CGRectMake(19, 7, 275, 25);
 
 		UILabel *stopNameLabel = [[UILabel alloc] initWithFrame:labelFrame];
-		stopNameLabel.text = stopName;
+		stopNameLabel.text = self.stopName;
 		stopNameLabel.font = [UIFont boldSystemFontOfSize:17];
 		stopNameLabel.textColor = [UIColor whiteColor];
 		stopNameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
@@ -43,16 +43,16 @@
 	self.stopName = name;
 	self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 
-	if ([agencyShortTitle isEqual:@"bart"])	backgroundImage = [UIImage imageNamed:@"fav-bart-stop-background.png"];
-	else if ([agencyShortTitle isEqual:@"sf-muni"])	backgroundImage = [UIImage imageNamed:@"fav-muni-stop-background.png"];
-	else if ([agencyShortTitle isEqual:@"actransit"]) backgroundImage = [UIImage imageNamed:@"fav-actransit-stop-background.png"];
+	if ([agencyShortTitle isEqual:@"bart"])	self.backgroundImage = [UIImage imageNamed:@"fav-bart-stop-background.png"];
+	else if ([agencyShortTitle isEqual:@"sf-muni"])	self.backgroundImage = [UIImage imageNamed:@"fav-muni-stop-background.png"];
+	else if ([agencyShortTitle isEqual:@"actransit"]) self.backgroundImage = [UIImage imageNamed:@"fav-actransit-stop-background.png"];
 }
 
 - (void) drawRect:(CGRect)rect {
 
 	CGPoint backgroundPoint = CGPointZero;
 
-	[backgroundImage drawAtPoint:backgroundPoint];
+	[self.backgroundImage drawAtPoint:backgroundPoint];
 
 }
 

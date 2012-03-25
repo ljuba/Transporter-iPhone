@@ -15,7 +15,7 @@
 
 @implementation FavoritesVC
 
-@synthesize segmentedControl, tableView, reloadPredictionsButton, timer, stopsDelegate, editButton, noFavoritesMessageView, participateButton;
+@synthesize segmentedControl, tableView, reloadPredictionsButton, timer, stopsDelegate, editButton, noFavoritesMessageView;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad {
@@ -25,32 +25,25 @@
 	self.navigationItem.title = @"Favorite Stops";
 
 	// SETUP NO-FAVORITES MESSAGE VIEW
-	noFavoritesMessageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no-favorites-message.png"]];
-	noFavoritesMessageView.center = CGPointMake(160, 170);
+	self.noFavoritesMessageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no-favorites-message.png"]];
+	self.noFavoritesMessageView.center = CGPointMake(160, 170);
 
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 
-	segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Stops", @"Trips", nil]];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	[segmentedControl addTarget:self action:@selector(tapSegmentedControl) forControlEvents:UIControlEventValueChanged];
-	segmentedControl.selectedSegmentIndex = 0;
-	[segmentedControl setWidth:95.0 forSegmentAtIndex:0];
-	[segmentedControl setWidth:95.0 forSegmentAtIndex:1];
-	segmentedControl.tintColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
+	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Stops", @"Trips", nil]];
+	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	[self.segmentedControl addTarget:self action:@selector(tapSegmentedControl) forControlEvents:UIControlEventValueChanged];
+	self.segmentedControl.selectedSegmentIndex = 0;
+	[self.segmentedControl setWidth:95.0 forSegmentAtIndex:0];
+	[self.segmentedControl setWidth:95.0 forSegmentAtIndex:1];
+	self.segmentedControl.tintColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
 
 	// VERSION 1: Remove this to support trip planning
 	// self.navigationItem.titleView = segmentedControl;
 
 	// setup the favorites delegates
-	stopsDelegate = [[FavoriteStopsDelegate alloc] init];
-
-// participateButton = [[UIButton alloc] init];
-// participateButton.frame = CGRectMake(0, 0, 320, 60);
-// [participateButton setImage:[UIImage imageNamed:@"participate-button.png"] forState:UIControlStateNormal];
-// [participateButton setTitle:@"Participate" forState:UIControlStateNormal];
-// [participateButton addTarget:self action:@selector(showParticipateView) forControlEvents:UIControlEventTouchUpInside];
-// [self.view addSubview:participateButton];
+	self.stopsDelegate = [[FavoriteStopsDelegate alloc] init];
 
 }
 
@@ -61,14 +54,14 @@
 
 		NSLog(@"FAVORITESVC: Prediction Requests OFF"); /* DEBUG LOG */
 
-		[timer invalidate];
+		[self.timer invalidate];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
 		NSLog(@"FAVORITESVC: Prediction Requests ON"); /* DEBUG LOG */
-		[tableView reloadData];
-		[stopsDelegate.predictions removeAllObjects];
+		[self.tableView reloadData];
+		[self.stopsDelegate.predictions removeAllObjects];
 		self.timer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(requestPredictions) userInfo:nil repeats:YES];
-		[timer fire];
+		[self.timer fire];
 	}
 }
 
@@ -79,26 +72,6 @@
 	// check the segmented control selection and load the appropriate favorites
 	// request predictions if you're looking at stops
 	[self tapSegmentedControl];
-
-	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	BOOL declinedToParticipate = [userDefaults boolForKey:@"declinedToParticipate"];
-    declinedToParticipate = YES;    //REMOVE THE BANNER: force the choice of participation to NO
-    
-	// don't show the participate banner. force this choice.
-	if (declinedToParticipate == YES) {
-
-		tableView.frame = CGRectMake(0, 0, 320, 367);
-		participateButton.hidden = YES;
-
-	}
-	// show the participate banner
-	else {
-
-		participateButton.hidden = NO;
-		tableView.frame = CGRectMake(0, 60, 320, 307);
-
-	}
-	[self.view setNeedsLayout];
 
 }
 
@@ -125,7 +98,7 @@
 
 	[super viewWillDisappear:animated];
 
-	[timer invalidate];
+	[self.timer invalidate];
 
 	// unregister the notification from the favorites delegates
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -136,18 +109,18 @@
 - (IBAction) toggleEditingMode {
 
 	// if in editing mode, turn in off
-	if (tableView.editing) {
+	if (self.tableView.editing) {
 
-		[tableView setEditing:NO animated:YES];
+		[self.tableView setEditing:NO animated:YES];
 
 		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(toggleEditingMode)];
 		self.navigationItem.rightBarButtonItem = rightButton;
 
 		// save contents to favorites to capture and changes to the order
-		[stopsDelegate saveContentsToFavoritesFile];
+		[self.stopsDelegate saveContentsToFavoritesFile];
 
 	} else {
-		[tableView setEditing:YES animated:YES];
+		[self.tableView setEditing:YES animated:YES];
 
 		UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(toggleEditingMode)];
 		self.navigationItem.rightBarButtonItem = rightButton;
@@ -159,7 +132,7 @@
 - (void) requestPredictions {
 
 	// only load predictions for the stops screen. trips don't need predictions
-	if (segmentedControl.selectedSegmentIndex == 0) {
+	if (self.segmentedControl.selectedSegmentIndex == 0) {
 
 		kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
 		PredictionsManager *predictionsManager = appDelegate.predictionsManager;
@@ -167,12 +140,12 @@
 		// NSLog(@"%@", self.favoritesDelegate.contents); /* DEBUG LOG */
 
 		// only request predictions of there are favorited stops
-		if ([stopsDelegate.contents count] > 0) {
+		if ([self.stopsDelegate.contents count] > 0) {
 
 			NSMutableArray *requests = [NSMutableArray array];
 
 			// iterate through the stops on screen and create prediction requests from them
-			for (NSDictionary *stopItem in stopsDelegate.contents) {
+			for (NSDictionary *stopItem in self.stopsDelegate.contents) {
 
 				NSString *agencyShortTitle = [stopItem valueForKey:@"agencyShortTitle"];
 				NSString *stopTag = [stopItem valueForKey:@"tag"];
@@ -215,7 +188,7 @@
 
 	// only return predicitons if they're not an error
 	// or if if the table is not editing
-	if ( ([predictions objectForKey:@"error"] != nil)||[tableView isEditing] ) return;
+	if ( ([predictions objectForKey:@"error"] != nil)||[self.tableView isEditing] ) return;
 	// find the index paths of the rows these predictions are for
 	NSMutableArray *indexPaths = [NSMutableArray array];
 
@@ -226,14 +199,14 @@
 		NSPredicate *stopFilter = [NSPredicate predicateWithFormat:@"tag == %@", prediction.stopTag];
 		NSPredicate *agencyFilter = [NSPredicate predicateWithFormat:@"agencyShortTitle == %@", prediction.agencyShortTitle];
 
-		NSMutableArray *matchingStops = [NSMutableArray arrayWithArray:[stopsDelegate.contents filteredArrayUsingPredicate:stopFilter]];
+		NSMutableArray *matchingStops = [NSMutableArray arrayWithArray:[self.stopsDelegate.contents filteredArrayUsingPredicate:stopFilter]];
 		[matchingStops filterUsingPredicate:agencyFilter];
 
 		for (NSDictionary *stopItem in matchingStops) {
 
 			// NSLog(@"MATCHING STOP ITEM: %@", stopItem); /* DEBUG LOG */
 
-			int rowIndex = [stopsDelegate.contents indexOfObject:stopItem];
+			int rowIndex = [self.stopsDelegate.contents indexOfObject:stopItem];
 			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:0];
 
 			// since favorite stops with multiple lines have multiple predictions,
@@ -241,12 +214,12 @@
 			if (![indexPaths containsObject:indexPath]) [indexPaths addObject:indexPath];
 		}
 	}
-	[stopsDelegate.predictions addEntriesFromDictionary:predictions];
+	[self.stopsDelegate.predictions addEntriesFromDictionary:predictions];
 
 	// NSLog(@"FavoritesVC: cells reloaded: %d", [indexPaths count]); /* DEBUG LOG */
 
 	// reload the cells for these predictions
-	[tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 
 }
 
@@ -254,41 +227,41 @@
 - (void) tapSegmentedControl {
 
 	// stops
-	if (segmentedControl.selectedSegmentIndex == 0) {
-		reloadPredictionsButton.enabled = YES;
+	if (self.segmentedControl.selectedSegmentIndex == 0) {
+		self.reloadPredictionsButton.enabled = YES;
 
 		// reload table contents from the favorites.plist file
-		[stopsDelegate loadFavoritesFile];
+		[self.stopsDelegate loadFavoritesFile];
 
-		self.tableView.dataSource = stopsDelegate;
-		self.tableView.delegate = stopsDelegate;
+		self.tableView.dataSource = self.stopsDelegate;
+		self.tableView.delegate = self.stopsDelegate;
 
 		// SETTINGS FOR WHEN THERE ARE NO FAVORITE STOPS
-		int numberOfFavorites = [stopsDelegate.contents count];
+		int numberOfFavorites = [self.stopsDelegate.contents count];
 
 		if (numberOfFavorites == 0) {
-			[self.view addSubview:noFavoritesMessageView];
+			[self.view addSubview:self.noFavoritesMessageView];
 			self.navigationItem.rightBarButtonItem.enabled = NO;
 		} else if (numberOfFavorites == 1) {
 			self.navigationItem.rightBarButtonItem.enabled = NO;
-			[noFavoritesMessageView removeFromSuperview];
+			[self.noFavoritesMessageView removeFromSuperview];
 		} else {
 			self.navigationItem.rightBarButtonItem.enabled = YES;
-			[noFavoritesMessageView removeFromSuperview];
+			[self.noFavoritesMessageView removeFromSuperview];
 
 		}
 		[self requestPredictions];
 
 	}
 	// trips
-	else if (segmentedControl.selectedSegmentIndex == 1) {
-		reloadPredictionsButton.enabled = NO;
+	else if (self.segmentedControl.selectedSegmentIndex == 1) {
+		self.reloadPredictionsButton.enabled = NO;
 		self.tableView.dataSource = nil;
 		self.tableView.delegate = nil;
 
-		[noFavoritesMessageView removeFromSuperview];
+		[self.noFavoritesMessageView removeFromSuperview];
 	}
-	[tableView reloadData];
+	[self.tableView reloadData];
 
 	// NSIndexPath *topPath = [NSIndexPath indexPathForRow:0 inSection:0];
 	// [tableView scrollToRowAtIndexPath:topPath atScrollPosition: UITableViewScrollPositionNone animated:NO];
@@ -334,6 +307,7 @@
 	self.tableView = nil;
 	self.reloadPredictionsButton = nil;
 	self.editButton = nil;
+    self.segmentedControl = nil;
 }
 
 

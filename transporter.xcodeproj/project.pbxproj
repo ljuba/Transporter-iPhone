@@ -377,8 +377,6 @@
 		FAD20F3C1172B85400C7D188 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD20F3A1172B85400C7D188 /* SettingsVC.xib */; };
 		FAD20F5B1172B93F00C7D188 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD20F5A1172B93F00C7D188 /* MessageUI.framework */; };
 		FAD37690145CBCA300C5654A /* NSString+PercentEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD3768F145CBCA300C5654A /* NSString+PercentEncode.m */; };
-		FAD690A01460C42500D4DD9C /* ParticipateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6909E1460C42500D4DD9C /* ParticipateVC.m */; };
-		FAD690A11460C42500D4DD9C /* ParticipateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD6909F1460C42500D4DD9C /* ParticipateVC.xib */; };
 		FADAF16B11685DCF00A76945 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FADAF16A11685DCF00A76945 /* QuartzCore.framework */; };
 		FADB2C931153214B00F60A09 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = FADB2C921153214B00F60A09 /* location.png */; };
 		FADB358712664E4E008501E6 /* seg-topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = FADB357F12664E4E008501E6 /* seg-topbar.png */; };
@@ -935,9 +933,6 @@
 		FAD20F5A1172B93F00C7D188 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		FAD3768E145CBCA300C5654A /* NSString+PercentEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PercentEncode.h"; sourceTree = "<group>"; };
 		FAD3768F145CBCA300C5654A /* NSString+PercentEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncode.m"; sourceTree = "<group>"; };
-		FAD6909D1460C42500D4DD9C /* ParticipateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipateVC.h; sourceTree = "<group>"; };
-		FAD6909E1460C42500D4DD9C /* ParticipateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipateVC.m; sourceTree = "<group>"; };
-		FAD6909F1460C42500D4DD9C /* ParticipateVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ParticipateVC.xib; sourceTree = "<group>"; };
 		FADAF16A11685DCF00A76945 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FADB2C921153214B00F60A09 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		FADB357F12664E4E008501E6 /* seg-topbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seg-topbar.png"; sourceTree = "<group>"; };
@@ -1352,7 +1347,6 @@
 		FA2DBDF6114DD853003F9407 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				FAD6909B1460C40200D4DD9C /* Participate */,
 				FA47231211599D830022908D /* FavoritesVC.h */,
 				FA47231311599D830022908D /* FavoritesVC.m */,
 				FA47231411599D830022908D /* FavoritesVC.xib */,
@@ -2004,16 +1998,6 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
-		FAD6909B1460C40200D4DD9C /* Participate */ = {
-			isa = PBXGroup;
-			children = (
-				FAD6909D1460C42500D4DD9C /* ParticipateVC.h */,
-				FAD6909E1460C42500D4DD9C /* ParticipateVC.m */,
-				FAD6909F1460C42500D4DD9C /* ParticipateVC.xib */,
-			);
-			name = Participate;
-			sourceTree = "<group>";
-		};
 		FAE3AC3F1169568600A7D49F /* button bar cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2369,7 +2353,6 @@
 				FAAD342A128B46B800901771 /* update.plist in Resources */,
 				FA54225A128BC1C90077BABF /* bart-platforms.xml in Resources */,
 				FA9ADF6612A8911800AC5667 /* DirectionsMapView.xib in Resources */,
-				FAD690A11460C42500D4DD9C /* ParticipateVC.xib in Resources */,
 				FAC87EE51461E3BB009F44EC /* participate-message.png in Resources */,
 				FAC87EE61461E3BB009F44EC /* participate-message@2x.png in Resources */,
 				FAC87EEA1461E4A0009F44EC /* get-in-touch-button.png in Resources */,
@@ -2665,7 +2648,6 @@
 				FACDA344145C9B09005465A7 /* CXMLNode.m in Sources */,
 				FACDA345145C9B09005465A7 /* CTidy.m in Sources */,
 				FAD37690145CBCA300C5654A /* NSString+PercentEncode.m in Sources */,
-				FAD690A01460C42500D4DD9C /* ParticipateVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,21 +41,21 @@
 @property int rowHeight;
 @property int cellStatus;
 
-@property (nonatomic) BartColorsView *colorsView;
+@property (nonatomic, strong) BartColorsView *colorsView;
 
-@property (nonatomic) UIColor *lightColor;
-@property (nonatomic) UIColor *darkColor;
+@property (nonatomic, strong) UIColor *lightColor;
+@property (nonatomic, strong) UIColor *darkColor;
 
-@property (nonatomic) UIImage *backgroundImage;
-@property (nonatomic) NSString *majorTitle;
-@property (nonatomic) NSString *minorTitle;
-@property (nonatomic) NSArray *arrivals;
+@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong) NSString *majorTitle;
+@property (nonatomic, strong) NSString *minorTitle;
+@property (nonatomic, strong) NSArray *arrivals;
 
-@property (nonatomic) PredictionLabel *prediction1Label;
-@property (nonatomic) PredictionLabel *prediction2Label;
-@property (nonatomic) PredictionLabel *prediction3Label;
+@property (nonatomic, strong) PredictionLabel *prediction1Label;
+@property (nonatomic, strong) PredictionLabel *prediction2Label;
+@property (nonatomic, strong) PredictionLabel *prediction3Label;
 
-@property (nonatomic) UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
 
 - (id) initWithLineItem:(NSDictionary *)lineItem withColors:(NSArray *)colors inRange:(NSRange)range;
 

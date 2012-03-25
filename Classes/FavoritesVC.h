@@ -8,7 +8,6 @@
 
 #import "PredictionsManagerDelegate.h"
 #import <UIKit/UIKit.h>
-
 #import "FavoriteStopsDelegate.h"
 
 @interface FavoritesVC : UIViewController <PredictionsManagerDelegate> {
@@ -25,22 +24,20 @@
 
 	UIImageView *noFavoritesMessageView;
 
-	UIButton *participateButton;
 
 }
 
-@property (nonatomic) UISegmentedControl *segmentedControl;
-@property (nonatomic) IBOutlet UIBarButtonItem *reloadPredictionsButton;
-@property (nonatomic) IBOutlet UIBarButtonItem *editButton;
-@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *reloadPredictionsButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 
-@property (nonatomic) UIImageView *noFavoritesMessageView;
+@property (nonatomic, strong) UIImageView *noFavoritesMessageView;
 
-@property (nonatomic) FavoriteStopsDelegate *stopsDelegate;
+@property (nonatomic, strong) FavoriteStopsDelegate *stopsDelegate;
 
-@property (nonatomic) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic) UIButton *participateButton;
 
 - (void) loadNextViewController:(NSNotification *)note;
 - (void) tapSegmentedControl;

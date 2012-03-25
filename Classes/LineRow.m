@@ -22,7 +22,7 @@
 
 		if (colors != nil) isBARTRow = YES;
 		else isBARTRow = NO;
-		arrivals = [[NSArray alloc] init];
+		self.arrivals = [[NSArray alloc] init];
 
 		int rowIndex = range.location;
 		int numberOfRows = range.length;
@@ -32,26 +32,26 @@
 
 		self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 
-		if (isLastRow) backgroundImage = [UIImage imageNamed:@"fav-last-line-background.png"];
-		else backgroundImage = [UIImage imageNamed:@"fav-line-background.png"];
+		if (isLastRow) self.backgroundImage = [UIImage imageNamed:@"fav-last-line-background.png"];
+		else self.backgroundImage = [UIImage imageNamed:@"fav-line-background.png"];
 		rowHeight = [UIImage imageNamed:@"fav-line-background.png"].size.height;
 
 		// SET ROW POSITION
 		int frameY = 35 + (rowIndex * rowHeight);
 
 		// create the appropriate frame given the index of the line row
-		CGRect frame = CGRectMake(0, frameY, backgroundImage.size.width, backgroundImage.size.height);
+		CGRect frame = CGRectMake(0, frameY, self.backgroundImage.size.width, self.backgroundImage.size.height);
 
 		self.frame = frame;
 
 		// SETUP ROW CONTENTS
 		if (isBARTRow) {
 
-			majorTitle = [[NSString alloc] initWithString:[lineItem objectForKey:@"destinationStopTitle"]];
-			minorTitle = [[NSString alloc] initWithString:@""];
+			self.majorTitle = [[NSString alloc] initWithString:[lineItem objectForKey:@"destinationStopTitle"]];
+			self.minorTitle = [[NSString alloc] initWithString:@""];
 
-			colorsView = [[BartColorsView alloc] initWithColors:colors atPoint:CGPointMake(19, 24)];
-			[self addSubview:colorsView];
+			self.colorsView = [[BartColorsView alloc] initWithColors:colors atPoint:CGPointMake(19, 24)];
+			[self addSubview:self.colorsView];
 
 		} else {
 
@@ -59,10 +59,10 @@
 			NSString *lineName = [lineItem objectForKey:@"name"];
 			NSString *lineTitle = [lineItem objectForKey:@"title"];
 
-			majorTitle = [[NSString alloc] initWithFormat:@"%@ %@", routeTag, lineName];
-			minorTitle = [[NSString alloc] initWithFormat:@"→ %@", lineTitle];
+			self.majorTitle = [[NSString alloc] initWithFormat:@"%@ %@", routeTag, lineName];
+			self.minorTitle = [[NSString alloc] initWithFormat:@"→ %@", lineTitle];
 
-			colorsView = [[BartColorsView alloc] init];
+			self.colorsView = [[BartColorsView alloc] init];
 
 		}
 		// SETUP PREDICTION LABELS
@@ -132,32 +132,36 @@
 
 	if (cellStatus == kCellStatusPredictionFail) {
 
-		lightColor = [[UIColor alloc] initWithWhite:0.55 alpha:1.0];
-		darkColor = lightColor;
+		self.lightColor = [[UIColor alloc] initWithWhite:0.55 alpha:1.0];
+		self.darkColor = self.lightColor;
 
-		colorsView.alpha = 0.5;
+		self.colorsView.alpha = 0.5;
 
 	} else {
 
-		lightColor = [[UIColor alloc] initWithWhite:0.3 alpha:1.0];
-		darkColor = [[UIColor alloc] initWithWhite:0.1 alpha:1.0];
+		self.lightColor = [[UIColor alloc] initWithWhite:0.3 alpha:1.0];
+		self.darkColor = [[UIColor alloc] initWithWhite:0.1 alpha:1.0];
 
-		colorsView.alpha = 1.0;
+		self.colorsView.alpha = 1.0;
 	}
 }
 
 - (void) setArrivals:(NSArray *)_arrivals {
 
-	arrivals = _arrivals;
+	if (arrivals == _arrivals) {
+        return;
+    }
+    
+    arrivals = _arrivals;
 
 	BOOL isBART = NO;
 
-	int numberOfArrivals = [arrivals count];
+	int numberOfArrivals = [self.arrivals count];
 
 	// determine if this is a bart arrival
 	if (numberOfArrivals > 0)
 
-		if ([[arrivals objectAtIndex:0] objectForKey:@"platform"]) isBART = YES;
+		if ([[self.arrivals objectAtIndex:0] objectForKey:@"platform"]) isBART = YES;
 
 	switch (numberOfArrivals) {
 	case 0:
@@ -170,8 +174,8 @@
 		break;
 	case 1:
 
-		if (isBART) [prediction1Label setBartTime:[[arrivals objectAtIndex:0] valueForKey:@"minutes"]];
-		else [prediction1Label setEpochTime:[[arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
+		if (isBART) [prediction1Label setBartTime:[[self.arrivals objectAtIndex:0] valueForKey:@"minutes"]];
+		else [prediction1Label setEpochTime:[[self.arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
 		prediction2Label.text = @"-";
 		prediction3Label.text = @"-";
 		// majorLabel.alpha = 1.0;
@@ -181,11 +185,11 @@
 	case 2:
 
 		if (isBART) {
-			[prediction1Label setBartTime:[[arrivals objectAtIndex:0] valueForKey:@"minutes"]];
-			[prediction2Label setBartTime:[[arrivals objectAtIndex:1] valueForKey:@"minutes"]];
+			[prediction1Label setBartTime:[[self.arrivals objectAtIndex:0] valueForKey:@"minutes"]];
+			[prediction2Label setBartTime:[[self.arrivals objectAtIndex:1] valueForKey:@"minutes"]];
 		} else {
-			[prediction1Label setEpochTime:[[arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
-			[prediction2Label setEpochTime:[[arrivals objectAtIndex:1] valueForKey:@"epochTime"]];
+			[prediction1Label setEpochTime:[[self.arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
+			[prediction2Label setEpochTime:[[self.arrivals objectAtIndex:1] valueForKey:@"epochTime"]];
 		}
 		prediction3Label.text = @"-";
 		// majorLabel.alpha = 1.0;
@@ -196,14 +200,14 @@
 	default:
 
 		if (isBART) {
-			[prediction1Label setBartTime:[[arrivals objectAtIndex:0] valueForKey:@"minutes"]];
-			[prediction2Label setBartTime:[[arrivals objectAtIndex:1] valueForKey:@"minutes"]];
-			[prediction3Label setBartTime:[[arrivals objectAtIndex:2] valueForKey:@"minutes"]];
+			[prediction1Label setBartTime:[[self.arrivals objectAtIndex:0] valueForKey:@"minutes"]];
+			[prediction2Label setBartTime:[[self.arrivals objectAtIndex:1] valueForKey:@"minutes"]];
+			[prediction3Label setBartTime:[[self.arrivals objectAtIndex:2] valueForKey:@"minutes"]];
 
 		} else {
-			[prediction1Label setEpochTime:[[arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
-			[prediction2Label setEpochTime:[[arrivals objectAtIndex:1] valueForKey:@"epochTime"]];
-			[prediction3Label setEpochTime:[[arrivals objectAtIndex:2] valueForKey:@"epochTime"]];
+			[prediction1Label setEpochTime:[[self.arrivals objectAtIndex:0] valueForKey:@"epochTime"]];
+			[prediction2Label setEpochTime:[[self.arrivals objectAtIndex:1] valueForKey:@"epochTime"]];
+			[prediction3Label setEpochTime:[[self.arrivals objectAtIndex:2] valueForKey:@"epochTime"]];
 		}
 		// majorLabel.alpha = 1.0;
 		// minorLabel.alpha = 1.0;
@@ -215,12 +219,12 @@
 
 - (void) drawRect:(CGRect)rect {
 
-	[backgroundImage drawAtPoint:CGPointZero];
+	[self.backgroundImage drawAtPoint:CGPointZero];
 
 	CGRect majorLabelRect = CGRectMake(19, 3, 160, 21);
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
-	[darkColor set];
-	[majorTitle drawInRect:majorLabelRect withFont:font];
+	[self.darkColor set];
+	[self.majorTitle drawInRect:majorLabelRect withFont:font];
 
 	if (isBARTRow) {
 
@@ -231,8 +235,8 @@
 		// add direction title
 		CGRect minorLabelRect = CGRectMake(19, 23, 220, 21);
 		font = [UIFont systemFontOfSize:13];
-		[lightColor set];
-		[minorTitle drawInRect:minorLabelRect withFont:font];
+		[self.lightColor set];
+		[self.minorTitle drawInRect:minorLabelRect withFont:font];
 
 	}
 }
