@@ -17,8 +17,8 @@
 }
 
 @property (nonatomic, assign) int version;
-@property (nonatomic, retain) NSDate *updateTime;
-@property (nonatomic, retain) NSURL *dataURL;
-@property (nonatomic, retain) NSURL *imagesURL;
+@property (nonatomic, strong) NSDate *updateTime;
+@property (nonatomic, strong) NSURL *dataURL;
+@property (nonatomic, strong) NSURL *imagesURL;
 
 @end

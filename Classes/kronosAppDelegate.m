@@ -60,16 +60,16 @@
 
 	[application setStatusBarStyle:UIStatusBarStyleBlackOpaque]; 
 	
-	predictionsManager = [[PredictionsManager alloc] init];
+	self.predictionsManager = [[PredictionsManager alloc] init];
 	
-	updateManager = [[UpdateManager alloc] init];
+	self.updateManager = [[UpdateManager alloc] init];
 	
-	[updateManager checkForLocalUpdate];
+	[self.updateManager checkForLocalUpdate];
 	
 	//[updateManager performSelectorInBackground:@selector(checkForRemoteUpdate) withObject:nil];
 	
     //only restore if there hasn't been a data change
-	if ([self secondsSinceLastLaunch] > 20*60 || updateManager.dataUpdated) {
+	if ([self secondsSinceLastLaunch] > 20*60 || self.updateManager.dataUpdated) {
 		
 		//load last root view controller if any
         
@@ -82,8 +82,8 @@
 		
 	}
 	
-	[window addSubview:tabBarController.view];
-	[window makeKeyAndVisible];
+	[self.window addSubview:self.tabBarController.view];
+	[self.window makeKeyAndVisible];
 	
 	[Appirater appLaunched:YES];
 
@@ -95,7 +95,7 @@
 	if ([self secondsSinceLastLaunch] > 20*60) {
 		
 		//pop to root view controller
-		UINavigationController *currController = (UINavigationController *)[tabBarController selectedViewController];
+		UINavigationController *currController = (UINavigationController *)[self.tabBarController selectedViewController];
 		[currController popToRootViewControllerAnimated:NO];
 		
 	}
@@ -104,7 +104,7 @@
 		
 	}
 	
-	[updateManager performSelectorInBackground:@selector(checkForRemoteUpdate) withObject:nil];
+	[self.updateManager performSelectorInBackground:@selector(checkForRemoteUpdate) withObject:nil];
 	
 	[Appirater appEnteredForeground:YES];
 	
@@ -144,13 +144,13 @@
 - (void)saveState {
 	
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setInteger:tabBarController.selectedIndex+1 forKey:@"tabBarControllerSelectedIndexPlusOne"];
+	[userDefaults setInteger:self.tabBarController.selectedIndex+1 forKey:@"tabBarControllerSelectedIndexPlusOne"];
 	[userDefaults setObject:[NSDate dateWithTimeIntervalSinceNow:0] forKey:@"dateOfLastQuit"];
 	
 	//if the currently visible view controller is the StopDetails/LiveRoute View Controller, save that stop
-	if ([tabBarController.selectedViewController isMemberOfClass:[UINavigationController class]]) {
+	if ([self.tabBarController.selectedViewController isMemberOfClass:[UINavigationController class]]) {
 		
-		UINavigationController *navController = (UINavigationController *)tabBarController.selectedViewController;
+		UINavigationController *navController = (UINavigationController *)self.tabBarController.selectedViewController;
 		if ([navController.topViewController isKindOfClass:[StopDetails class]]) {
 			NSLog(@"StopDetails Saved"); /* DEBUG LOG */
 			
@@ -195,12 +195,12 @@
 	if (tabIndexPlusOne != 0) {
 		
 		int tabIndex = tabIndexPlusOne - 1;
-		[tabBarController setSelectedIndex:tabIndex];
+		[self.tabBarController setSelectedIndex:tabIndex];
 		
 	}
 	else {
 		//otherwise, just go to nearme
-		[tabBarController setSelectedIndex:1];
+		[self.tabBarController setSelectedIndex:1];
 	}
 
 }
@@ -227,14 +227,14 @@
 	NSLog(@"  -restore savedViewController: %@",[userDefaults objectForKey:@"savedViewController"]);
 
 	
-	int tabIndex = [tabBarController selectedIndex];
+	int tabIndex = [self.tabBarController selectedIndex];
 	
 	//favorites tab
 	if (tabIndex == 0) {
 		
 		NSLog(@"App Delegate: Reload StopDetailsVC in Favorites"); /* DEBUG LOG */
 		
-		UINavigationController *favoritesNavController = [tabBarController.viewControllers objectAtIndex:tabIndex];	
+		UINavigationController *favoritesNavController = [self.tabBarController.viewControllers objectAtIndex:tabIndex];	
 		
 		//favorites VC is already loaded from nib
 		FavoritesVC *favoritesVC = (FavoritesVC *)[favoritesNavController topViewController];
@@ -255,7 +255,7 @@
 		
 		NSLog(@"App Delegate: Reload StopDetailsVC in Near Me"); /* DEBUG LOG */
 		
-		UINavigationController *nearMeNavController = [tabBarController.viewControllers objectAtIndex:tabIndex];	
+		UINavigationController *nearMeNavController = [self.tabBarController.viewControllers objectAtIndex:tabIndex];	
 
 		//near me vc is already loaded from the nib in this case. we just need to set the backButton title
 		NearMeVC *nearMeVC = (NearMeVC *)[nearMeNavController topViewController];
@@ -278,7 +278,7 @@
 		
 		NSLog(@"App Delegate: Reload StopDetailsVC in Lines"); /* DEBUG LOG */
 		
-		UINavigationController *linesNavController = [tabBarController.viewControllers objectAtIndex:tabIndex];	
+		UINavigationController *linesNavController = [self.tabBarController.viewControllers objectAtIndex:tabIndex];	
 		
 		//restore the saved main Direction from 
 		Direction *mainDirection = [self savedDirectionFromUserDefaultsForKey:@"mainDirectionURIData"];

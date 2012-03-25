@@ -18,9 +18,9 @@
 
 }
 
-@property (nonatomic) NSArray *requests;
-@property (nonatomic) PredictionsManager *predictionsManager;
-@property (nonatomic) NSString *agencyShortTitle;
+@property (nonatomic, strong) NSArray *requests;
+@property (nonatomic, strong) PredictionsManager *predictionsManager;
+@property (nonatomic, strong) NSString *agencyShortTitle;
 
 - (id) initWithAgencyShortTitle:(NSString *)_agencyShortTitle requests:(NSArray *)_requests recipient:(id)_recipient;
 

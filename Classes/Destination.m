@@ -22,19 +22,19 @@
 		self.routes = [DataHelper uniqueRoutesForStop:_stop];		
 		self.colors = [[NSMutableArray alloc] init];
 
-		for (Route *route in routes) {
+		for (Route *route in self.routes) {
 
 			for (Direction *dir in [route.directions allObjects])
 
-				if ([dir.stopOrder containsObject:stop.tag]&&[dir.stopOrder containsObject:destinationStop.tag]) {
+				if ([dir.stopOrder containsObject:self.stop.tag]&&[dir.stopOrder containsObject:self.destinationStop.tag]) {
 
-					int stopIndex = [dir.stopOrder indexOfObject:stop.tag];
-					int destionationStopIndex = [dir.stopOrder indexOfObject:destinationStop.tag];
+					int stopIndex = [dir.stopOrder indexOfObject:self.stop.tag];
+					int destionationStopIndex = [dir.stopOrder indexOfObject:self.destinationStop.tag];
 
 					// if the desination stop is the last stop in the direction, set it as the liveRouteDirection
 					if (destionationStopIndex == [dir.stopOrder count] - 1) {
 						self.direction = dir;
-						[colors addObject:dir.route.tag];
+						[self.colors addObject:dir.route.tag];
 						break;
 
 					}
@@ -46,14 +46,14 @@
 						// save the direction that matches this stop -> destinationStop pair
 						self.direction = dir;
 
-						[colors addObject:dir.route.tag];
+						[self.colors addObject:dir.route.tag];
 						break;
 
 					}
 				}
 		}
 		NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
-		[colors sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
+		[self.colors sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
 
 	}
 	return(self);

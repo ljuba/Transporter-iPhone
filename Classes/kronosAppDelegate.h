@@ -30,13 +30,13 @@
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic) PredictionsManager *predictionsManager;
+@property (nonatomic, strong) PredictionsManager *predictionsManager;
 
-@property (nonatomic) IBOutlet UIWindow *window;
-@property (nonatomic) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UITabBarController *tabBarController;
 @property BOOL importing;
 
-@property (nonatomic) UpdateManager *updateManager;
+@property (nonatomic, strong) UpdateManager *updateManager;
 
 - (NSTimeInterval) secondsSinceLastLaunch;
 - (void) restoreToSavedRootViewController;

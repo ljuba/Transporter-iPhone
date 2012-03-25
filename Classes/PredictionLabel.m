@@ -19,19 +19,19 @@
 	if (self = [super initWithFrame:frame]) {
 
 		// SETUP IMMINENT MARKER
-		imminentArrivalMarker = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map-marker.png"]];
-		imminentArrivalMarker.contentMode = UIViewContentModeScaleAspectFit;
-		imminentArrivalMarker.hidden = YES;
+		self.imminentArrivalMarker = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map-marker.png"]];
+		self.imminentArrivalMarker.contentMode = UIViewContentModeScaleAspectFit;
+		self.imminentArrivalMarker.hidden = YES;
 		self.isMarkerAnimating = NO;
 
 		int markerCenterX = floor(self.bounds.size.width / 2);
 		int markerCenterY = floor(self.bounds.size.height / 2);
 		int markerHeight = floor(self.bounds.size.height * 0.6);
 
-		imminentArrivalMarker.bounds = CGRectMake(0, 0, imminentArrivalMarker.frame.size.width, markerHeight);
-		imminentArrivalMarker.center = CGPointMake(markerCenterX, markerCenterY);
+		self.imminentArrivalMarker.bounds = CGRectMake(0, 0, self.imminentArrivalMarker.frame.size.width, markerHeight);
+		self.imminentArrivalMarker.center = CGPointMake(markerCenterX, markerCenterY);
 
-		[self addSubview:imminentArrivalMarker];
+		[self addSubview:self.imminentArrivalMarker];
 
 	}
 	return(self);
@@ -45,7 +45,7 @@
 
 		int markerCenterX = floor(self.bounds.size.width / 2);
 		int markerCenterY = floor(self.bounds.size.height / 2) + 5;
-		imminentArrivalMarker.center = CGPointMake(markerCenterX, markerCenterY);
+		self.imminentArrivalMarker.center = CGPointMake(markerCenterX, markerCenterY);
 	}
 }
 
@@ -61,14 +61,14 @@
 	self.arrivalTime = [NSDate dateWithTimeIntervalSince1970:([time doubleValue] / 1000)];
 
 	// determine number of minutes-from-now label
-	NSTimeInterval timeFromNow = [arrivalTime timeIntervalSinceNow];
+	NSTimeInterval timeFromNow = [self.arrivalTime timeIntervalSinceNow];
 
 	// if bus is less then 1 minute away
 	if (timeFromNow < 60) {
 
 		if (!isMarkerAnimating) {
 			self.text = nil;
-			imminentArrivalMarker.hidden = NO;
+			self.imminentArrivalMarker.hidden = NO;
 			isMarkerAnimating = YES;
 			[self startAnimation];
 		}
@@ -78,9 +78,9 @@
 			[nc postNotification:[NSNotification notificationWithName:@"imminentArrivalYES" object:self.superview]];
 		}
 	} else {
-		imminentArrivalMarker.hidden = YES;
+		self.imminentArrivalMarker.hidden = YES;
 		isMarkerAnimating = NO;
-		[imminentArrivalMarker.layer removeAllAnimations];
+		[self.imminentArrivalMarker.layer removeAllAnimations];
 
 		int minutes = (int)floor(timeFromNow / 60);
 		self.text = [NSString stringWithFormat:@"%d", minutes];
@@ -96,7 +96,7 @@
 - (void) clear {
 
 	self.text = nil;
-	imminentArrivalMarker.hidden = YES;
+	self.imminentArrivalMarker.hidden = YES;
 	isMarkerAnimating = NO;
 
 }
@@ -109,7 +109,7 @@
 		self.text = nil;
 
 		if (!isMarkerAnimating) {
-			imminentArrivalMarker.hidden = NO;
+			self.imminentArrivalMarker.hidden = NO;
 			isMarkerAnimating = YES;
 			[self startAnimation];
 		}
@@ -119,9 +119,9 @@
 			[nc postNotification:[NSNotification notificationWithName:@"imminentArrivalYES" object:self.superview]];
 		}
 	} else {
-		imminentArrivalMarker.hidden = YES;
+		self.imminentArrivalMarker.hidden = YES;
 		isMarkerAnimating = NO;
-		[imminentArrivalMarker.layer removeAllAnimations];
+		[self.imminentArrivalMarker.layer removeAllAnimations];
 		self.text = bartTime;
 
 		if (isFirstArrival) {
@@ -142,7 +142,7 @@
 	theAnimation.fromValue = [NSNumber numberWithFloat:0.3];
 	theAnimation.toValue = [NSNumber numberWithFloat:1.0];
 	theAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-	[imminentArrivalMarker.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+	[self.imminentArrivalMarker.layer addAnimation:theAnimation forKey:@"animateOpacity"];
 }
 
 

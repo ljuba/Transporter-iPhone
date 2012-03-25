@@ -31,10 +31,10 @@
 
 	// the predictions manager sends a request for each agency whether or not there are any requests for it.
 	// only fetches predictions for requests that aren't empty.
-	if ([requests count] == 0) {
+	if ([self.requests count] == 0) {
 
 		// if this is the last operation, turn off the network activity monitor
-		if ([[predictionsManager.queue operations] count] <= 1)	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+		if ([[self.predictionsManager.queue operations] count] <= 1)	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		return;
 	}
 	NSDictionary *fetchedPredictions;
@@ -42,16 +42,16 @@
 	if ( (self.agencyShortTitle == @"actransit")||(self.agencyShortTitle == @"sf-muni") ) fetchedPredictions = [self fetchNextBusPredictions];
 	else fetchedPredictions = [self fetchBARTPredictions];
 	// sends predictions back to predictionsManager
-	[predictionsManager performSelectorOnMainThread:@selector(didReceivePredictions:) withObject:fetchedPredictions waitUntilDone:YES];
+	[self.predictionsManager performSelectorOnMainThread:@selector(didReceivePredictions:) withObject:fetchedPredictions waitUntilDone:YES];
 
 	// if this is the last operation, turn off the network activity monitor
-	if ([[predictionsManager.queue operations] count] <= 1)	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if ([[self.predictionsManager.queue operations] count] <= 1)	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 // can only process one request at a time. i.e. one station at a time
 - (NSDictionary *) fetchBARTPredictions {
 
-	NSString *stopTag = [[requests objectAtIndex:0] stopTag];
+	NSString *stopTag = [[self.requests objectAtIndex:0] stopTag];
 
 	// BART PUBLIC API KEY. YOU MIGHT WANT TO USE YOUR OWN
 	NSString *urlString = [[NSString alloc] initWithFormat:@"http://api.bart.gov/api/etd.aspx?cmd=etd&orig=%@&key=MW9S-E7SL-26DU-VV8V", stopTag];
@@ -129,11 +129,11 @@
 
 	NSString *urlString;
 
-	if (agencyShortTitle == @"sf-muni") urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&t=0", agencyShortTitle];
-	else urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=%@&t=0", agencyShortTitle];
+	if (self.agencyShortTitle == @"sf-muni") urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&t=0", self.agencyShortTitle];
+	else urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=%@&t=0", self.agencyShortTitle];
 	// add the requested stops and lines to the urlString
 
-	for (PredictionRequest *request in requests) {
+	for (PredictionRequest *request in self.requests) {
 
 		NSString *stopString;
 
@@ -196,7 +196,7 @@
 		int requestIndex = [predictionsOrErrorNodes indexOfObject:predictionsOrErrorElement];
 
 		// create a prediction object from the predictionRequest and the arrivals data or the error
-		Prediction *prediction = [[Prediction alloc] initWithPredictionRequest:[requests objectAtIndex:requestIndex]];
+		Prediction *prediction = [[Prediction alloc] initWithPredictionRequest:[self.requests objectAtIndex:requestIndex]];
 
 		// if the element isn't not an error, but an actual predictions element
 		if (![[predictionsOrErrorElement name] isEqual:@"Error"]) {

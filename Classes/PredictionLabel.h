@@ -19,9 +19,9 @@
 	BOOL isMarkerAnimating;
 }
 
-@property (nonatomic) NSTimer *timer;
-@property (nonatomic) NSDate *arrivalTime;
-@property (nonatomic) UIImageView *imminentArrivalMarker;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSDate *arrivalTime;
+@property (nonatomic, strong) UIImageView *imminentArrivalMarker;
 @property BOOL isFirstArrival;
 @property BOOL isMarkerAnimating;
 

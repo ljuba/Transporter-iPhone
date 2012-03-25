@@ -22,14 +22,14 @@
 	Direction *direction;
 
 }
-@property (nonatomic) Direction *direction;
-@property (nonatomic) Stop *destinationStop;
-@property (nonatomic) Stop *stop;
+@property (nonatomic, strong) Direction *direction;
+@property (nonatomic, strong) Stop *destinationStop;
+@property (nonatomic, strong) Stop *stop;
 
-@property (nonatomic) NSArray *routes;
+@property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) NSMutableArray *colors;
 
-@property (nonatomic) NSString *platform;
+@property (nonatomic, strong) NSString *platform;
 
 - (id) initWithDestinationStop:(Stop *)_destinationStop forStop:(Stop *)_stop;
 

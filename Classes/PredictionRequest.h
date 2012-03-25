@@ -20,9 +20,9 @@
 
 }
 
-@property (nonatomic) Route *route;
-@property (nonatomic) NSString *stopTag;
-@property (nonatomic) NSString *agencyShortTitle;
+@property (nonatomic, strong) Route *route;
+@property (nonatomic, strong) NSString *stopTag;
+@property (nonatomic, strong) NSString *agencyShortTitle;
 @property BOOL isMainRoute;
 
 @end

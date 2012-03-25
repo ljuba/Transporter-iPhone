@@ -18,13 +18,14 @@
 	NSOperationQueue *queue;
 	NSMutableDictionary *predictionsStore;
 
-	NSTimer *__unsafe_unretained timer;
+	NSTimer *timer;
 }
 
-@property (nonatomic) NSOperationQueue *queue;
-@property (nonatomic) NSMutableDictionary *predictionsStore;
+@property (nonatomic, strong) NSOperationQueue *queue;
+@property (nonatomic, strong) NSMutableDictionary *predictionsStore;
 
-@property (nonatomic, unsafe_unretained) NSTimer *timer;
+//this is strong because PredictionsManager never goes away so we don't have to worry about the retain cycle.
+@property (nonatomic, strong) NSTimer *timer;   
 
 - (void) requestPredictionsForRequests:(NSMutableArray *)requests;
 + (NSString *) predictionKeyFromPrediction:(PredictionRequest *)prediction;

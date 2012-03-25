@@ -19,8 +19,8 @@
 - (id) init {
 
 	if (self = [super init]) {
-		queue = [[NSOperationQueue alloc] init];
-		predictionsStore = [[NSMutableDictionary alloc] init];
+		self.queue = [[NSOperationQueue alloc] init];
+		self.predictionsStore = [[NSMutableDictionary alloc] init];
 		self.timer = [NSTimer scheduledTimerWithTimeInterval:7.0 target:self selector:@selector(purgePredictionsStore) userInfo:nil repeats:YES];
 	}
 	return(self);
@@ -30,17 +30,17 @@
 // empty the predictions store 10 seconds after any predictions request occurs
 - (void) purgePredictionsStore {
 
-	[predictionsStore removeAllObjects];
+	[self.predictionsStore removeAllObjects];
 
 }
 
 // all predictions are first sent here, where they added to the cache of predictions and sent to the topmost view controller
 - (void) didReceivePredictions:(NSDictionary *)predictions {
 
-	[predictionsStore addEntriesFromDictionary:predictions];
+	[self.predictionsStore addEntriesFromDictionary:predictions];
 
 	// reset the timer to purge the predictions store every time new predictions come in
-	[timer invalidate];
+	[self.timer invalidate];
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:7.0 target:self selector:@selector(purgePredictionsStore) userInfo:nil repeats:YES];
 
 	// find the topmost view controller and see if it responds to "didReceivePredictions"
@@ -53,7 +53,7 @@
 	if ([navController.topViewController respondsToSelector:@selector(didReceivePredictions:)]) [navController.topViewController performSelectorOnMainThread:@selector(didReceivePredictions:) withObject:predictions waitUntilDone:YES];
 	// if there was an error prediction in the predictions that just arrived, they would have been sent to the top view controller
 	// we don't want them in the predictionStop permanently, so just remove it now.
-	[predictionsStore removeObjectForKey:@"error"];
+	[self.predictionsStore removeObjectForKey:@"error"];
 
 }
 
@@ -79,12 +79,12 @@
 			if ([request.agencyShortTitle isEqualToString:@"bart"]) {
 
 				predictionKey = request.stopTag;
-				prediction = [predictionsStore objectForKey:predictionKey];
+				prediction = [self.predictionsStore objectForKey:predictionKey];
 
 			} else {
 				predictionKey = [PredictionsManager predictionKeyFromPrediction:request];
 
-				prediction = [predictionsStore objectForKey:predictionKey];
+				prediction = [self.predictionsStore objectForKey:predictionKey];
 
 			}
 
@@ -128,9 +128,9 @@
 		PredictorOperation *sfMuniPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"sf-muni" requests:sfMuniRequests recipient:self];
 
 		// submit operations to queue if there are requests
-		if ([sfMuniRequests count] != 0) [queue addOperation:sfMuniPredictorOperation];
+		if ([sfMuniRequests count] != 0) [self.queue addOperation:sfMuniPredictorOperation];
 
-		if ([acTransitRequests count] != 0) [queue addOperation:acTransitPredictorOperation];
+		if ([acTransitRequests count] != 0) [self.queue addOperation:acTransitPredictorOperation];
 		// bart can only had a one request at a time (i.e. one stop at a time), so create separate bart operations for each stop
 
 		// create prediction operation for each agency
@@ -140,7 +140,7 @@
 
 				PredictorOperation *bartPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"bart" requests:[NSArray arrayWithObject:request] recipient:self];
 
-				[queue addOperation:bartPredictorOperation];
+				[self.queue addOperation:bartPredictorOperation];
 
 			}
 
