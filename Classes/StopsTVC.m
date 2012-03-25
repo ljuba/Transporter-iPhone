@@ -28,15 +28,15 @@
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 	// setup core location
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 
 	// this array contains two thing: an array of nearby stops, and an array of the complete set of stops for a direction
-	stops = [[NSMutableArray alloc] initWithCapacity:2];
+	self.stops = [[NSMutableArray alloc] initWithCapacity:2];
 
 	NSNull *nullObject = [[NSNull alloc] init];
-	[stops addObject:[NSMutableArray arrayWithObject:nullObject]];  // add placeholder nearby "stop" array that will be determined in "viewDidAppear"
+	[self.stops addObject:[NSMutableArray arrayWithObject:nullObject]];  // add placeholder nearby "stop" array that will be determined in "viewDidAppear"
 
 	NSArray *sortOrder = (NSArray *)direction.stopOrder;             // the order of stops for this direction
 	NSMutableArray *allStops = [[NSMutableArray alloc] initWithCapacity:1];
@@ -51,14 +51,13 @@
 
 		[allStops addObject:thisStop];
 	}
-	[stops addObject:allStops];
-
-
+    
+	[self.stops addObject:allStops];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[locationManager startUpdatingLocation];
+	[self.locationManager startUpdatingLocation];
 
 	// setup notification to listen to notifications app delegate
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -68,7 +67,7 @@
 
 - (void) viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[locationManager stopUpdatingLocation];
+	[self.locationManager stopUpdatingLocation];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter removeObserver:self];
@@ -81,11 +80,11 @@
 	if ([note.name isEqual:UIApplicationWillResignActiveNotification]) {
 
 		NSLog(@"StopsTVC: Location Updating OFF"); /* DEBUG LOG */
-		[locationManager stopUpdatingLocation];
+		[self.locationManager stopUpdatingLocation];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
 		NSLog(@"StopsTVC: Location Updating ON"); /* DEBUG LOG */
-		[locationManager startUpdatingLocation];
+		[self.locationManager startUpdatingLocation];
 	}
 }
 
@@ -103,7 +102,7 @@
 		[self displayClosestStopToLocation:newLocation];
 
 		// don't update location anymore. this will save battery power once an accurate fix has been established.
-		[locationManager stopUpdatingLocation];
+		[self.locationManager stopUpdatingLocation];
 
 	}
 }
@@ -114,7 +113,7 @@
 	NSMutableArray *closestStops = [DataHelper findClosestStopsFromLocation:location amongStops:[stops objectAtIndex:1] count:1];
 
 	// replace the empty "nearby" stop array added in "viewDidLoad"
-	[stops replaceObjectAtIndex:0 withObject:closestStops];
+	[self.stops replaceObjectAtIndex:0 withObject:closestStops];
 
 	[self.tableView reloadData];
 
@@ -129,12 +128,12 @@
 #pragma mark Table view methods
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-	return([stops count]);
+	return([self.stops count]);
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return([[stops objectAtIndex:section] count]);
+	return([[self.stops objectAtIndex:section] count]);
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -151,7 +150,7 @@
 	static NSString *SearchCellIdentifier = @"SearchCell";
 
 	// searching cell
-	if ( (section == 0)&&[[[stops objectAtIndex:section] objectAtIndex:row] isMemberOfClass:[NSNull class]] ) {
+	if ( (section == 0)&&[[[self.stops objectAtIndex:section] objectAtIndex:row] isMemberOfClass:[NSNull class]] ) {
 
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SearchCellIdentifier];
 

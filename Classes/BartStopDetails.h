@@ -9,12 +9,8 @@
 #import "StopDetails.h"
 #import <UIKit/UIKit.h>
 
-@interface BartStopDetails : StopDetails {
+@interface BartStopDetails : StopDetails
 
-	NSMutableArray *platforms;
-
-}
-
-@property (nonatomic) NSMutableArray *platforms;
+@property (nonatomic, strong) NSMutableArray *platforms;
 
 @end

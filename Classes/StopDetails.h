@@ -23,47 +23,22 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
-@interface StopDetails : UIViewController <UITableViewDelegate, UITableViewDataSource, PredictionsManagerDelegate> {
+@interface StopDetails : UIViewController <UITableViewDelegate, UITableViewDataSource, PredictionsManagerDelegate>
 
-	Stop *stop;
+@property (nonatomic, strong) Stop *stop;
 
-	UIImageView *stopTitleImageView;
-	UILabel *stopTitleLabel;
+@property (nonatomic, strong) UIImageView *stopTitleImageView;
+@property (nonatomic, strong) UILabel *stopTitleLabel;
 
-	UITableView *tableView;
-	NSMutableArray *contents;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *contents;
 
-	NSIndexPath *lastIndexPath;
-	NSNull *buttonRowPlaceholder;
-
-	int cellStatus;
-
-	NSMutableArray *errors;
-	NSTimer *timer;
-
-	BOOL isFirstPredictionsFetch;
-
-	NSMutableDictionary *predictions;
-
-	int tableHeaderHeight;
-	int tableFooterHeight;
-
-}
-
-@property (nonatomic) Stop *stop;
-
-@property (nonatomic) UIImageView *stopTitleImageView;
-@property (nonatomic) UILabel *stopTitleLabel;
-
-@property (nonatomic) UITableView *tableView;
-@property (nonatomic) NSMutableArray *contents;
-
-@property (nonatomic) NSIndexPath *lastIndexPath;
-@property (nonatomic) NSNull *buttonRowPlaceholder;
+@property (nonatomic, strong) NSIndexPath *lastIndexPath;
+@property (nonatomic, strong) NSNull *buttonRowPlaceholder;
 
 @property int cellStatus;
 
-@property (nonatomic) NSMutableArray *errors;
+@property (nonatomic, strong) NSMutableArray *errors;
 @property (nonatomic) NSTimer *timer;
 
 @property BOOL isFirstPredictionsFetch;

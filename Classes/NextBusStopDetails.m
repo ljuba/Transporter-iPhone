@@ -18,17 +18,30 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
-	NSString *agencyShortTitle = [[DataHelper agencyFromStop:stop] shortTitle];
+	NSString *agencyShortTitle = [[DataHelper agencyFromStop:self.stop] shortTitle];
 
-	if ([agencyShortTitle isEqual:@"actransit"]) stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-actransit.png"];
-	else stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-sfmuni.png"];
+	if ([agencyShortTitle isEqual:@"actransit"]) self.stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-actransit.png"];
+	else self.stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-sfmuni.png"];
 	// SETUP THE SWITCH DIRECTIONS BUTTON
 	UIBarButtonItem *switchDirectionsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"switch-directions.png"]
 						   style:UIBarButtonItemStylePlain
 						   target:self
 						   action:@selector(switchDirections)];
 	self.navigationItem.rightBarButtonItem = switchDirectionsButton;
-
+    
+    // ACTIVATE "SWITCH DIRECTIONS" BUTTON AS NEEDED
+    if (self.stop.oppositeStop == nil) self.navigationItem.rightBarButtonItem.enabled = NO;
+	else self.navigationItem.rightBarButtonItem.enabled = YES;
+    
+    NSMutableString *stopTitle = [NSMutableString stringWithString:self.stop.title];
+	CGSize titleSize = [stopTitle sizeWithFont:self.stopTitleLabel.font];
+    
+	NSRange ampersandLocation = [self.stop.title rangeOfString:@"&"];
+    
+	// if the stop name needs 2 lines, add a new line character after the separator character (&,@)
+	if ( (titleSize.width > 300)&&(ampersandLocation.length != 0) )	[stopTitle insertString:@"\n" atIndex:ampersandLocation.location];
+	self.stopTitleLabel.text = stopTitle;
+    
 	// SETUP THE CONTENTS ARRAY WITH SHOW=TRUE DIRECTIONS AND FAVORITED DIRECTIONS
 	[self setupInitialContents];
 }
@@ -37,20 +50,9 @@
 - (void) setupInitialContents {
 
 	[super setupInitialContents];
-
-	// ACTIVATE "SWITCH DIRECTIONS" BUTTON AS NEEDED
-	if (stop.oppositeStop == nil) self.navigationItem.rightBarButtonItem.enabled = NO;
-	else self.navigationItem.rightBarButtonItem.enabled = YES;
+    
 	// FORMAT STOP TITLE
-	NSMutableString *stopTitle = [NSMutableString stringWithString:stop.title];
-	CGSize titleSize = [stopTitle sizeWithFont:stopTitleLabel.font];
-
-	NSRange ampersandLocation = [stop.title rangeOfString:@"&"];
-
-	// if the stop name needs 2 lines, add a new line character after the separator character (&,@)
-	if ( (titleSize.width > 300)&&(ampersandLocation.length != 0) )	[stopTitle insertString:@"\n" atIndex:ampersandLocation.location];
-	self.stopTitleLabel.text = stopTitle;
-
+    
 	if (mainDirection != nil) {
 
 		// add the main direction to the contents as arrays
@@ -61,7 +63,7 @@
 
 	}
 	// an array of directions that serve this stop
-	NSMutableArray *otherDirections = [[NSMutableArray alloc] initWithArray:[stop.directions allObjects]];
+	NSMutableArray *otherDirections = [[NSMutableArray alloc] initWithArray:[self.stop.directions allObjects]];
 
 	// only keep the directions that serve this stop that aren't the mainDirection and show=true
 	NSPredicate *showTruePredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
@@ -88,9 +90,9 @@
 	// load favorites for this stop
 	NSMutableArray *favorites = [[NSMutableArray alloc] initWithArray:[FavoritesManager getFavorites]];
 
-	NSString *agencyShortTitle = [[DataHelper agencyFromStop:stop] shortTitle];
+	NSString *agencyShortTitle = [[DataHelper agencyFromStop:self.stop] shortTitle];
 	NSPredicate *agencyFilter = [NSPredicate predicateWithFormat:@"agencyShortTitle == %@", agencyShortTitle];
-	NSPredicate *stopFilter = [NSPredicate predicateWithFormat:@"tag == %@", stop.tag];
+	NSPredicate *stopFilter = [NSPredicate predicateWithFormat:@"tag == %@", self.stop.tag];
 
 	[favorites filterUsingPredicate:agencyFilter];
 	[favorites filterUsingPredicate:stopFilter];
@@ -109,7 +111,7 @@
 			NSString *directionName = [line objectForKey:@"name"];
 			NSString *directionTitle = [line objectForKey:@"title"];
 
-			for (NSArray *sectionArray in contents)
+			for (NSArray *sectionArray in self.contents)
 
 				for (Direction * direction in sectionArray)
 
@@ -130,14 +132,14 @@
 
 		Direction *direction = [DataHelper directionWithTag:dirTag inRoute:route];
 
-		[[contents lastObject] addObject:direction];
+		[[self.contents lastObject] addObject:direction];
 
 	}
 
 	// sort directions by the sortOrder of their routes
 	NSSortDescriptor *routeSorter = [[NSSortDescriptor alloc] initWithKey:@"route.sortOrder" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-	[[contents lastObject] sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
+	[[self.contents lastObject] sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
 
 }
 
@@ -148,8 +150,8 @@
 
 	[super goToPreviousStop:note];
 
-	cellStatus = kCellStatusSpinner;
-	isFirstPredictionsFetch = YES;
+	self.cellStatus = kCellStatusSpinner;
+	self.isFirstPredictionsFetch = YES;
 
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
@@ -165,23 +167,23 @@
 	self.view.userInteractionEnabled = NO;
 	self.navigationController.navigationBar.userInteractionEnabled = NO;
 
-	[tableView.layer addAnimation:pushTransition forKey:nil];
-	[stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
+	[self.tableView.layer addAnimation:pushTransition forKey:nil];
+	[self.stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
 
 	self.stop = cell.previousStop;
 
 	[self setupInitialContents];
 
-	[tableView reloadData];
-	[timer fire];
+	[self.tableView reloadData];
+	[self.timer fire];
 }
 
 - (void) goToNextStop:(NSNotification *)note {
 
 	[super goToNextStop:note];
 
-	isFirstPredictionsFetch = YES;
-	cellStatus = kCellStatusSpinner;
+	self.isFirstPredictionsFetch = YES;
+	self.cellStatus = kCellStatusSpinner;
 
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
@@ -197,30 +199,29 @@
 	self.view.userInteractionEnabled = NO;
 	self.navigationController.navigationBar.userInteractionEnabled = NO;
 
-	[tableView.layer addAnimation:pushTransition forKey:nil];
+	[self.tableView.layer addAnimation:pushTransition forKey:nil];
 
 	CATransition *stopNameFadeTransition = [CATransition animation];
 	stopNameFadeTransition.duration = 0.5;
 	stopNameFadeTransition.type = kCATransitionFade;
 	stopNameFadeTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
-	[stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
+	[self.stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
 
 	self.stop = cell.nextStop;
 
 	[self setupInitialContents];
 
-	[tableView reloadData];
-	[timer fire];
+	[self.tableView reloadData];
+	[self.timer fire];
 
 }
 // flip directions
 - (void) switchDirections {
-	NSLog(@"STOPDETAILSVC: Reverse Stop: %@", stop.oppositeStop.title); /* DEBUG LOG */
+	NSLog(@"STOPDETAILSVC: Reverse Stop: %@", self.stop.oppositeStop.title); /* DEBUG LOG */
 
 	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-	 forView:tableView cache:YES];
+	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.tableView cache:YES];
 	[UIView setAnimationDuration:0.75];
 	[UIView setAnimationDelegate:self];
 	self.navigationController.navigationBar.userInteractionEnabled = NO;
@@ -230,16 +231,16 @@
 
 	[UIView commitAnimations];
 
-	cellStatus = kCellStatusSpinner;
+	self.cellStatus = kCellStatusSpinner;
 
-	self.stop = stop.oppositeStop;
+	self.stop = self.stop.oppositeStop;
 	mainDirection = nil;
 
-	isFirstPredictionsFetch = YES;
+	self.isFirstPredictionsFetch = YES;
 
 	[self setupInitialContents];
 
-	[tableView reloadData];
+	[self.tableView reloadData];
 	[self requestPredictions];
 
 }
@@ -261,7 +262,7 @@
 
 		PredictionRequest *request = [[PredictionRequest alloc] init];
 
-		request.agencyShortTitle = [[DataHelper agencyFromStop:stop] shortTitle];
+		request.agencyShortTitle = [[DataHelper agencyFromStop:self.stop] shortTitle];
 		request.route = route;
 		request.stopTag = self.stop.tag;
 
@@ -288,14 +289,14 @@
 	// show error message if there is one
 	if ([_predictions objectForKey:@"error"] != nil) {
 
-		cellStatus = kCellStatusInternetFail;
+		self.cellStatus = kCellStatusInternetFail;
 
 		NSError *error = [_predictions objectForKey:@"error"];
 
-		NSLog(@"%d", [errors containsObject:error.userInfo]); /* DEBUG LOG */
+		NSLog(@"%d", [self.errors containsObject:error.userInfo]); /* DEBUG LOG */
 
 		// only show the error if it hasn't been shown before
-		if (![errors containsObject:error.userInfo]) {
+		if (![self.errors containsObject:error.userInfo]) {
 
 			NSLog(@"StopDetailsVC: %@", @"ERROR"); /* DEBUG LOG */
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error.userInfo objectForKey:@"message"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -303,7 +304,7 @@
 
 		}
 		// store the error in the errors array
-		[errors addObject:error.userInfo];
+		[self.errors addObject:error.userInfo];
 		[self.tableView reloadData];
 		return;
 
@@ -311,7 +312,7 @@
 
 		for (Prediction *prediction in [_predictions allValues]) NSLog(@"INCOMING ARRIVALS: %@", prediction.arrivals);
 		// FILTER PREDICTIONS FOR THIS STOP
-		NSDictionary *filteredPredictions = [PredictionsManager filterPredictions:_predictions ForStop:stop];
+		NSDictionary *filteredPredictions = [PredictionsManager filterPredictions:_predictions ForStop:self.stop];
 
 		if (filteredPredictions == nil) {
 
@@ -319,12 +320,12 @@
 			return;
 
 		}
-		[predictions addEntriesFromDictionary:filteredPredictions];
+		[self.predictions addEntriesFromDictionary:filteredPredictions];
 
 		// the number of rows currently in the contents array
 		NSMutableDictionary *routes = [[NSMutableDictionary alloc] init];
 
-		for (NSArray *sectionArray in contents) {
+		for (NSArray *sectionArray in self.contents) {
 			for (id rowItem in sectionArray)
 
 				if ([rowItem isMemberOfClass:[Direction class]]) {
@@ -335,19 +336,19 @@
 
 				}
 		}
-		int numberOfPredictions = [predictions count];
+		int numberOfPredictions = [self.predictions count];
 		int numberOfRoutes = [routes count];
 
 		// only change the global cellStatus variable if every route has a prediction object (there could be more)
-		if (numberOfPredictions >= numberOfRoutes) cellStatus = kCellStatusDefault;
+		if (numberOfPredictions >= numberOfRoutes) self.cellStatus = kCellStatusDefault;
 
 		// we've recieved predictions (grouped by route) for all the routes that serve this stop. we now have to rejigger the
 		// table contents to reflect this new data b/c we can't know which directions for which routes will have predictions
 
-		if (isFirstPredictionsFetch) {
+		if (self.isFirstPredictionsFetch) {
 			[self setupContentsBasedOnPredictions];
-			isFirstPredictionsFetch = NO;
-		} else [tableView reloadData];
+			self.isFirstPredictionsFetch = NO;
+		} else [self.tableView reloadData];
 	}
 }
 
@@ -370,9 +371,9 @@
 
 	NSMutableDictionary *directionSwitches = [[NSMutableDictionary alloc] init];
 
-	for (NSString *predictionKey in [predictions allKeys]) {
+	for (NSString *predictionKey in [self.predictions allKeys]) {
 
-		Prediction *prediction = [predictions objectForKey:predictionKey];
+		Prediction *prediction = [self.predictions objectForKey:predictionKey];
 		[leftoverPredictionKeys setObject:[NSMutableArray array] forKey:predictionKey];
 
 		NSLog(@"PREDICTION ROUTE: %@", prediction.route.tag); /* DEBUG LOG */
@@ -385,7 +386,7 @@
 
 			NSLog(@"  KEY: %@", arrivalsKey); /* DEBUG LOG */
 
-			for (NSMutableArray *sectionArray in contents) {
+			for (NSMutableArray *sectionArray in self.contents) {
 
 				for (Direction *direction in sectionArray)
 
@@ -424,16 +425,16 @@
 		int sectionIndex = -1;
 		int directionIndex = -1;
 
-		for (NSMutableArray *sectionArray in contents)
+		for (NSMutableArray *sectionArray in self.contents)
 
 			if ([sectionArray containsObject:oldDirection]) {
-				sectionIndex = [contents indexOfObject:sectionArray];
+				sectionIndex = [self.contents indexOfObject:sectionArray];
 				directionIndex = [sectionArray indexOfObjectIdenticalTo:oldDirection];
 			}
 
 		if ( (sectionIndex > -1)&&(directionIndex > -1) ) {
 
-			[(NSMutableArray *)[contents objectAtIndex:sectionIndex] replaceObjectAtIndex:directionIndex withObject:arrivalDirection];
+			[(NSMutableArray *)[self.contents objectAtIndex:sectionIndex] replaceObjectAtIndex:directionIndex withObject:arrivalDirection];
 			NSLog(@"direction Switched from: %@ to: %@", oldDirection.tag, arrivalDirection.tag);
 
 		}
@@ -445,13 +446,13 @@
 	// WE WANT TO ADD THOSE DIRECTIONS TO THE CONTENTS ARRAY
 	// WE NEVER ADD DIRECTION ROWS TO THE MAIN-DIRECTION SECTION. THE LAST SECTION WILL ALWAYS BE THE CORRET ONE TO ADD DIRECTIONS TO
 
-	NSMutableArray *lastSection = [contents lastObject];
+	NSMutableArray *lastSection = [self.contents lastObject];
 
 	// create a direction object for each prediction key
 	for (NSString *predictionKey in leftoverPredictionKeys) {
 
-		Route *route = [[predictions objectForKey:predictionKey] route];
-		NSDictionary *arrivalsDict = [[predictions objectForKey:predictionKey] arrivals];
+		Route *route = [[self.predictions objectForKey:predictionKey] route];
+		NSDictionary *arrivalsDict = [[self.predictions objectForKey:predictionKey] arrivals];
 
 		NSLog(@"ROUTE: %@", route); /* DEBUG LOG */
 
@@ -480,9 +481,9 @@
 
 	// NSLog(@"PREDICTIONS: %@", predictions); /* DEBUG LOG */
 
-	[tableView reloadData];
+	[self.tableView reloadData];
 
-	NSLog(@"----CONTENTS: %@", contents);
+	NSLog(@"----CONTENTS: %@", self.contents);
 }
 
 #pragma mark -
@@ -490,7 +491,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
-	if ( (section == 1)&&([[contents objectAtIndex:section] count] > 0) ) return(kRowDividerHeight);
+	if ( (section == 1)&&([[self.contents objectAtIndex:section] count] > 0) ) return(kRowDividerHeight);
 	return(0);
 
 }
@@ -498,7 +499,7 @@
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
 	// only show the "other lines at this stop" header if there are rows in the second section
-	if ( (section == 1)&&([[contents objectAtIndex:section] count] > 0) ) {
+	if ( (section == 1)&&([[self.contents objectAtIndex:section] count] > 0) ) {
 		RowDivider *header = [[RowDivider alloc] initWithFrame:CGRectMake(0, 0, 320, kRowDividerHeight)];
 		header.title = @"Other Lines at this Stop";
 		return(header);
@@ -513,14 +514,14 @@
 	int section = indexPath.section;
 
 	// contents object
-	id object = [[contents objectAtIndex:section] objectAtIndex:row];
+	id object = [[self.contents objectAtIndex:section] objectAtIndex:row];
 
 	// BUTTON ROW
 	if ([object isMemberOfClass:[NSNull class]]) {
 
 		static NSString *ButtonBarCellIdentifier = @"ButtonBarCellIdentifier";
 
-		ButtonBarCell *cell = (ButtonBarCell *)[tableView dequeueReusableCellWithIdentifier:ButtonBarCellIdentifier];
+		ButtonBarCell *cell = (ButtonBarCell *)[self.tableView dequeueReusableCellWithIdentifier:ButtonBarCellIdentifier];
 
 		if (cell == nil) {
 			NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ButtonBarCell" owner:self options:nil];
@@ -531,8 +532,8 @@
 					cell.selectionStyle = UITableViewCellSelectionStyleNone;
 				}
 		}
-		cell.stop = stop;
-		cell.direction = [[contents objectAtIndex:section] objectAtIndex:row - 1];
+		cell.stop = self.stop;
+		cell.direction = [[self.contents objectAtIndex:section] objectAtIndex:row - 1];
 
 		[cell configureButtons];
 
@@ -542,7 +543,7 @@
 	else if ([object isMemberOfClass:[Direction class]]) {
 
 		static NSString *LineCellIdentifier = @"LineCellIdentifier";
-		LineCell *cell = (LineCell *)[tableView dequeueReusableCellWithIdentifier:LineCellIdentifier];
+		LineCell *cell = (LineCell *)[self.tableView dequeueReusableCellWithIdentifier:LineCellIdentifier];
 
 		if (cell == nil) {
 
@@ -555,7 +556,7 @@
 		DirectionCellView *directionCellView = (DirectionCellView *)cell.lineCellView;
 
 		// style the favorite button
-		directionCellView.stop = stop;
+		directionCellView.stop = self.stop;
 		directionCellView.direction = direction;
 
 		[directionCellView setFavoriteStatus];  // sets the star image depending on whether that direction/stop combo is a favorite
@@ -563,16 +564,16 @@
 		directionCellView.majorTitle = [NSString stringWithFormat:@"%@ %@", direction.route.tag, direction.name];
 		directionCellView.directionTitleLabel.text = [NSString stringWithFormat:@"→ %@", direction.title];
 
-		NSString *predictionKey = [PredictionsManager predictionKeyFromAgencyShortTitle:direction.route.agency.shortTitle routeTag:direction.route.tag stopTag:stop.tag];
+		NSString *predictionKey = [PredictionsManager predictionKeyFromAgencyShortTitle:direction.route.agency.shortTitle routeTag:direction.route.tag stopTag:self.stop.tag];
 
 		// all cell statuses are the same for every cell on the screen, except the PredictionFail status
-		if ([[predictions objectForKey:predictionKey] isError])	[directionCellView setCellStatus:kCellStatusPredictionFail withArrivals:nil];
+		if ([[self.predictions objectForKey:predictionKey] isError])	[directionCellView setCellStatus:kCellStatusPredictionFail withArrivals:nil];
 		else {
-			NSArray *arrivals = [[[predictions objectForKey:predictionKey] arrivals] objectForKey:[PredictionsManager arrivalsKeyForDirection:direction]];
+			NSArray *arrivals = [[[self.predictions objectForKey:predictionKey] arrivals] objectForKey:[PredictionsManager arrivalsKeyForDirection:direction]];
 
 			NSLog(@"ARRIVALS:%@", arrivals); /* DEBUG LOG */
 
-			[directionCellView setCellStatus:cellStatus withArrivals:arrivals];
+			[directionCellView setCellStatus:self.cellStatus withArrivals:arrivals];
 		}
 		return(cell);
 

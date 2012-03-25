@@ -13,13 +13,7 @@
 #import "Stop.h"
 #import <Foundation/Foundation.h>
 
-@interface PredictionsManager : NSObject {
-
-	NSOperationQueue *queue;
-	NSMutableDictionary *predictionsStore;
-
-	NSTimer *timer;
-}
+@interface PredictionsManager : NSObject
 
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) NSMutableDictionary *predictionsStore;

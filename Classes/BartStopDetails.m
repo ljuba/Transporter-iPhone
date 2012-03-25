@@ -17,20 +17,16 @@
 - (void) viewDidLoad {
 	[super viewDidLoad];
 
-	stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-bart.png"];
-
-	// SETUP THE CONTENTS ARRAY WITH SHOW=TRUE DIRECTIONS AND FAVORITED DIRECTIONS
-	[self setupInitialContents];
-
+	self.stopTitleImageView.image = [UIImage imageNamed:@"stop-name-background-bart.png"];
+    
+    // setup stop name
+	self.stopTitleLabel.text = self.stop.title;
 }
 
 - (void) setupInitialContents {
 
 	[super setupInitialContents];
-
-	// setup stop name
-	self.stopTitleLabel.text = stop.title;
-
+    
 	// CREATE A DICTIONARY OF PLATFORM NUMBERS AND STOP TAGS
 	NSMutableDictionary *platformsDict = [[NSMutableDictionary alloc] init];
 
@@ -40,7 +36,7 @@
 
 	CXMLDocument *platformParser = [[CXMLDocument alloc] initWithData:platformsData options:0 error:nil];
 
-	NSString *xPath = [NSString stringWithFormat:@"//agency/stop[@tag='%@']/platform", stop.tag];
+	NSString *xPath = [NSString stringWithFormat:@"//agency/stop[@tag='%@']/platform", self.stop.tag];
 
 	NSArray *platformNodes = [platformParser nodesForXPath:xPath error:nil];
 
@@ -62,14 +58,14 @@
 	// CREATE ARRAY OF SORTED PLATFORMS FROM THE NUMBERS AT THIS STOP
 	self.platforms = [NSMutableArray arrayWithArray:[platformsDict allKeys]];
 	NSSortDescriptor *platformSorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
-	[platforms sortUsingDescriptors:[NSArray arrayWithObject:platformSorter]];
+	[self.platforms sortUsingDescriptors:[NSArray arrayWithObject:platformSorter]];
 
 	NSLog(@"PLATFORMS: %@", platforms); /* DEBUG LOG */
 
 	NSLog(@"PLATFORM DICTIONARY: %@", platformsDict);
 
 	// CREATE A CONTENTS ARRAY WITH AN ARRAY FOR EACH PLATFORM, WITH DESTINATIONS ORDERED ALPHABETICALLY
-	for (NSString *platformNumber in platforms) {
+	for (NSString *platformNumber in self.platforms) {
 
 		NSArray *destinationStopTags = [platformsDict objectForKey:platformNumber];
 
@@ -77,10 +73,10 @@
 
 		for (NSString *destinationStopTag in destinationStopTags) {
 
-			Agency *agency = [DataHelper agencyFromStop:stop];
+			Agency *agency = [DataHelper agencyFromStop:self.stop];
 			Stop *destinationStop = [DataHelper stopWithTag:destinationStopTag inAgency:agency];
 
-			Destination *dest = [[Destination alloc] initWithDestinationStop:destinationStop forStop:stop];
+			Destination *dest = [[Destination alloc] initWithDestinationStop:destinationStop forStop:self.stop];
 			[platformDestinations addObject:dest];
 
 		}
@@ -88,9 +84,7 @@
 		NSSortDescriptor *alphabeticSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStop.title" ascending:YES];
 		[platformDestinations sortUsingDescriptors:[NSArray arrayWithObject:alphabeticSorter]];
 
-		[contents addObject:platformDestinations];
-
-
+		[self.contents addObject:platformDestinations];
 	}
 
 }
@@ -102,8 +96,8 @@
 
 	[super goToPreviousStop:note];
 
-	cellStatus = kCellStatusSpinner;
-	isFirstPredictionsFetch = YES;
+	self.cellStatus = kCellStatusSpinner;
+	self.isFirstPredictionsFetch = YES;
 
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
@@ -117,15 +111,15 @@
 	self.view.userInteractionEnabled = NO;
 	self.navigationController.navigationBar.userInteractionEnabled = NO;
 
-	[tableView.layer addAnimation:pushTransition forKey:nil];
-	[stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
+	[self.tableView.layer addAnimation:pushTransition forKey:nil];
+	[self.stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
 
 	self.stop = cell.previousStop;
 
 	[self setupInitialContents];
 
-	[tableView reloadData];
-	[timer fire];
+	[self.tableView reloadData];
+	[self.timer fire];
 
 }
 
@@ -133,8 +127,8 @@
 
 	[super goToNextStop:note];
 
-	isFirstPredictionsFetch = YES;
-	cellStatus = kCellStatusSpinner;
+	self.isFirstPredictionsFetch = YES;
+	self.cellStatus = kCellStatusSpinner;
 
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 
@@ -148,21 +142,21 @@
 	self.view.userInteractionEnabled = NO;
 	self.navigationController.navigationBar.userInteractionEnabled = NO;
 
-	[tableView.layer addAnimation:pushTransition forKey:nil];
+	[self.tableView.layer addAnimation:pushTransition forKey:nil];
 
 	CATransition *stopNameFadeTransition = [CATransition animation];
 	stopNameFadeTransition.duration = 0.5;
 	stopNameFadeTransition.type = kCATransitionFade;
 	stopNameFadeTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 
-	[stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
+	[self.stopTitleLabel.layer addAnimation:pushTransition forKey:nil];
 
 	self.stop = cell.nextStop;
 
 	[self setupInitialContents];
 
-	[tableView reloadData];
-	[timer fire];
+	[self.tableView reloadData];
+	[self.timer fire];
 
 }
 
@@ -171,7 +165,7 @@
 	ButtonBarCell *cell = (ButtonBarCell *)note.object;
 	LiveRouteTVC *liveRouteTVC = [[LiveRouteTVC alloc] init];
 	liveRouteTVC.direction = cell.direction;
-	liveRouteTVC.startingStop = stop;
+	liveRouteTVC.startingStop = self.stop;
 
 	[self.navigationController pushViewController:liveRouteTVC animated:YES];
 
@@ -212,14 +206,14 @@
 	// show error message if there is one
 	if ([_predictions objectForKey:@"error"] != nil) {
 
-		cellStatus = kCellStatusInternetFail;
+		self.cellStatus = kCellStatusInternetFail;
 
 		NSError *error = [_predictions objectForKey:@"error"];
 
-		NSLog(@"%d", [errors containsObject:error.userInfo]); /* DEBUG LOG */
+		NSLog(@"%d", [self.errors containsObject:error.userInfo]); /* DEBUG LOG */
 
 		// only show the error if it hasn't been shown before
-		if (![errors containsObject:error.userInfo]) {
+		if (![self.errors containsObject:error.userInfo]) {
 
 			NSLog(@"BartStopDetails: %@", @"ERROR"); /* DEBUG LOG */
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error.userInfo objectForKey:@"message"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -227,16 +221,16 @@
 
 		}
 		// store the error in the errors array
-		[errors addObject:error.userInfo];
-		[tableView reloadData];
+		[self.errors addObject:error.userInfo];
+		[self.tableView reloadData];
 		return;
 
 	} else {
 
-		cellStatus = kCellStatusDefault;
+		self.cellStatus = kCellStatusDefault;
 
 		// FILTER PREDICTIONS FOR THIS STOP
-		Prediction *newPrediction = [_predictions objectForKey:stop.tag];
+		Prediction *newPrediction = [_predictions objectForKey:self.stop.tag];
 
 		// view controllers need to be ready to receive predictions for any stop/agency. if there are non for this stop, do not proceed
 		if (newPrediction == nil) {
@@ -244,16 +238,16 @@
 			NSLog(@"BartStopDetails: IGNORED NON-THIS-STOP PREDICTIONS"); /* DEBUG LOG */
 			return;
 		}
-		[predictions setObject:newPrediction forKey:stop.tag];
+		[self.predictions setObject:newPrediction forKey:self.stop.tag];
 
 		// we've recieved predictions (grouped by route) for all the routes that serve this stop. we now have to rejigger the
 		// table contents to reflect this new data b/c we can't know which directions for which routes will have predictions
 
 		// but only the first time
-		if (isFirstPredictionsFetch) {
+		if (self.isFirstPredictionsFetch) {
 
 			[self setupContentsBasedOnPredictions];
-			isFirstPredictionsFetch = NO;
+			self.isFirstPredictionsFetch = NO;
 
 		}
 		// every subsquent time, just add the predictions to the predictions dictionary and reload the table
@@ -268,7 +262,7 @@
 	// IF THERE ARE ANY LEFTOVER PREDICTIONS, SAVE THEM TO A DICTIONARY
 	NSMutableDictionary *leftoverDestinationArrivals = [[NSMutableDictionary alloc] init];
 
-	Prediction *prediction = [predictions objectForKey:stop.tag];
+	Prediction *prediction = [self.predictions objectForKey:self.stop.tag];
 	NSDictionary *arrivals = prediction.arrivals;
 
 	NSArray *destinationTags = [prediction.arrivals allKeys];
@@ -278,7 +272,7 @@
 		[leftoverDestinationArrivals setObject:[arrivals objectForKey:destinationTag] forKey:destinationTag];
 
 		// go through each section in the contents looking for this destination tag
-		for (NSMutableArray *tableSection in contents)
+		for (NSMutableArray *tableSection in self.contents)
 
 			for (Destination * destination in tableSection)
 
@@ -312,20 +306,20 @@
 		// CREATE THE PREDICTION OBJECT TO ADD TO THE CONTENTS
 
 		Stop *destinationStop = [DataHelper stopWithTag:arrivalsKey inAgencyWithShortTitle:@"bart"];
-		Destination *destinationToAdd = [[Destination alloc] initWithDestinationStop:destinationStop forStop:stop];
+		Destination *destinationToAdd = [[Destination alloc] initWithDestinationStop:destinationStop forStop:self.stop];
 
-		[[contents objectAtIndex:sectionIndex] addObject:destinationToAdd];
+		[[self.contents objectAtIndex:sectionIndex] addObject:destinationToAdd];
 
 		NSSortDescriptor *destinationTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStop.title" ascending:YES];
 
-		[[contents objectAtIndex:sectionIndex] sortUsingDescriptors:[NSMutableArray arrayWithObject:destinationTitleSorter]];
+		[[self.contents objectAtIndex:sectionIndex] sortUsingDescriptors:[NSMutableArray arrayWithObject:destinationTitleSorter]];
 
 
 	}
 
 	// NSLog(@"PREDICTIONS: %@", predictions); /* DEBUG LOG */
 
-	[tableView reloadData];
+	[self.tableView reloadData];
 
 }
 
@@ -348,14 +342,14 @@
 	int section = indexPath.section;
 
 	// contents object
-	id object = [[contents objectAtIndex:section] objectAtIndex:row];
+	id object = [[self.contents objectAtIndex:section] objectAtIndex:row];
 
 	// BUTTON ROW
 	if ([object isMemberOfClass:[NSNull class]]) {
 
 		static NSString *ButtonBarCellIdentifier = @"ButtonBarCellIdentifier";
 
-		ButtonBarCell *cell = (ButtonBarCell *)[tableView dequeueReusableCellWithIdentifier:ButtonBarCellIdentifier];
+		ButtonBarCell *cell = (ButtonBarCell *)[self.tableView dequeueReusableCellWithIdentifier:ButtonBarCellIdentifier];
 
 		if (cell == nil) {
 			NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ButtonBarCell" owner:self options:nil];
@@ -366,9 +360,9 @@
 					cell.selectionStyle = UITableViewCellSelectionStyleNone;
 				}
 		}
-		cell.stop = stop;
+		cell.stop = self.stop;
 
-		Destination *destination = (Destination *)[[contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
+		Destination *destination = (Destination *)[[self.contents objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
 		cell.direction = destination.direction;
 
 		[cell configureButtons];
@@ -379,7 +373,7 @@
 	else if ([object isMemberOfClass:[Destination class]]) {
 
 		static NSString *LineCellIdentifier = @"LineCellIdentifier";
-		LineCell *cell = (LineCell *)[tableView dequeueReusableCellWithIdentifier:LineCellIdentifier];
+		LineCell *cell = (LineCell *)[self.tableView dequeueReusableCellWithIdentifier:LineCellIdentifier];
 
 		if (cell == nil) {
 
@@ -393,7 +387,7 @@
 		DestinationCellView *destinationCellView = (DestinationCellView *)cell.lineCellView;
 
 		// style the favorite button
-		destinationCellView.stop = stop;
+		destinationCellView.stop = self.stop;
 		[destinationCellView setDestination:destination];
 
 		[destinationCellView setFavoriteStatus];        // sets the star image depending on whether that direction/stop combo is a favorite
@@ -401,13 +395,13 @@
 		destinationCellView.majorTitle = destination.destinationStop.title;
 
 		// all cell statuses are the same for every cell on the screen, except the PredictionFail status
-		if ([[predictions objectForKey:stop.tag] isError]) [destinationCellView setCellStatus:kCellStatusPredictionFail withArrivals:nil];
+		if ([[self.predictions objectForKey:self.stop.tag] isError]) [destinationCellView setCellStatus:kCellStatusPredictionFail withArrivals:nil];
 		else {
 
 			// temporary: find the arrivals for the given direction cell, if it exists
-			NSArray *arrivals = [[[predictions objectForKey:stop.tag] arrivals] objectForKey:destination.destinationStop.tag];
+			NSArray *arrivals = [[[self.predictions objectForKey:self.stop.tag] arrivals] objectForKey:destination.destinationStop.tag];
 
-			[destinationCellView setCellStatus:cellStatus withArrivals:arrivals];
+			[destinationCellView setCellStatus:self.cellStatus withArrivals:arrivals];
 		}
 		return(cell);
 
