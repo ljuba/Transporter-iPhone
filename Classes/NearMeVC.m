@@ -21,7 +21,7 @@
 
 @implementation NearMeVC
 
-@synthesize mapView, recenterButton, locationManager, previousStopAnnotations, autoRecenterMap;
+@synthesize mapView, locationManager, previousStopAnnotations, autoRecenterMap;
 
 #pragma mark -
 
@@ -33,13 +33,13 @@
 	NSString *backTitle = [NSString stringWithString:@"Map"];
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
-	previousStopAnnotations = nil;           // in case regionWillChangeAnimated is never called, set this to nil so it can be "released"
+	self.previousStopAnnotations = nil;           // in case regionWillChangeAnimated is never called, set this to nil so it can be "released"
 
 	// setup core location
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-	[locationManager startUpdatingLocation];
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	[self.locationManager startUpdatingLocation];
 
 	MKCoordinateRegion region;
 	CLLocationCoordinate2D center;
@@ -62,8 +62,8 @@
 	}
 	region.center = center;
 
-	[mapView setRegion:region animated:NO];
-	[mapView regionThatFits:region];
+	[self.mapView setRegion:region animated:NO];
+	[self.mapView regionThatFits:region];
 }
 
 // perform once the view loads
@@ -82,14 +82,14 @@
 - (void) viewWillDisappear:(BOOL)animated {
 
 	[super viewWillDisappear:animated];
-	[locationManager stopUpdatingLocation];
+	[self.locationManager stopUpdatingLocation];
 
 	// SAVE MAP CENTER AND REGION
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setDouble:mapView.region.center.latitude forKey:@"nearMeMapCenterLatitutde"];
-	[userDefaults setDouble:mapView.region.center.longitude forKey:@"nearMeMapCenterLongitude"];
-	[userDefaults setDouble:mapView.region.span.latitudeDelta forKey:@"nearMeMapRegionLatitudeDelta"];
-	[userDefaults setDouble:mapView.region.span.longitudeDelta forKey:@"nearMeMapRegionLongitudeDelta"];
+	[userDefaults setDouble:self.mapView.region.center.latitude forKey:@"nearMeMapCenterLatitutde"];
+	[userDefaults setDouble:self.mapView.region.center.longitude forKey:@"nearMeMapCenterLongitude"];
+	[userDefaults setDouble:self.mapView.region.span.latitudeDelta forKey:@"nearMeMapRegionLatitudeDelta"];
+	[userDefaults setDouble:self.mapView.region.span.longitudeDelta forKey:@"nearMeMapRegionLongitudeDelta"];
 
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter removeObserver:self];
@@ -101,38 +101,38 @@
 
 	if ([note.name isEqual:UIApplicationWillResignActiveNotification]) {
 
-		[locationManager stopUpdatingLocation];
+		[self.locationManager stopUpdatingLocation];
 	} else if ([note.name isEqual:UIApplicationDidBecomeActiveNotification]) {
 
-		[locationManager startUpdatingLocation];
+		[self.locationManager startUpdatingLocation];
 	}
 }
 
 #pragma mark -
 #pragma mark Annotations
 
-- (void) mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+- (void) mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated {
 
-	self.previousStopAnnotations = [NSMutableArray arrayWithArray:self.mapView.annotations];
+	self.previousStopAnnotations = [NSMutableArray arrayWithArray:_mapView.annotations];
 
 	// exclude all non-stopAnnotations
-	for (int i = 0; i < [previousStopAnnotations count]; i++)
+	for (int i = 0; i < [self.previousStopAnnotations count]; i++)
 
-		if (![[previousStopAnnotations objectAtIndex:i] isKindOfClass:[StopAnnotation class]]) [previousStopAnnotations removeObjectAtIndex:i];
+		if (![[self.previousStopAnnotations objectAtIndex:i] isKindOfClass:[StopAnnotation class]]) [self.previousStopAnnotations removeObjectAtIndex:i];
 }
 
 // adds and removes stop annotations when the map changes regions
-- (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+- (void) mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated {
 
 	// don't at stop annotaitons if the mapview region is too large
-	if (self.mapView.region.span.latitudeDelta * 111000 > 1000) return;
+	if (_mapView.region.span.latitudeDelta * 111000 > 1000) return;
 	// array of the annotations currently in the map view.
 	// annotationsToDelete is pre-made with all of the annotations so they can be filtered out later.
-	NSMutableArray *annotationsToDelete = [NSMutableArray arrayWithArray:previousStopAnnotations];
+	NSMutableArray *annotationsToDelete = [NSMutableArray arrayWithArray:self.previousStopAnnotations];
 
 	// get an array of annotations for the stops that should be displayed in the map
 	// annotationsToAdd is pre-made with all of the annotations so they can be filtered out later.
-	NSMutableArray *visibleAnnotations = [self getStopAnnotationsForRegion:self.mapView.region];
+	NSMutableArray *visibleAnnotations = [self getStopAnnotationsForRegion:_mapView.region];
 	NSMutableArray *annotationsToAdd = [NSMutableArray arrayWithArray:visibleAnnotations];
 
 	// find the annotations that are no longer visible in annotationsToDelete
@@ -141,15 +141,15 @@
 
 
 	// remove the no-longer-visible annotations
-	[self.mapView removeAnnotations:annotationsToDelete];
+	[_mapView removeAnnotations:annotationsToDelete];
 
 	// find the annotations that are newly visible in annotationsToAdd
 	// annotationsToAdde is the same as visibleAnnotations at this point
-	[annotationsToAdd removeObjectsInArray:previousStopAnnotations];
+	[annotationsToAdd removeObjectsInArray:self.previousStopAnnotations];
 
 
 	// add the newly visible annotations
-	[self.mapView addAnnotations:annotationsToAdd];
+	[_mapView addAnnotations:annotationsToAdd];
 
 }
 
@@ -247,21 +247,21 @@
 }
 
 // prevents the user location annotation view from being selected
-- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+- (void)mapView:(MKMapView *)_mapView didAddAnnotationViews:(NSArray *)views
 {
 	for (MKAnnotationView *view in views)
 		if ([view.annotation isKindOfClass:[MKUserLocation class]]) view.canShowCallout = NO;
 }
 
 // load the stopDetailVC when the right accessory button is tapped
-- (void) selectStop {
+- (void)selectStop {
 
 	StopAnnotation *stopAnnotation;
 
 	// check b/c of differences between iPhone OS 3.0 and 3.1.2
-	if ([[mapView.selectedAnnotations objectAtIndex:0] isMemberOfClass:[StopAnnotation class]]) stopAnnotation = [mapView.selectedAnnotations objectAtIndex:0];
+	if ([[self.mapView.selectedAnnotations objectAtIndex:0] isMemberOfClass:[StopAnnotation class]]) stopAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
 
-	else stopAnnotation = [[mapView.selectedAnnotations objectAtIndex:0] annotation];
+	else stopAnnotation = [[self.mapView.selectedAnnotations objectAtIndex:0] annotation];
 	NSString *agencyShortTitle = [[DataHelper agencyFromStop:stopAnnotation.stop] shortTitle];
 
 	if ([agencyShortTitle isEqualToString:@"bart"]) {
@@ -303,13 +303,13 @@
 			region.span.longitudeDelta = region.span.latitudeDelta = 2 * kRegionMargin * newLocation.horizontalAccuracy / 111000;
 		region.center = newLocation.coordinate;
 
-		[mapView setRegion:region animated:YES];
-		[mapView regionThatFits:region];
+		[self.mapView setRegion:region animated:YES];
+		[self.mapView regionThatFits:region];
 
 		// if the fix is really good, don't recenter the map anymore and stop updating location, unless the user taps on the find-me button
 		if (newLocation.horizontalAccuracy < 200) {
 			autoRecenterMap = NO;
-			[locationManager stopUpdatingLocation];
+			[manager stopUpdatingLocation];
 		}
 	} else return;
 }
@@ -317,7 +317,7 @@
 // recenter the map to the current location at the current level of zoom
 - (IBAction) recenterMap {
 
-	[locationManager startUpdatingLocation];
+	[self.locationManager startUpdatingLocation];
 	autoRecenterMap = YES;
 
 }
@@ -334,7 +334,6 @@
 
 - (void) viewDidUnload {
 	self.mapView = nil;
-	self.recenterButton = nil;
 }
 
 

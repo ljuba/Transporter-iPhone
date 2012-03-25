@@ -27,11 +27,9 @@
 
 }
 
-@property (nonatomic) IBOutlet MKMapView *mapView;
-@property (nonatomic) IBOutlet UIBarButtonItem *recenterButton;
-@property (nonatomic) CLLocationManager *locationManager;
-@property (nonatomic) NSMutableArray *previousStopAnnotations;
-
+@property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSMutableArray *previousStopAnnotations;
 @property BOOL autoRecenterMap;
 
 - (IBAction) recenterMap;

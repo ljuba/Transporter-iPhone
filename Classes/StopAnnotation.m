@@ -33,24 +33,19 @@
 // returns the title of annotation as the stop name
 - (NSString *) title {
 
-	if ([agency.shortTitle isEqual:@"bart"]) return([NSString stringWithFormat:@"%@ BART", stop.title]);
-	return(stop.title);
+	if ([self.agency.shortTitle isEqual:@"bart"]) return([NSString stringWithFormat:@"%@ BART", self.stop.title]);
+	return(self.stop.title);
 
 }
 
 // returns the routes that pass through this stop
 - (NSString *) subtitle {
 
-	// debug option
-	// return stop.tag;
-
-	if ([agency.shortTitle isEqual:@"bart"]) return(nil);
-	NSArray *routes = [DataHelper uniqueRoutesForStop:stop];
+	if ([self.agency.shortTitle isEqual:@"bart"]) return(nil);
+	NSArray *routes = [DataHelper uniqueRoutesForStop:self.stop];
 
 	NSMutableString *linesString = [NSMutableString string];
-
-	// [linesString appendFormat:@"%@: ", stop.tag];
-
+    
 	for (Route *route in routes) [linesString appendFormat:@"%@ ", route.tag];
 	return(linesString);
 
@@ -63,7 +58,7 @@
 
 		StopAnnotation *otherStopAnnotation = (StopAnnotation *)otherObject;
 
-		if ([stop.tag isEqual:otherStopAnnotation.stop.tag]&&[stop.lat isEqual:otherStopAnnotation.stop.lat]) return(YES);
+		if ([self.stop.tag isEqual:otherStopAnnotation.stop.tag]&&[self.stop.lat isEqual:otherStopAnnotation.stop.lat]) return(YES);
 		else return(NO);
 	}
 	return(NO);
@@ -71,7 +66,7 @@
 
 - (NSUInteger) hash;
 {
-	return([stop.tag hash]^[ stop.lat hash]^[ stop.lon hash]);
+	return([self.stop.tag hash]^[ stop.lat hash]^[ stop.lon hash]);
 }
 
 #pragma mark -
