@@ -10,25 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "FavoriteStopsDelegate.h"
 
-@interface FavoritesVC : UIViewController <PredictionsManagerDelegate> {
+@interface FavoritesVC : UIViewController <PredictionsManagerDelegate>
 
-	UISegmentedControl *segmentedControl;
-	UIBarButtonItem *reloadPredictionsButton;
-	UIBarButtonItem *editButton;
-
-	UITableView *tableView;
-
-	FavoriteStopsDelegate *stopsDelegate;
-
-	NSTimer *timer;
-
-	UIImageView *noFavoritesMessageView;
-
-
-}
-
-@property (nonatomic, strong) UISegmentedControl *segmentedControl;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *reloadPredictionsButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
