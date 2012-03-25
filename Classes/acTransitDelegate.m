@@ -33,7 +33,7 @@
 	return(self);
 }
 
-// user taps a route to see it's directions
+// user taps a route to see its directions
 - (void) tapRoute:(UIButton *)sender {
 
 	int tag = sender.tag;

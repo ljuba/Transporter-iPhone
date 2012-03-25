@@ -209,9 +209,7 @@
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
 
-	      // created in viewDidLoad
-	              // created in tapAgency, which is called in viewDidLoad
-
+    self.locationManager.delegate = nil;
 }
 
 @end
