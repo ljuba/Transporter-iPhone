@@ -364,8 +364,7 @@
 	
 	if ([agencyShortTitle isEqualToString:@"bart"]){
 	
-		bartStopDetails = [[BartStopDetails alloc] init];
-		bartStopDetails.stop = stop;
+		bartStopDetails = [[BartStopDetails alloc] initWithStop:stop];
 		bartStopDetails.navigationItem.backBarButtonItem = backButton;
 		[navController pushViewController:bartStopDetails animated:NO];
 		
@@ -373,8 +372,7 @@
 	}
 	else {
 		
-		nextBusStopDetails = [[NextBusStopDetails alloc] init];
-		nextBusStopDetails.stop = stop;
+		nextBusStopDetails = [[NextBusStopDetails alloc] initWithStop:stop];
 		
 		if (mainDirection != nil) {
 			nextBusStopDetails.mainDirection = mainDirection;

@@ -224,10 +224,8 @@
 	NSUInteger section = [indexPath section];
 	NSUInteger row = [indexPath row];
 
-	NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] init];
-	nextBusStopDetails.stop = [[stops objectAtIndex:section] objectAtIndex:row];
-	nextBusStopDetails.mainDirection = direction;
-
+	NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] initWithStop:[[stops objectAtIndex:section] objectAtIndex:row] mainDirection:direction];
+	
 	[self.navigationController pushViewController:nextBusStopDetails animated:YES];
 
 }

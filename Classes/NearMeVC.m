@@ -265,16 +265,14 @@
 	NSString *agencyShortTitle = [[DataHelper agencyFromStop:stopAnnotation.stop] shortTitle];
 
 	if ([agencyShortTitle isEqualToString:@"bart"]) {
-
-		BartStopDetails *bartStopDetails = [[BartStopDetails alloc] init];
-		bartStopDetails.stop = stopAnnotation.stop;
-
+        
+		BartStopDetails *bartStopDetails = [[BartStopDetails alloc] initWithStop:stopAnnotation.stop];
+        
 		[self.navigationController pushViewController:bartStopDetails animated:YES];
 
 	} else {
-		NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] init];
-		nextBusStopDetails.stop = stopAnnotation.stop;
-
+		NextBusStopDetails *nextBusStopDetails = [[NextBusStopDetails alloc] initWithStop:stopAnnotation.stop];
+        
 		[self.navigationController pushViewController:nextBusStopDetails animated:YES];
 	}
 }
@@ -334,6 +332,7 @@
 
 - (void) viewDidUnload {
 	self.mapView = nil;
+    self.locationManager.delegate = nil;
 }
 
 

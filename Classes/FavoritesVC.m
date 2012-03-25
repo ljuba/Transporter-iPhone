@@ -241,14 +241,12 @@
 		NSString *agencyShortTitle = [[DataHelper agencyFromStop:stop] shortTitle];
 
 		if ([agencyShortTitle isEqualToString:@"bart"]) {
-			BartStopDetails *bartStopDetails = [[BartStopDetails alloc] init];
-			bartStopDetails.stop = (Stop *)note.object;
-
+			BartStopDetails *bartStopDetails = [[BartStopDetails alloc] initWithStop:(Stop *)note.object];
+            
 			[self.navigationController pushViewController:bartStopDetails animated:YES];
 		} else {
-			NextBusStopDetails *stopDetails = [[NextBusStopDetails alloc] init];
-			stopDetails.stop = (Stop *)note.object;
-
+			NextBusStopDetails *stopDetails = [[NextBusStopDetails alloc] initWithStop:(Stop *)note.object];
+            
 			[self.navigationController pushViewController:stopDetails animated:YES];
 		}
 	}

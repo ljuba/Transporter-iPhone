@@ -23,7 +23,6 @@
 
 
 - (void) loadNextViewController:(NSNotification *)note;
-- (void) tapSegmentedControl;
 - (void) requestPredictions;
 - (IBAction) toggleEditingMode;
 
