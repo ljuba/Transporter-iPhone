@@ -23,8 +23,8 @@
 
 
 	// tableViewSettings
-	tableView.showsVerticalScrollIndicator = NO;
-	tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.tableView.showsVerticalScrollIndicator = NO;
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"SF MUNI", @"BART", @"AC Transit", nil]];
 	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -39,8 +39,8 @@
 	self.navigationItem.titleView = self.segmentedControl;
 
 	// setup core location and fetch locations while you're on this screen (for use later)
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 
 	// setup notification observing for when a user taps on a route (for ac transit and muni) or station (for bart)
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -100,12 +100,12 @@
 
 - (void) viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[locationManager startUpdatingLocation];
+	[self.locationManager startUpdatingLocation];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[locationManager stopUpdatingLocation];
+	[self.locationManager stopUpdatingLocation];
 }
 
 // responds to the tap of the agency segmented control and loads the appropriate agency data
@@ -117,11 +117,12 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-selected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
-
+        
+        self.locationManager.delegate = nil;
 		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
         
-		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		tableView.backgroundColor = [UIColor clearColor];
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+		self.tableView.backgroundColor = [UIColor clearColor];
 	}
 	// bart
 	else if (self.segmentedControl.selectedSegmentIndex == 1) {
@@ -129,12 +130,12 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
-
+        
 		self.transitDelegate = [[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]];
-		locationManager.delegate = self.transitDelegate;
+		self.locationManager.delegate = self.transitDelegate;
 
-		tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-		tableView.backgroundColor = [UIColor whiteColor];
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+		self.tableView.backgroundColor = [UIColor whiteColor];
 
 	}
 	// ac transit
@@ -142,24 +143,24 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
-
+        
+        self.locationManager.delegate = nil;
 		self.transitDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
 
-		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		tableView.backgroundColor = [UIColor clearColor];
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+		self.tableView.backgroundColor = [UIColor clearColor];
 	}
 	// remember which agency is selected, so we can reload it next time
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setInteger:self.segmentedControl.selectedSegmentIndex forKey:@"linesSegmentedControlIndex"];
 
-	self.tableView.dataSource = transitDelegate;
-	self.tableView.delegate = transitDelegate;
+	self.tableView.dataSource = self.transitDelegate;
+	self.tableView.delegate = self.transitDelegate;
 
-	[tableView reloadData];
+	[self.tableView reloadData];
 
 	NSIndexPath *topPath = [NSIndexPath indexPathForRow:0 inSection:0];
-	[tableView scrollToRowAtIndexPath:topPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-
+	[self.tableView scrollToRowAtIndexPath:topPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
 }
 
 // retreives an agency's data form core data and returns the Agency object
@@ -200,8 +201,12 @@
 
 - (void) viewDidUnload {
 	// Release any retained subviews of the main view.
-
+    
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
 	self.tableView = nil;
+    
+    self.transitDelegate = nil;
     self.locationManager.delegate = nil;
 }
 
@@ -210,7 +215,13 @@
 	// unregister the notification from the favorites delegates
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
-
+    
+    self.transitDelegate = nil;
+    
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    self.tableView = nil;
+    
     self.locationManager.delegate = nil;
 }
 
