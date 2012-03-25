@@ -11,10 +11,8 @@
 extern const CGFloat kRowDividerWidth;
 
 @interface RowDivider : UIView
-{
-	NSString *title;
-}
 
 @property (copy, nonatomic) NSString *title;
+@property (nonatomic, strong) UIImage *backgroundImage;
 
 @end

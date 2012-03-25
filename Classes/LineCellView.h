@@ -35,6 +35,7 @@ extern const CGFloat kLineCellViewHeight;
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) Stop *stop;
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIImage *backgroundImage;
 
 @property int cellStatus;
 @property BOOL isFavorite;

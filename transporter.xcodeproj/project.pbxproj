@@ -48,6 +48,10 @@
 		FA228DB81162CA7700C5C98C /* DirectionAnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA228DB71162CA7700C5C98C /* DirectionAnnotationView.xib */; };
 		FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FA23DA9F14D1C9DB0075B094 /* google-logo.png */; };
 		FA25E753115AF54D0064787A /* PredictionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25E752115AF54D0064787A /* PredictionsManager.m */; };
+		FA2BE9C9151F747C00859724 /* line-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2BE9C7151F747900859724 /* line-background@2x.png */; };
+		FA2BE9CA151F747C00859724 /* line-background.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2BE9C8151F747A00859724 /* line-background.png */; };
+		FA2BE9CE151F7B3F00859724 /* divider-background.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2BE9CC151F7B3C00859724 /* divider-background.png */; };
+		FA2BE9CF151F7B3F00859724 /* divider-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2BE9CD151F7B3D00859724 /* divider-background@2x.png */; };
 		FA2DBDE8114DC38D003F9407 /* schema.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = FA2DBDE7114DC38D003F9407 /* schema.xcdatamodel */; };
 		FA2DBE02114DD8AF003F9407 /* trips.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2DBDFD114DD8AF003F9407 /* trips.png */; };
 		FA2F0FC5115D64A900EA4F44 /* LiveRouteTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2F0FC4115D64A900EA4F44 /* LiveRouteTVC.m */; };
@@ -547,6 +551,10 @@
 		FA25E751115AF54D0064787A /* PredictionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredictionsManager.h; sourceTree = "<group>"; };
 		FA25E752115AF54D0064787A /* PredictionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredictionsManager.m; sourceTree = "<group>"; };
 		FA25E766115AF8820064787A /* PredictionsManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredictionsManagerDelegate.h; sourceTree = "<group>"; };
+		FA2BE9C7151F747900859724 /* line-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-background@2x.png"; sourceTree = "<group>"; };
+		FA2BE9C8151F747A00859724 /* line-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-background.png"; sourceTree = "<group>"; };
+		FA2BE9CC151F7B3C00859724 /* divider-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "divider-background.png"; sourceTree = "<group>"; };
+		FA2BE9CD151F7B3D00859724 /* divider-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "divider-background@2x.png"; sourceTree = "<group>"; };
 		FA2DBDE7114DC38D003F9407 /* schema.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = schema.xcdatamodel; path = ../schema.xcdatamodel; sourceTree = "<group>"; };
 		FA2DBDFD114DD8AF003F9407 /* trips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trips.png; sourceTree = "<group>"; };
 		FA2F0FC3115D64A900EA4F44 /* LiveRouteTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveRouteTVC.h; sourceTree = "<group>"; };
@@ -1547,6 +1555,10 @@
 		FA9A998111652DF500BC22BD /* stopDetails */ = {
 			isa = PBXGroup;
 			children = (
+				FA2BE9C7151F747900859724 /* line-background@2x.png */,
+				FA2BE9C8151F747A00859724 /* line-background.png */,
+				FA2BE9CC151F7B3C00859724 /* divider-background.png */,
+				FA2BE9CD151F7B3D00859724 /* divider-background@2x.png */,
 				FADB365D126658FF008501E6 /* switch-directions.png */,
 				FADB365E126658FF008501E6 /* switch-directions@2x.png */,
 				FA3F89AF1166555E00484978 /* table-footer-shadow.png */,
@@ -2569,6 +2581,10 @@
 				FAB11D69151BB5EF0058D9B3 /* README.txt in Resources */,
 				FA72F2E9151EF50800653982 /* background.png in Resources */,
 				FA72F2EA151EF50800653982 /* background@2x.png in Resources */,
+				FA2BE9C9151F747C00859724 /* line-background@2x.png in Resources */,
+				FA2BE9CA151F747C00859724 /* line-background.png in Resources */,
+				FA2BE9CE151F7B3F00859724 /* divider-background.png in Resources */,
+				FA2BE9CF151F7B3F00859724 /* divider-background@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

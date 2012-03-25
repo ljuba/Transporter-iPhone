@@ -15,7 +15,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 @implementation LineCellView
 
 @synthesize majorTitle, textColor, favoriteButton, stop, isFavorite, spinner, font, cellStatus;
-@synthesize prediction1Label, prediction2Label, prediction3Label, minuteLabel;
+@synthesize prediction1Label, prediction2Label, prediction3Label, minuteLabel, backgroundImage;
 
 - (id) init
 {
@@ -28,6 +28,9 @@ const CGFloat kLineCellViewHeight = 61.0;
 		textColor = [UIColor colorWithRed:0.147 green:0.147 blue:0.147 alpha:1.0];
 		[self setOpaque:NO];
 
+        //SET BACKGROUND IMAGE
+        self.backgroundImage = [UIImage imageNamed:@"line-background.png"]; //drawn in drawRect
+        
 		// ADD THE FAVORITES BUTTON
 		favoriteButton = [[UIButton alloc] initWithFrame:CGRectMake(-1, 3, 39, 55)];
 		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateNormal];
@@ -44,6 +47,8 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction1Label.textColor = textColor;
 		prediction1Label.font = [UIFont boldSystemFontOfSize:30];
 		prediction1Label.textAlignment = UITextAlignmentCenter;
+        prediction1Label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+        prediction1Label.shadowOffset = CGSizeMake(0, 1);
 		prediction1Label.text = @"";
 		prediction1Label.isFirstArrival = YES;
 
@@ -52,6 +57,8 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction2Label.textColor = textColor;
 		prediction2Label.font = [UIFont boldSystemFontOfSize:14];
 		prediction2Label.textAlignment = UITextAlignmentCenter;
+        prediction2Label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+        prediction2Label.shadowOffset = CGSizeMake(0, 1);
 		prediction2Label.text = @"";
 		prediction2Label.isFirstArrival = NO;
 
@@ -60,6 +67,8 @@ const CGFloat kLineCellViewHeight = 61.0;
 		prediction3Label.textColor = textColor;
 		prediction3Label.font = [UIFont boldSystemFontOfSize:14];
 		prediction3Label.textAlignment = UITextAlignmentCenter;
+        prediction3Label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+        prediction3Label.shadowOffset = CGSizeMake(0, 1);
 		prediction3Label.text = @"";
 		prediction3Label.isFirstArrival = NO;
 
@@ -213,21 +222,12 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGRect imageBounds = CGRectMake(0.0, 0.0, kLineCellViewWidth, kLineCellViewHeight);
 	CGRect bounds = [self bounds];
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	CGFloat alignStroke;
 	CGFloat resolution;
-	CGMutablePathRef path;
 	CGRect drawRect;
-	CGGradientRef gradient;
-	NSMutableArray *colors;
-	UIColor *color;
+    UIColor *color;
+
 	CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-	CGPoint point;
-	CGPoint point2;
-	CGAffineTransform transform;
-	CGMutablePathRef tempPath;
-	CGRect pathBounds;
-	CGFloat stroke;
-	CGFloat locations[2];
+
 	resolution = 0.5f * (bounds.size.width / imageBounds.size.width + bounds.size.height / imageBounds.size.height);
 
 	CGContextSaveGState(context);
@@ -235,237 +235,15 @@ const CGFloat kLineCellViewHeight = 61.0;
 	CGContextScaleCTM( context, (bounds.size.width / imageBounds.size.width), (bounds.size.height / imageBounds.size.height) );
 
 	// background
+	[backgroundImage drawInRect:dirtyRect];
 
-	alignStroke = 0.0f;
-	path = CGPathCreateMutable();
-	drawRect = CGRectMake(0.0f, 1.0f, 320.0f, 59.0f);
-	drawRect.origin.x = (roundf(resolution * drawRect.origin.x + alignStroke) - alignStroke) / resolution;
-	drawRect.origin.y = (roundf(resolution * drawRect.origin.y + alignStroke) - alignStroke) / resolution;
-	drawRect.size.width = roundf(resolution * drawRect.size.width) / resolution;
-	drawRect.size.height = roundf(resolution * drawRect.size.height) / resolution;
-	CGPathAddRect(path, NULL, drawRect);
-	colors = [NSMutableArray arrayWithCapacity:2];
-	color = [UIColor colorWithRed:0.624f green:0.619f blue:0.642f alpha:1.0f];
-	[colors addObject:(id)[color CGColor]];
-	locations[0] = 0.0f;
-	color = [UIColor colorWithRed:0.783f green:0.783f blue:0.793f alpha:1.0f];
-	[colors addObject:(id)[color CGColor]];
-	locations[1] = 1.0f;
-	gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)colors, locations);
-	CGContextAddPath(context, path);
+    // Setup for Shadow Effect
+	color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
 	CGContextSaveGState(context);
-	CGContextEOClip(context);
-	transform = CGAffineTransformMakeRotation(1.571f);
-	tempPath = CGPathCreateMutable();
-	CGPathAddPath(tempPath, &transform, path);
-	pathBounds = CGPathGetBoundingBox(tempPath);
-	point = pathBounds.origin;
-	point2 = CGPointMake( CGRectGetMaxX(pathBounds), CGRectGetMinY(pathBounds) );
-	transform = CGAffineTransformInvert(transform);
-	point = CGPointApplyAffineTransform(point, transform);
-	point2 = CGPointApplyAffineTransform(point2, transform);
-	CGPathRelease(tempPath);
-	CGContextDrawLinearGradient( context, gradient, point, point2, (kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation) );
-	CGContextRestoreGState(context);
-	CGGradientRelease(gradient);
-	CGPathRelease(path);
-
-	// Layer 5
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(0.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(320.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.873f green:0.873f blue:0.878f alpha:1.0f];
-	[color setStroke];
-	CGContextSetLineWidth(context, stroke);
-	CGContextSetLineCap(context, kCGLineCapSquare);
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 3
-
-	CGContextSetShouldAntialias(context, NO);
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(295.0f, 60.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(295.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.27f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 2
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(239.0f, 60.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(239.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.27f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// divider lines
-
-	CGContextSetShouldAntialias(context, YES);
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(238.0f, 61.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(238.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(320.0f, 30.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(294.5f, 30.5f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.551f green:0.55f blue:0.564f alpha:1.0f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 1
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(294.0f, 61.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(294.0f, 0.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 4
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(320.0f, 31.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(295.0f, 31.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.779f green:0.778f blue:0.788f alpha:1.0f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 6
-
-	stroke = 1.0f;
-	stroke *= resolution;
-
-	if (stroke < 1.0f) stroke = ceilf(stroke);
-	else stroke = roundf(stroke);
-	stroke /= resolution;
-	alignStroke = fmodf(0.5f * stroke * resolution, 1.0f);
-	path = CGPathCreateMutable();
-	point = CGPointMake(0.0f, 60.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathMoveToPoint(path, NULL, point.x, point.y);
-	point = CGPointMake(320.0f, 60.0f);
-	point.x = (roundf(resolution * point.x + alignStroke) - alignStroke) / resolution;
-	point.y = (roundf(resolution * point.y + alignStroke) - alignStroke) / resolution;
-	CGPathAddLineToPoint(path, NULL, point.x, point.y);
-	color = [UIColor colorWithRed:0.483f green:0.479f blue:0.496f alpha:1.0f];
-	[color setStroke];
-	CGContextAddPath(context, path);
-	CGContextStrokePath(context);
-	CGPathRelease(path);
-
-	// Layer 7
-
+	CGContextSetShadowWithColor(context, CGSizeMake(0.0f * resolution, 1.0f * resolution), 0.0f * resolution, [color CGColor]);
+	CGContextBeginTransparencyLayer(context, NULL);
+    
+    //major title
 	drawRect = CGRectMake(36.0f, 6.0f, 198.0f, 29.0f);
 	drawRect.origin.x = roundf(resolution * drawRect.origin.x) / resolution;
 	drawRect.origin.y = roundf(resolution * drawRect.origin.y) / resolution;
@@ -473,6 +251,10 @@ const CGFloat kLineCellViewHeight = 61.0;
 	drawRect.size.height = roundf(resolution * drawRect.size.height) / resolution;
 	[textColor set];
 	[majorTitle drawInRect:drawRect withFont:font];
+    
+    // End Shadow Effect
+	CGContextEndTransparencyLayer(context);
+	CGContextRestoreGState(context);
     
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
