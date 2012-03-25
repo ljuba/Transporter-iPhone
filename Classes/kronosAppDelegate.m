@@ -10,10 +10,10 @@
 
 @interface UINavigationBar (MyCustomNavBar)
 @end
-@implementation UINavigationBar (MyCustomNavBar)
-- (void) drawRect:(CGRect)rect {
-    UIImage *barImage = [UIImage imageNamed:@"seg-topbar.png"];
-    [barImage drawInRect:rect];
+@implementation UINavigationBar (CustomImage)
+- (void)drawRect:(CGRect)rect {
+    UIImage *image = [UIImage imageNamed: @"seg-topbar.png"];
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 }
 @end
 

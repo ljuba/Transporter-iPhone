@@ -39,8 +39,8 @@
 	// GENERAL SETTINGS
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
+    
 
-	self.view.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1.0];
 	cellStatus = kCellStatusSpinner;
 	buttonRowPlaceholder = [[NSNull alloc] init];
 
@@ -83,6 +83,13 @@
 	stopTitleLabel.shadowOffset = CGSizeMake(-1, -1);
 	stopTitleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 	[self.view addSubview:stopTitleLabel];
+    
+    
+    //BACKGROUND IMAGE
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+    background.frame = self.tableView.frame;
+    [self.view insertSubview:background atIndex:0];
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {

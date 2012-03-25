@@ -30,9 +30,11 @@
 	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[segmentedControl addTarget:self action:@selector(tapAgency) forControlEvents:UIControlEventValueChanged];
 
+    
 	[segmentedControl setWidth:100.0 forSegmentAtIndex:0];
 	[segmentedControl setWidth:98.0 forSegmentAtIndex:1];
 	[segmentedControl setWidth:102.0 forSegmentAtIndex:2];
+    self.segmentedControl.bounds = CGRectMake(0, 0, 304.0, self.segmentedControl.frame.size.height);
 
 	self.navigationItem.titleView = segmentedControl;
 
@@ -50,6 +52,11 @@
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	segmentedControl.selectedSegmentIndex = [userDefaults integerForKey:@"linesSegmentedControlIndex"];
 
+    //BACKGROUND IMAGE
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+    background.frame = self.tableView.frame;
+    [self.view insertSubview:background atIndex:0];
+    
 	[self tapAgency];
 }
 
@@ -112,7 +119,7 @@
 		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
         
 		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		tableView.backgroundColor = [UIColor colorWithWhite:0.369 alpha:1.0];
+		tableView.backgroundColor = [UIColor clearColor];
 	}
 	// bart
 	else if (segmentedControl.selectedSegmentIndex == 1) {
@@ -137,7 +144,7 @@
 		self.transitDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
 
 		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		tableView.backgroundColor = [UIColor colorWithWhite:0.369 alpha:1.0];
+		tableView.backgroundColor = [UIColor clearColor];
 	}
 	// remember which agency is selected, so we can reload it next time
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

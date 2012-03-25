@@ -473,7 +473,7 @@ const CGFloat kLineCellViewHeight = 61.0;
 	drawRect.size.height = roundf(resolution * drawRect.size.height) / resolution;
 	[textColor set];
 	[majorTitle drawInRect:drawRect withFont:font];
-
+    
 	CGContextRestoreGState(context);
 	CGColorSpaceRelease(space);
 

@@ -35,6 +35,11 @@
 
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
+
+    //BACKGROUND IMAGE
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+    background.frame = self.tableView.frame;
+    tableView.backgroundView = background;
     
 	// setup the favorites delegates
 	self.stopsDelegate = [[FavoriteStopsDelegate alloc] init];
