@@ -32,9 +32,14 @@
 
     
 	[self.segmentedControl setWidth:100.0 forSegmentAtIndex:0];
-	[self.segmentedControl setWidth:98.0 forSegmentAtIndex:1];
-	[self.segmentedControl setWidth:102.0 forSegmentAtIndex:2];
-    self.segmentedControl.bounds = CGRectMake(0, 0, 304.0, self.segmentedControl.frame.size.height);
+	[self.segmentedControl setWidth:100.0 forSegmentAtIndex:1];
+	[self.segmentedControl setWidth:100.0 forSegmentAtIndex:2];
+    self.segmentedControl.bounds = CGRectMake(0, 0, 302.0, self.segmentedControl.frame.size.height);
+    
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"seg-divider.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    //[self.segmentedControl setDividerImage:[UIImage imageNamed:@"seg-divider.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    //[self.segmentedControl setDividerImage:[UIImage imageNamed:@"seg-divider.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
 
 	self.navigationItem.titleView = self.segmentedControl;
 
