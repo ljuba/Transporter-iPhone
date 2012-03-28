@@ -23,12 +23,12 @@
 - (void) setFavoriteStatus {
 
 	if ([FavoritesManager isFavoriteStop:stop forLine:self.destination]) {
-		[favoriteButton setImages:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
-		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateHighlighted];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateHighlighted];
 		self.isFavorite = YES;
 	} else {
-		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateNormal];
-		[favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateHighlighted];
+		[self.favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateNormal];
+		[self.favoriteButton setImage:[UIImage imageNamed:@"star-unselected.png"] forState:UIControlStateHighlighted];
 	}
 }
 
