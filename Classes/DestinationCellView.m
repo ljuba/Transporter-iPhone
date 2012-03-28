@@ -23,7 +23,7 @@
 - (void) setFavoriteStatus {
 
 	if ([FavoritesManager isFavoriteStop:stop forLine:self.destination]) {
-		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
+		[favoriteButton setImages:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateNormal];
 		[favoriteButton setImage:[UIImage imageNamed:@"star-selected.png"] forState:UIControlStateHighlighted];
 		self.isFavorite = YES;
 	} else {
@@ -89,6 +89,9 @@
 			[prediction3Label setBartTime:[[arrivals objectAtIndex:2] valueForKey:@"minutes"]];
 			break;
 		}
+        
+        NSLog(@"BART CAR LENGTH: %@", [[arrivals objectAtIndex:0] valueForKey:@"length"]);
+        
 	}
 }
 

@@ -28,8 +28,7 @@
 @synthesize acDelegate, muniDelegate, bartDelegate;
 @synthesize segmentedControl, tableView, transitDelegate, locationManager;
 
-- (void) viewDidLoad {
-
+- (void) viewDidLoad {  
 
 	// tableViewSettings
 	self.tableView.showsVerticalScrollIndicator = NO;
@@ -130,6 +129,9 @@
 	// muni
 	if (self.segmentedControl.selectedSegmentIndex == 0) {
 
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Lines" style:UIBarButtonItemStylePlain target:nil action:nil];
+
+        
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-selected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
@@ -143,6 +145,9 @@
 	// bart
 	else if (self.segmentedControl.selectedSegmentIndex == 1) {
 
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:nil action:nil];
+
+        
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
@@ -156,6 +161,10 @@
 	}
 	// ac transit
 	else {
+        
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Lines" style:UIBarButtonItemStylePlain target:nil action:nil];
+
+        
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-muni-deselected.png"] forSegmentAtIndex:0];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-deselected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
