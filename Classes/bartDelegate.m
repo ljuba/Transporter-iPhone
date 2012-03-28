@@ -12,6 +12,8 @@
 #import "RowDivider.h"
 #import "bartDelegate.h"
 
+#import "BartStopDetails.h"
+
 // store the closest stop in a static varible so it can be accessed even after you switch agencies in the LinesVC
 static NSMutableArray *closestStops;
 
@@ -192,12 +194,13 @@ static NSMutableArray *closestStops;
 	NSUInteger row = [indexPath row];
 
 	NSLog(@"bartDelegate: %@", @"Stop Tapped"); /* DEBUG LOG */
-
-	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter postNotificationName:@"stopSelected" object:[[self.contents objectAtIndex:section] objectAtIndex:row]];
-
+    
+    Stop *stop = (Stop *)[[self.contents objectAtIndex:section] objectAtIndex:row];
+    
+    BartStopDetails *bartStopDetailsVC = [[BartStopDetails alloc] initWithStop:stop];
+    [self.parentViewController.navigationController pushViewController:bartStopDetailsVC animated:YES];
+    
 	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
-
 }
 
 #pragma mark -

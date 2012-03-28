@@ -11,6 +11,8 @@
 #import "RowDivider.h"
 #import "sfMuniDelegate.h"
 
+#import "DirectionsVC.h"
+
 @implementation sfMuniDelegate
 
 @synthesize formattedContents;
@@ -78,12 +80,11 @@
 	NSLog(@"sfMuniDelegate: %@", @"Button Tapped"); /* DEBUG LOG */
 
 	int tag = sender.tag;
-
-	self.selectedItem = [self.contents objectAtIndex:tag - 1];
-
-	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter postNotificationName:@"routeSelected" object:self];
-
+    
+	DirectionsVC *directionsTableViewController = [[DirectionsVC alloc] init];
+    directionsTableViewController.route = [self.contents objectAtIndex:tag - 1];
+    
+    [self.parentViewController.navigationController pushViewController:directionsTableViewController animated:YES];
 }
 
 // Customize the appearance of table view cells. Doesn't reuse cells b/c of the overhead in creating/deleting buttons

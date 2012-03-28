@@ -11,6 +11,8 @@
 #import "RowDivider.h"
 #import "acTransitDelegate.h"
 
+#import "DirectionsVC.h"
+
 @implementation acTransitDelegate
 
 @synthesize formattedContents;
@@ -39,12 +41,11 @@
 	int tag = sender.tag;
 
 	NSLog(@"acTransitDelegate: %@", @"Button Tapped"); /* DEBUG LOG */
-
-	self.selectedItem = [self.contents objectAtIndex:tag];
-
-	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter postNotificationName:@"routeSelected" object:self];
-
+    
+    DirectionsVC *directionsTableViewController = [[DirectionsVC alloc] init];
+    directionsTableViewController.route = [self.contents objectAtIndex:tag];
+    
+    [self.parentViewController.navigationController pushViewController:directionsTableViewController animated:YES];
 }
 
 #pragma mark Table view methods
