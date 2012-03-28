@@ -32,7 +32,7 @@
 
 - (void)createCustomTabBar {
     
-    UIView *container = [self valueForKey:@"_view"];
+    UIView *container = self.view;
     
     self.favoritesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.favoritesButton.tag = 0;
