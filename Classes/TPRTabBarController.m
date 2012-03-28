@@ -41,6 +41,7 @@
     
     self.favoritesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.favoritesButton.tag = 0;
+    self.favoritesButton.accessibilityIdentifier = @"favorites tab";
     [self.favoritesButton addTarget:self action:@selector(changeSelectedTab:) forControlEvents:UIControlEventTouchDown];
     self.favoritesButton.adjustsImageWhenHighlighted = NO;
     [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"tab-favorites.png"] forState:UIControlStateNormal];
@@ -54,6 +55,7 @@
     
     self.nearMeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.nearMeButton.tag = 1;
+    self.nearMeButton.accessibilityIdentifier = @"stops near me tab";
     [self.nearMeButton addTarget:self action:@selector(changeSelectedTab:) forControlEvents:UIControlEventTouchDown];
     self.nearMeButton.adjustsImageWhenHighlighted = NO;
     [self.nearMeButton setBackgroundImage:[UIImage imageNamed:@"tab-nearme.png"] forState:UIControlStateNormal];
@@ -67,6 +69,7 @@
     
     self.linesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.linesButton.tag = 2;
+    self.linesButton.accessibilityIdentifier = @"lines tab";
     [self.linesButton addTarget:self action:@selector(changeSelectedTab:) forControlEvents:UIControlEventTouchDown];
     self.linesButton.adjustsImageWhenHighlighted = NO;
     [self.linesButton setBackgroundImage:[UIImage imageNamed:@"tab-lines.png"] forState:UIControlStateNormal];
