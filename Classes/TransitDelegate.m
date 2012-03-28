@@ -10,7 +10,7 @@
 
 @implementation TransitDelegate
 
-@synthesize contents, selectedItem;
+@synthesize contents, selectedItem, parentViewController;
 
 // setup datasource by retrieving all the routes for the agency and ordering them
 - (void) setContentsForAgency:(Agency *)agency {

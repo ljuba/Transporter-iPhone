@@ -15,8 +15,17 @@
 #import "kronosAppDelegate.h"
 #import "sfMuniDelegate.h"
 
+@interface LinesVC ()
+
+@property (nonatomic, strong) acTransitDelegate *acDelegate;
+@property (nonatomic, strong) sfMuniDelegate *muniDelegate;
+@property (nonatomic, strong) bartDelegate *bartDelegate;
+
+@end
+
 @implementation LinesVC
 
+@synthesize acDelegate, muniDelegate, bartDelegate;
 @synthesize segmentedControl, tableView, transitDelegate, locationManager;
 
 - (void) viewDidLoad {
@@ -57,7 +66,9 @@
     background.frame = self.tableView.frame;
     [self.view insertSubview:background atIndex:0];
     
-    
+    self.muniDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
+    self.acDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
+    self.bartDelegate = [[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]];
     
 	[self tapAgency];
 }
@@ -119,7 +130,7 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
         
         self.locationManager.delegate = nil;
-		self.transitDelegate = [[sfMuniDelegate alloc] initWithAgency:[self fetchAgencyData:@"sf-muni"]];
+		self.transitDelegate = self.muniDelegate;
         
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
@@ -131,7 +142,7 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-bart-selected.png"] forSegmentAtIndex:1];
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-deselected.png"] forSegmentAtIndex:2];
         
-		self.transitDelegate = [[bartDelegate alloc] initWithAgency:[self fetchAgencyData:@"bart"]];
+		self.transitDelegate = self.bartDelegate;
 		self.locationManager.delegate = self.transitDelegate;
 
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -145,11 +156,14 @@
 		[self.segmentedControl setImage:[UIImage imageNamed:@"seg-actransit-selected.png"] forSegmentAtIndex:2];
         
         self.locationManager.delegate = nil;
-		self.transitDelegate = [[acTransitDelegate alloc] initWithAgency:[self fetchAgencyData:@"actransit"]];
+		self.transitDelegate = self.acDelegate;
 
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.tableView.backgroundColor = [UIColor clearColor];
 	}
+    
+    self.transitDelegate.parentViewController = self;
+    
 	// remember which agency is selected, so we can reload it next time
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	[userDefaults setInteger:self.segmentedControl.selectedSegmentIndex forKey:@"linesSegmentedControlIndex"];

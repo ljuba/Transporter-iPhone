@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSMutableArray *contents;
 @property (nonatomic, strong) id selectedItem;
+@property (nonatomic, assign) UIViewController *parentViewController;
 
 - (void) setContentsForAgency:(Agency *)agency;
 - (NSArray *) formatContentsForAgency:(Agency *)agency;
