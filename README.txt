@@ -4,6 +4,10 @@ It was designed and built by me, Ljuba Miljkovic, while I was a master's student
 
 The design and development of this app was my thesis project and represents many months worth of work. Learn more about the intentions of this app and design principles that underlie it here: www.transporterapp.net/blog
 
+**How To Help**
+If you'd like to contribute to this project, check out the "Issues" tab and take a look at the issues in the next MileStone. Feel free to contact me (ljuba) with questions or suggestions.
+
+
 **config.plist**
 This file has values that you'll need to provide in order to use some of the functionality in the app.
 
