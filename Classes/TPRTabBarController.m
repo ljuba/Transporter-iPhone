@@ -14,6 +14,8 @@
 @property (strong) UIButton *nearMeButton;
 @property (strong) UIButton *linesButton;
 
+@property(nonatomic, assign) NSUInteger previousSelectedIndex;
+
 - (void)createCustomTabBar;
 
 @end
@@ -23,9 +25,12 @@
 @synthesize favoritesButton;
 @synthesize nearMeButton;
 @synthesize linesButton;
+@synthesize previousSelectedIndex;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    previousSelectedIndex = 0;
     
     [self createCustomTabBar];
 }
@@ -79,7 +84,11 @@
 }
 
 - (void)changeSelectedTab:(UIButton *)sender {
+
+    previousSelectedIndex = self.selectedIndex;
+    
     [self setSelectedIndex:sender.tag];
+    
 }
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex {
@@ -93,6 +102,27 @@
     
     if (selectedIndex == 2) [self.linesButton setImage:[UIImage imageNamed:@"tab-lines-active.png"] forState:UIControlStateNormal];
     else [self.linesButton setImage:[UIImage imageNamed:@"tab-lines.png"] forState:UIControlStateNormal];
+    
+    
+    UIViewController *currentIndexViewController = [self.viewControllers objectAtIndex:selectedIndex];
+    UIViewController *previousIndexViewController = [self.viewControllers objectAtIndex:previousSelectedIndex];
+    
+    if ([currentIndexViewController isEqual:previousIndexViewController]) {
+        
+        if ([currentIndexViewController.class isSubclassOfClass:[UINavigationController class]]) {
+            
+            [(UINavigationController *)currentIndexViewController popToRootViewControllerAnimated:YES];
+            
+        }
+        
+    }
+    else {
+        
+        if ([currentIndexViewController.class isSubclassOfClass:[UINavigationController class]]) {
+            [(UINavigationController *)currentIndexViewController popToRootViewControllerAnimated:NO];
+        }
+    }
+    
 }
 
 @end

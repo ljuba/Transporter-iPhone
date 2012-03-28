@@ -137,19 +137,6 @@
 	[self saveState];
 }
 
-
-- (void)tabBarController:(UITabBarController *)_tabBarController didSelectViewController:(UIViewController *)viewController {
-	
-	int tabIndex = [_tabBarController selectedIndex];
-	
-	//always show the root view controller in the favorites, near me, and lines sections
-	if (tabIndex == 0 || tabIndex == 1 || tabIndex == 2) {
-		[(UINavigationController *)viewController popToRootViewControllerAnimated:NO];
-	}
-	
-}
-
-
 #pragma mark -
 #pragma mark Saving and Restoring State	
 
