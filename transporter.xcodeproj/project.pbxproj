@@ -32,7 +32,6 @@
 		FA07A547124D6B390013FE28 /* pin-bart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA07A545124D6B390013FE28 /* pin-bart@2x.png */; };
 		FA083A4C1163243C00E2C5CA /* green dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FA083A4A1163243C00E2C5CA /* green dot.png */; };
 		FA083A4D1163243C00E2C5CA /* yellow dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FA083A4B1163243C00E2C5CA /* yellow dot.png */; };
-		FA0F4DB214CE3705003CEF27 /* kronos.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = FA0F4DB114CE3705003CEF27 /* kronos.sqlite */; };
 		FA12380A11855B21004B0A47 /* segment-map-button-default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA12380811855B21004B0A47 /* segment-map-button-default.png */; };
 		FA12380B11855B21004B0A47 /* segment-map-button-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA12380911855B21004B0A47 /* segment-map-button-selected.png */; };
 		FA128C1C11742F63006D3B34 /* map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = FA128C1B11742F63006D3B34 /* map-marker.png */; };
@@ -327,6 +326,7 @@
 		FA8A2E131267BA6000BFAB3B /* direction-callout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA8A2E121267BA6000BFAB3B /* direction-callout@2x.png */; };
 		FA8C84DA11801C42008ADD04 /* TransitLegCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C84D911801C42008ADD04 /* TransitLegCell.m */; };
 		FA8C862611802D20008ADD04 /* WalkingLegCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C862511802D20008ADD04 /* WalkingLegCell.m */; };
+		FA9094631598E241008F9D79 /* kronos.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = FA9094621598E241008F9D79 /* kronos.sqlite */; };
 		FA96DADC1165BB29008DA78E /* stop-name-background-bart.png in Resources */ = {isa = PBXBuildFile; fileRef = FA96DADB1165BB29008DA78E /* stop-name-background-bart.png */; };
 		FA96DAF71165BC48008DA78E /* stop-name-background-sfmuni.png in Resources */ = {isa = PBXBuildFile; fileRef = FA96DAF51165BC48008DA78E /* stop-name-background-sfmuni.png */; };
 		FA96DAF81165BC48008DA78E /* stop-name-background-actransit.png in Resources */ = {isa = PBXBuildFile; fileRef = FA96DAF61165BC48008DA78E /* stop-name-background-actransit.png */; };
@@ -551,7 +551,6 @@
 		FA07A545124D6B390013FE28 /* pin-bart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin-bart@2x.png"; sourceTree = "<group>"; };
 		FA083A4A1163243C00E2C5CA /* green dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green dot.png"; sourceTree = "<group>"; };
 		FA083A4B1163243C00E2C5CA /* yellow dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow dot.png"; sourceTree = "<group>"; };
-		FA0F4DB114CE3705003CEF27 /* kronos.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = kronos.sqlite; sourceTree = "<group>"; };
 		FA118558141C80D900793FCE /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		FA118559141C80D900793FCE /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		FA12380811855B21004B0A47 /* segment-map-button-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segment-map-button-default.png"; sourceTree = "<group>"; };
@@ -878,6 +877,7 @@
 		FA8C84D911801C42008ADD04 /* TransitLegCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitLegCell.m; sourceTree = "<group>"; };
 		FA8C862411802D20008ADD04 /* WalkingLegCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalkingLegCell.h; sourceTree = "<group>"; };
 		FA8C862511802D20008ADD04 /* WalkingLegCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalkingLegCell.m; sourceTree = "<group>"; };
+		FA9094621598E241008F9D79 /* kronos.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = kronos.sqlite; sourceTree = "<group>"; };
 		FA96DADB1165BB29008DA78E /* stop-name-background-bart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-name-background-bart.png"; sourceTree = "<group>"; };
 		FA96DAF51165BC48008DA78E /* stop-name-background-sfmuni.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-name-background-sfmuni.png"; sourceTree = "<group>"; };
 		FA96DAF61165BC48008DA78E /* stop-name-background-actransit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-name-background-actransit.png"; sourceTree = "<group>"; };
@@ -1557,7 +1557,7 @@
 		FA65F8A3116291580004D8B3 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				FA0F4DB114CE3705003CEF27 /* kronos.sqlite */,
+				FA9094621598E241008F9D79 /* kronos.sqlite */,
 				FA542256128BC1C90077BABF /* bart-platforms.xml */,
 				FA70F3A814CDF1720061F3AC /* map_overlay_coordinates.xml */,
 				FAAD3429128B46B800901771 /* update.plist */,
@@ -2626,7 +2626,6 @@
 				FA70F52314CDF5A40061F3AC /* sf-muni_N.jpg in Resources */,
 				FA70F52414CDF5A40061F3AC /* sf-muni_NX.jpg in Resources */,
 				FA70F52514CDF5A40061F3AC /* sf-muni_T OWL.jpg in Resources */,
-				FA0F4DB214CE3705003CEF27 /* kronos.sqlite in Resources */,
 				FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */,
 				FA07A29C151BA3A7001CCC6E /* walking-icon.png in Resources */,
 				FA07A29E151BA3C3001CCC6E /* bus-icon.png in Resources */,
@@ -2658,6 +2657,7 @@
 				FA1E12501523795000546EBF /* tab-nearme@2x.png in Resources */,
 				FA1E12521523798500546EBF /* tab-favorites.png in Resources */,
 				FA1E1254152379C200546EBF /* tab-lines-active.png in Resources */,
+				FA9094631598E241008F9D79 /* kronos.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2773,7 +2773,7 @@
 				GCC_PREFIX_HEADER = transporter_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "transporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/FlurryAnalytics\"",
@@ -2802,7 +2802,7 @@
 				GCC_PREFIX_HEADER = transporter_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "transporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/FlurryAnalytics\"",
@@ -2840,7 +2840,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_LDFLAGS = (
@@ -2866,7 +2866,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ljuba Miljkovic";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2875,14 +2875,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
 					"-lxml2",
 				);
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9DED35BE-0F23-46EF-86E2-EB1BB238F891";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2907,7 +2907,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2933,7 +2933,7 @@
 				GCC_PREFIX_HEADER = transporter_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "transporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/FlurryAnalytics\"",
@@ -2969,7 +2969,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2997,7 +2997,7 @@
 				GCC_PREFIX_HEADER = transporter_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "transporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/FlurryAnalytics\"",
