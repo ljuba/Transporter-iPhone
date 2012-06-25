@@ -189,18 +189,13 @@
 
 			// add the current route to the routesSet for use in the agency
 			[routesSet addObject:route];
-            NSLog(@"%@", route.tag );
 
 		}       // end route loop
 
 		// set the routes for the agency
 		agency.routes = routesSet;
-
 	} // end of agency loop
 
-    NSError *error = nil;
-    [managedObjectContext save:&error];
-    
 	appDelegate.importing = NO;
 
 
