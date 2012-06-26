@@ -9,11 +9,13 @@
 #import "DataHelper.h"
 #import "DirectionsVC.h"
 #import "TouchXML.h"
+#import "StopAnnotation.h"
 
 @implementation DirectionsVC
-@synthesize googleLogo;
 
-@synthesize route, directions, routeMap, locationManager, zoomLevel, yCropPixels, centerCoordinate;
+@synthesize mapView;
+
+@synthesize route, directions, locationManager, zoomLevel, yCropPixels, centerCoordinate;
 
 - (void) viewDidLoad {
 	[super viewDidLoad];
@@ -42,38 +44,67 @@
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Directions" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 
-	// load the appropriate map for the route
-	NSString *routeMapFileName = [NSString stringWithFormat:@"%@_%@.jpg", self.route.agency.shortTitle, self.route.tag];
-
-	self.routeMap.image = [UIImage imageNamed:routeMapFileName];
-
-	// find directions whose show=true
-	NSPredicate *showTruePredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
+//	// find directions whose show=true
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];                // sort the directions so that when the order matters, they're always in the same order
 	[self.directions sortedArrayUsingDescriptors:[NSArray arrayWithObject:sorter]];
 
-	NSArray *shownDirections = [self.directions filteredArrayUsingPredicate:showTruePredicate];
+	NSArray *shownDirections = [self.directions filteredArrayUsingPredicate:filterPredicate];
 
 	// load the file that contains the (x,y) coordinate points for the pins on the route map
 	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"map_overlay_coordinates" ofType:@"xml"];
 	NSData *coordinateData = [NSData dataWithContentsOfFile:filePath];
-
+//
 	CXMLDocument *coordinateParser = [[CXMLDocument alloc] initWithData:coordinateData options:0 error:nil];
-
+//
 	NSString *routeXPath = [NSString stringWithFormat:@"//body/agency[@shortTitle='%@']/route[@tag='%@']", self.route.agency.shortTitle, self.route.tag];
 
-	// NSLog(@"RouteXPath: %@", routeXPath); /* DEBUG LOG */
-
-	// the xml element that contains both directions we care about
+    // the xml element that contains both directions we care about
 	CXMLElement *routeNode = [[coordinateParser nodesForXPath:routeXPath error:nil] objectAtIndex:0];
-
-	// get the zoom level and yCropPixel value
+//
+//	// get the zoom level and yCropPixel value
 	self.zoomLevel = [[[routeNode attributeForName:@"zoom"] stringValue] intValue];
-	self.yCropPixels = [[[routeNode attributeForName:@"yCropPixels"] stringValue] intValue];
-
-	// get center coordinate
+//	self.yCropPixels = [[[routeNode attributeForName:@"yCropPixels"] stringValue] intValue];
+//
+//	// get center coordinate
 	NSString *center = [[routeNode attributeForName:@"center"] stringValue];
-	NSArray *centerCoordinateStrings = [center componentsSeparatedByString:@","];
+	NSString *tag = [[routeNode attributeForName:@"tag"] stringValue];
+    Route *selectedRoute = [DataHelper routeWithTag:tag inAgency:self.route.agency];
+    Direction *direction = [selectedRoute.directions anyObject];
+   
+    NSUInteger numberOfStops = [direction.stops count];
+    CLLocationCoordinate2D pointsArray[numberOfStops];
+    
+    
+    
+    // THIS IS WHERE I USE STOP ORDER TO DETERMINE WHERE TO PUT THE MKPOLYLINE
+    
+    // Given the sorted list of stops, fetch each one and put it in the points array
+    int i = 0;
+    for (NSString *stopId in direction.stopOrder) {
+        Stop *stop = [DataHelper stopWithTag:stopId inAgency:self.route.agency];        
+        CLLocationCoordinate2D pt = CLLocationCoordinate2DMake([stop.lat doubleValue], [stop.lon doubleValue]);
+        pointsArray[i++] = pt;
+    }
+    
+    Stop *lastStop = [DataHelper stopWithTag:[direction.stopOrder objectAtIndex:[direction.stopOrder count] - 1]
+                                    inAgency:self.route.agency];
+    Stop *firstStop = [DataHelper stopWithTag:[direction.stopOrder objectAtIndex:0]
+                                    inAgency:self.route.agency];    
+    // Add annotations for the first and last stop
+    
+    StopAnnotation *stopAnnotation = [[StopAnnotation alloc] initWithStop:firstStop];
+    [self.mapView addAnnotation:stopAnnotation];
+    
+    stopAnnotation = [[StopAnnotation alloc] initWithStop:lastStop];
+    stopAnnotation.direction = direction;
+    [self.mapView addAnnotation:stopAnnotation];
+    
+    
+    MKPolyline *line = [MKPolyline polylineWithCoordinates:pointsArray count:numberOfStops];
+
+    NSArray *centerCoordinateStrings = [center componentsSeparatedByString:@","];
+    [self.mapView addOverlay:line];    
+    self.mapView.visibleMapRect = line.boundingMapRect;
 	self.centerCoordinate = CLLocationCoordinate2DMake([[centerCoordinateStrings objectAtIndex:0] doubleValue], [[centerCoordinateStrings objectAtIndex:1] doubleValue]);
 
 	// create directionAnnotation for each direction whose show = true
@@ -92,7 +123,7 @@
 		NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"DirectionAnnotationView" owner:self options:nil];
 		DirectionAnnotationView *pin = [nibs objectAtIndex:0];
 
-		pin.mapFrame = self.routeMap.frame;
+		//pin.mapFrame = self.routeMap.frame;
 		[pin setDirection:direction];
 
 		// special cases for loop routes
@@ -126,7 +157,7 @@
 
 		// NSLog(@"%d",pin.frame.size.width);
 
-		[self.view addSubview:pin];
+		//[self.view addSubview:pin];
 
 	}
 }
@@ -134,6 +165,8 @@
 - (void) viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.locationManager startUpdatingLocation];
+
+    self.mapView.centerCoordinate = self.centerCoordinate;
 
 	// setup notification to listen to notifications from directionAnnotationsView
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -209,8 +242,8 @@
 	userMarker.center = CGPointMake(userMarkerX, userMarkerY);
 
 	// add the marker to the map only once
-	[self.routeMap insertSubview:userMarker atIndex:0];
-	[self.routeMap setNeedsDisplay];
+//	[self.routeMap insertSubview:userMarker atIndex:0];
+//	[self.routeMap setNeedsDisplay];
 
 
 	NSLog(@"ADDED USER MARKER"); /* DEBUG LOG */
@@ -231,13 +264,56 @@
 
 }
 
+#pragma mark - MKMapViewDelegate
+- (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay {
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineView *view = [[MKPolylineView alloc] initWithPolyline:overlay];
+        view.strokeColor = [UIColor greenColor];
+        return view;
+    }
+    return nil;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)map viewForAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[StopAnnotation class]])   // for City of San Francisco
+    {
+        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                                        reuseIdentifier:nil];
+        annotationView.canShowCallout = YES;
+        
+        UIImage *callout = [UIImage imageNamed:@"direction-callout.png"];
+        
+        CGRect resizeRect;
+        
+        resizeRect.size = callout.size;
+        CGSize maxSize = CGRectInset(self.view.bounds,50, 50).size;
+        maxSize.height -= self.navigationController.navigationBar.frame.size.height + 50;
+        if (resizeRect.size.width > maxSize.width)
+            resizeRect.size = CGSizeMake(maxSize.width, resizeRect.size.height / resizeRect.size.width * maxSize.width);
+        if (resizeRect.size.height > maxSize.height)
+            resizeRect.size = CGSizeMake(resizeRect.size.width / resizeRect.size.height * maxSize.height, maxSize.height);
+        
+        resizeRect.origin = (CGPoint){0.0f, 0.0f};
+        UIGraphicsBeginImageContext(resizeRect.size);
+        [callout drawInRect:resizeRect];
+        UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        annotationView.image = resizedImage;
+        annotationView.opaque = NO;
+        annotationView.canShowCallout = NO;
+        
+        return annotationView;
+    }
+    return nil;
+}
+
 #pragma mark -
 #pragma mark Memory
 
 - (void) viewDidUnload {
-	[self setGoogleLogo:nil];
+    [self setMapView:nil];
 	// Release any retained subviews of the main view.
-	self.routeMap = nil;
     
     self.locationManager.delegate = nil;
 }

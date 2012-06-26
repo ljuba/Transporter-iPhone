@@ -12,7 +12,7 @@
 
 @implementation StopAnnotation
 
-@synthesize stop, coordinate, agency;
+@synthesize stop, coordinate, agency, direction;
 
 - (id) initWithStop:(Stop *)_stop {
 
