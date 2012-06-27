@@ -227,6 +227,27 @@
 	return(nil);
 }
 
++ (NSArray *) stopsWithTags:(NSArray *)stopTags inAgency:(Agency *)agency {
+    // get the managedObjectContext from the appDelegate
+	kronosAppDelegate *appDelegate = (kronosAppDelegate *)[[UIApplication sharedApplication] delegate];
+	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
+    
+	// Fetch all the agencies from the Core Data store
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Stop" inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
+    
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag in %@ AND agency=%@", stopTags, agency];
+	[request setPredicate:predicate];
+    
+	// Receive the results
+	NSError *error = nil;
+	NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
+    
+    return results;
+}
+
 // return the stop objects given its tag and agency
 + (Stop *) stopWithTag:(NSString *)stopTag inAgency:(Agency *)agency {
 

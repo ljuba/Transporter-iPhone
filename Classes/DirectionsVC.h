@@ -20,14 +20,6 @@
 @property (nonatomic, strong) Route *route;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
-
-@property CLLocationCoordinate2D centerCoordinate;  // used to position the user location on the static map
-@property int zoomLevel;    // used to position the user location on the static map
-@property int yCropPixels;  // used to position the user location on the static map
-
-
 - (void) directionSelected:(NSNotification *)note;
-- (void) toggleLocationUpdating:(NSNotification *)note;
 
 @end

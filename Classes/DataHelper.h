@@ -22,6 +22,15 @@
 + (Route *) routeWithTag:(NSString *)routeTag inAgency:(Agency *)agency;
 + (Stop *) stopWithTag:(NSString *)stopTag inDirection:(Direction *)direction;
 
+/*
+ * A faster way of fetching lots of stops at one time. This is much faster than 
+ * fetching one at a time. Simply pass in an NSArray of NSStrings of Stop Tags
+ * and get back an array of Stops. 
+ *
+ * Note that the order is not guaranteed
+ */
++ (NSArray *) stopsWithTags:(NSArray *)stopTags inAgency:(Agency *)agency;
+
 + (Agency *) agencyFromStop:(Stop *)stop;
 + (NSArray *) directionTagsThatMatchDirectionName:(NSString *)dirName directionTitle:(NSString *)dirTitle routeTag:(NSString *)routeTag forAgencyWithShortTitle:(NSString *)agencyShortTitle;
 + (NSArray *) directionTagsInRoute:(Route *)route thatMatchDirectionName:(NSString *)dirName directionTitle:(NSString *)dirTitle;
