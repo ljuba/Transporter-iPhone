@@ -11,6 +11,8 @@
 #import "TouchXML.h"
 #import "StopAnnotation.h"
 
+#import "NewDirectionAnnotationView.h"
+
 @implementation DirectionsVC
 
 @synthesize mapView;
@@ -55,106 +57,74 @@
 
 	NSString *tag = [[routeNode attributeForName:@"tag"] stringValue];
     Route *selectedRoute = [DataHelper routeWithTag:tag inAgency:self.route.agency];
-    Direction *direction;
-    
+
+    // There should be at least 2 "show" directions. Find them and set them to first and last Directions
+    Direction *firstDirection, *secondDirection;
     for (Direction *d in selectedRoute.directions) {
         if ([d.show intValue] == 1) {
-            direction = d;
-            break;
+            // If we are to show this direction, set it to the firstDirection
+            if (!firstDirection) {
+                firstDirection = d;
+            }
+            else {
+                // If we already have the first direction, set the second
+                secondDirection = d;
+                break;
+            }
         }
     }
     
-    NSAssert(direction, @"Doh");
+    NSAssert(firstDirection && secondDirection, @"We should have a direction at this point. The %@ line must not have a direction with show == True", tag);
     
-    NSUInteger numberOfStops = [direction.stops count];
+    NSUInteger numberOfStops = [firstDirection.stops count];
     CLLocationCoordinate2D pointsArray[numberOfStops];
     
     // Fetch all of the stops in one shot so we don't query CD often
-    NSArray *stops = [DataHelper stopsWithTags:direction.stopOrder inAgency:self.route.agency];
+    NSArray *stops = [DataHelper stopsWithTags:firstDirection.stopOrder inAgency:self.route.agency];
     
     NSMutableDictionary *tagToStopLookup = [NSMutableDictionary dictionaryWithCapacity:[stops count]];
     for (Stop *stop in stops) {
         [tagToStopLookup setObject:stop forKey:stop.tag];
     }
-    // THIS IS WHERE I USE STOP ORDER TO DETERMINE WHERE TO PUT THE MKPOLYLINE
-    
-    MKMapRect mapRect = MKMapRectNull;
+        
     // Given the sorted list of stops, fetch each one and put it in the points array
     int i = 0;
-    for (NSString *stopTag in direction.stopOrder) {
+    for (NSString *stopTag in firstDirection.stopOrder) {
         Stop *stop = [tagToStopLookup objectForKey:stopTag];        
         CLLocationCoordinate2D pt = CLLocationCoordinate2DMake([stop.lat doubleValue], [stop.lon doubleValue]);
         pointsArray[i++] = pt;
-        
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pt);
-        MKMapRect rectWithThisPoint = MKMapRectMake(mapPoint.x, mapPoint.y, 0.01f, 0.01f);
-        mapRect = MKMapRectUnion(mapRect, rectWithThisPoint);  
     }
-    
-    // Add annotations for the first and last stop    
-    Stop *firstStop = [tagToStopLookup objectForKey:[direction.stopOrder objectAtIndex:0]];
-    StopAnnotation *stopAnnotation = [[StopAnnotation alloc] initWithStop:firstStop];
-    [self.mapView addAnnotation:stopAnnotation];
-    
-    Stop *lastStop = [tagToStopLookup objectForKey:[direction.stopOrder objectAtIndex:[direction.stopOrder count]-1]];
-    stopAnnotation = [[StopAnnotation alloc] initWithStop:lastStop];
-    stopAnnotation.direction = direction;
-    [self.mapView addAnnotation:stopAnnotation];
-    
-    MKPolyline *line = [MKPolyline polylineWithCoordinates:pointsArray count:numberOfStops];
 
+    // Add annotations for the first and last stop, this are buttons the user can press    
+    Stop *firstStop = [tagToStopLookup objectForKey:[firstDirection.stopOrder objectAtIndex:0]];
+    StopAnnotation *stopAnnotation = [[StopAnnotation alloc] initWithStop:firstStop];
+    stopAnnotation.direction = secondDirection;
+    
+    [self.mapView addAnnotation:stopAnnotation];
+    
+    Stop *lastStop = [tagToStopLookup objectForKey:[firstDirection.stopOrder objectAtIndex:[firstDirection.stopOrder count]-1]];
+    stopAnnotation = [[StopAnnotation alloc] initWithStop:lastStop];
+    stopAnnotation.direction = firstDirection;
+    
+    [self.mapView addAnnotation:stopAnnotation];
+    
+    // Create an MKPolyline with the points
+    MKPolyline *line = [MKPolyline polylineWithCoordinates:pointsArray count:numberOfStops];
     [self.mapView addOverlay:line];    
+    
+    // Zoom the map to include all of the MKPolyline
     self.mapView.visibleMapRect = line.boundingMapRect;
 
-//	// create directionAnnotation for each direction whose show = true
-//	for (Direction *direction in shownDirections) {
-//
-//		NSString *directionXPath = [NSString stringWithFormat:@"direction[@tag='%@']", direction.tag];
-//
-//		CXMLElement *directionElement = [[routeNode nodesForXPath:directionXPath error:nil] objectAtIndex:0];
-//
-//		// map coordinates for the direction's destination
-//		int x = [[[directionElement attributeForName:@"x"] stringValue] intValue];
-//		int y = [[[directionElement attributeForName:@"y"] stringValue] intValue];
-//
-//		// NSLog(@"%@ (%i,%i)", direction.name, x,y); /* DEBUG LOG */
-//
-//		NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"DirectionAnnotationView" owner:self options:nil];
-//		DirectionAnnotationView *pin = [nibs objectAtIndex:0];
-//
-//		//pin.mapFrame = self.routeMap.frame;
-//		[pin setDirection:direction];
-//
-//		// special cases for loop routes
-//		NSString *routeTag = direction.route.tag;
-//		NSString *agencyShortTitle = direction.route.agency.shortTitle;
-//		int pinIndex = [shownDirections indexOfObject:direction];
-//		int verticalOffset = 0;
-//
-//		if ( ([routeTag isEqualToString:@"22"]||
-//		      [routeTag isEqualToString:@"25"]||[routeTag isEqualToString:@"49"]||
-//		      [routeTag isEqualToString:@"89"]||[routeTag isEqualToString:@"93"]||
-//		      [routeTag isEqualToString:@"98"]||[routeTag isEqualToString:@"242"]||
-//		      [routeTag isEqualToString:@"251"]||[routeTag isEqualToString:@"275"]||
-//		      [routeTag isEqualToString:@"350"]||[routeTag isEqualToString:@"376"])&&[agencyShortTitle isEqualToString:@"actransit"] ) {
-//			if (pinIndex == 0) {
-//
-//				pin.pinView.hidden = YES;
-//				verticalOffset = -50;
-//				pin.subtitle.text = @"";
-//
-//				pin.title.frame = CGRectMake(pin.title.frame.origin.x, pin.title.frame.origin.y + 6, pin.title.frame.size.width, pin.title.frame.size.height);
-//
-//			} else {
-//				pin.subtitle.text = @"";
-//
-//				pin.title.frame = CGRectMake(pin.title.frame.origin.x, pin.title.frame.origin.y + 6, pin.title.frame.size.width, pin.title.frame.size.height);
-//
-//			}
-//		}
-//		[pin setPoint:CGPointMake(x, y + verticalOffset)];
-//
-//	}
+    // Zoom out a bit to show all of the annotationViews.
+    // There may be a better way to calculate where on the map the annotationViews show so 
+    // that we can zoom apropriately. For now, this should do.
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;  
+    region.center = self.mapView.region.center;
+    span.latitudeDelta = self.mapView.region.span.latitudeDelta * 2;
+    span.longitudeDelta = self.mapView.region.span.longitudeDelta * 2;
+    region.span = span;
+    [self.mapView setRegion:region animated:TRUE];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -177,9 +147,7 @@
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
 	// UIView will be "transparent" for touch events if we return NO
 	return(NO);
-
 }
-
 
 // Load the stopsTVC once a direction is selected
 - (void) directionSelected:(NSNotification *)note {
@@ -205,31 +173,24 @@
 - (MKAnnotationView *)mapView:(MKMapView *)map viewForAnnotation:(id<MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[StopAnnotation class]])   // for City of San Francisco
     {
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                                        reuseIdentifier:nil];
-        annotationView.canShowCallout = YES;
+        StopAnnotation *stop = (StopAnnotation *)annotation;
+        NewDirectionAnnotationView *annotationView = [[NewDirectionAnnotationView alloc] initWithAnnotation:annotation
+                                                                                            reuseIdentifier:nil];       
+        // Set the protperties of the StopAnnotation
+        annotationView.annotation = stop;        
+        annotationView.directionName = stop.direction.name;
+        annotationView.directionTitle = stop.direction.title;
         
-        UIImage *callout = [UIImage imageNamed:@"direction-callout.png"];
-        
-        CGRect resizeRect;
-        
-        resizeRect.size = callout.size;
-        CGSize maxSize = CGRectInset(self.view.bounds,50, 50).size;
-        maxSize.height -= self.navigationController.navigationBar.frame.size.height + 50;
-        if (resizeRect.size.width > maxSize.width)
-            resizeRect.size = CGSizeMake(maxSize.width, resizeRect.size.height / resizeRect.size.width * maxSize.width);
-        if (resizeRect.size.height > maxSize.height)
-            resizeRect.size = CGSizeMake(resizeRect.size.width / resizeRect.size.height * maxSize.height, maxSize.height);
-        
-        resizeRect.origin = (CGPoint){0.0f, 0.0f};
-        UIGraphicsBeginImageContext(resizeRect.size);
-        [callout drawInRect:resizeRect];
-        UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        annotationView.image = resizedImage;
-        annotationView.opaque = NO;
-        annotationView.canShowCallout = NO;
+        if ([stop.agency.title isEqualToString:@"AC Transit"]) {
+            annotationView.flagImage = [UIImage imageNamed:@"direction-pin-actransit.png"];
+        }
+        else if ([stop.agency.title isEqualToString:@"SF Muni"]) {
+            annotationView.flagImage = [UIImage imageNamed:@"direction-pin-sfmuni.png"];
+        }
+        else {
+            NSLog(@"stop agency is %@", stop.agency.title);
+            NSAssert(NO, @"Need to handle this agency in the MKAnnotationView");
+        }
         
         return annotationView;
     }

@@ -16,6 +16,7 @@
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		3FC2DE8D1238AAEA00231DA8 /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2DE8C1238AAEA00231DA8 /* UpdateManager.m */; };
 		3FC2DEE51238BADE00231DA8 /* Update.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2DEE41238BADE00231DA8 /* Update.m */; };
+		90632022159FAFF400CB3138 /* NewDirectionAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90632021159FAFF300CB3138 /* NewDirectionAnnotationView.m */; };
 		FA07A29C151BA3A7001CCC6E /* walking-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA07A29B151BA3A7001CCC6E /* walking-icon.png */; };
 		FA07A29E151BA3C3001CCC6E /* bus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA07A29D151BA3C3001CCC6E /* bus-icon.png */; };
 		FA07A2A0151BA3CC001CCC6E /* bart-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA07A29F151BA3CC001CCC6E /* bart-icon.png */; };
@@ -536,6 +537,8 @@
 		3FC2DEE31238BADE00231DA8 /* Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Update.h; sourceTree = "<group>"; };
 		3FC2DEE41238BADE00231DA8 /* Update.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Update.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* transporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "transporter-Info.plist"; path = "../transporter-Info.plist"; sourceTree = "<group>"; };
+		90632020159FAFF300CB3138 /* NewDirectionAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDirectionAnnotationView.h; sourceTree = "<group>"; };
+		90632021159FAFF300CB3138 /* NewDirectionAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDirectionAnnotationView.m; sourceTree = "<group>"; };
 		FA07A29B151BA3A7001CCC6E /* walking-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walking-icon.png"; sourceTree = "<group>"; };
 		FA07A29D151BA3C3001CCC6E /* bus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus-icon.png"; sourceTree = "<group>"; };
 		FA07A29F151BA3CC001CCC6E /* bart-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bart-icon.png"; sourceTree = "<group>"; };
@@ -1310,6 +1313,8 @@
 		FA228DB31162CA4D00C5C98C /* Directions */ = {
 			isa = PBXGroup;
 			children = (
+				90632020159FAFF300CB3138 /* NewDirectionAnnotationView.h */,
+				90632021159FAFF300CB3138 /* NewDirectionAnnotationView.m */,
 				FA9ADF6312A8911800AC5667 /* DirectionsMapView.h */,
 				FA9ADF6512A8911800AC5667 /* DirectionsMapView.m */,
 				FA9ADF6412A8911800AC5667 /* DirectionsMapView.xib */,
@@ -2752,6 +2757,7 @@
 				FAD37690145CBCA300C5654A /* NSString+PercentEncode.m in Sources */,
 				FA72F2E5151EF44F00653982 /* LMNavigationBar.m in Sources */,
 				115FBB381522F0B7006BFF77 /* TPRTabBarController.m in Sources */,
+				90632022159FAFF400CB3138 /* NewDirectionAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
