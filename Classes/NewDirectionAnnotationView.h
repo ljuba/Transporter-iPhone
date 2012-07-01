@@ -8,9 +8,16 @@
 
 #import <MapKit/MapKit.h>
 
+@class Direction;
+
+@protocol NewDirectionAnnotationViewDelegate <NSObject>
+
+- (void)directionSelected:(Direction *)direction;
+
+@end
+
 @interface NewDirectionAnnotationView : MKAnnotationView
 
-@property (nonatomic, retain) UIImage *flagImage;
-@property (nonatomic, retain) NSString *directionName;
-@property (nonatomic, retain) NSString *directionTitle;
+@property (nonatomic, assign) id<NewDirectionAnnotationViewDelegate> delegate;
+@property (nonatomic, strong) Direction *direction;
 @end

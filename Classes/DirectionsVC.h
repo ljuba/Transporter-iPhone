@@ -12,8 +12,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "NewDirectionAnnotationView.h"
 
-@interface DirectionsVC : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> 
+@interface DirectionsVC : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate, NewDirectionAnnotationViewDelegate> 
 
 @property (nonatomic, strong) NSArray *directions;
 @property (nonatomic, strong) Route *route;

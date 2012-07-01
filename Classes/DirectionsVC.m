@@ -73,7 +73,7 @@
             }
         }
     }
-    
+
     NSAssert(firstDirection && secondDirection, @"We should have a direction at this point. The %@ line must not have a direction with show == True", tag);
     
     NSUInteger numberOfStops = [firstDirection.stops count];
@@ -127,36 +127,15 @@
     [self.mapView setRegion:region animated:TRUE];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-    
-	// setup notification to listen to notifications from directionAnnotationsView
-	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter addObserver:self selector:@selector(directionSelected:) name:@"directionTapped" object:nil];
-	[notificationCenter addObserver:self selector:@selector(toggleLocationUpdating:) name:UIApplicationWillResignActiveNotification object:nil];
-	[notificationCenter addObserver:self selector:@selector(toggleLocationUpdating:) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-
-	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-	[notificationCenter removeObserver:self];
-}
-
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
 	// UIView will be "transparent" for touch events if we return NO
 	return(NO);
 }
 
 // Load the stopsTVC once a direction is selected
-- (void) directionSelected:(NSNotification *)note {
-
-	Direction *tappedDirection = note.object;
-
-	StopsTVC *stopsTableViewController = [[StopsTVC alloc] init];
-	stopsTableViewController.direction = tappedDirection;
-
+- (void)directionSelected:(Direction *)direction {
+    StopsTVC *stopsTableViewController = [[StopsTVC alloc] init];
+	stopsTableViewController.direction = direction;
 	[self.navigationController pushViewController:stopsTableViewController animated:YES];
 }
 
@@ -176,22 +155,10 @@
         StopAnnotation *stop = (StopAnnotation *)annotation;
         NewDirectionAnnotationView *annotationView = [[NewDirectionAnnotationView alloc] initWithAnnotation:annotation
                                                                                             reuseIdentifier:nil];       
-        // Set the protperties of the StopAnnotation
+        // Set the properties of the StopAnnotation
         annotationView.annotation = stop;        
-        annotationView.directionName = stop.direction.name;
-        annotationView.directionTitle = stop.direction.title;
-        
-        if ([stop.agency.title isEqualToString:@"AC Transit"]) {
-            annotationView.flagImage = [UIImage imageNamed:@"direction-pin-actransit.png"];
-        }
-        else if ([stop.agency.title isEqualToString:@"SF Muni"]) {
-            annotationView.flagImage = [UIImage imageNamed:@"direction-pin-sfmuni.png"];
-        }
-        else {
-            NSLog(@"stop agency is %@", stop.agency.title);
-            NSAssert(NO, @"Need to handle this agency in the MKAnnotationView");
-        }
-        
+        annotationView.direction = stop.direction;
+        annotationView.delegate = self;
         return annotationView;
     }
     return nil;
