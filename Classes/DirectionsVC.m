@@ -19,8 +19,16 @@
 
 @synthesize route, directions;
 
+
+#define showMapFirstThenLoadData
+
+#ifdef showMapFirstThenLoadData
+- (void) viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+#else
 - (void) viewDidLoad {
-	[super viewDidLoad];
+    [super viewDidLoad];
+#endif
 
 	// find the directions whose show=true
 	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
