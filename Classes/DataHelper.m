@@ -238,7 +238,7 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Stop" inManagedObjectContext:managedObjectContext];
 	[request setEntity:entity];
     
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag in %@ AND agency=%@", stopTags, agency];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"agency=%@ AND tag in %@", agency, stopTags];
 	[request setPredicate:predicate];
     
 	// Receive the results
