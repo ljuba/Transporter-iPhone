@@ -52,13 +52,27 @@
         NSAssert(NO, @"Need to handle this agency in the MKAnnotationView");
     }
     
-    // Drawing code
     [[UIImage imageNamed:@"direction-callout.png"] drawInRect:CGRectMake(0.0f, 0.0f, 165.0f, 40.0f)];
     [flagImage drawInRect:CGRectMake(55.0f, 40.0f, 64.0f, 57.0f)];
-    [[UIColor whiteColor] setFill];
-    [self.direction.name drawInRect:CGRectMake(10.0f, 0.0f, 121.0f, 21.0f) withFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
-    [self.direction.title drawInRect:CGRectMake(10.0f, 20.0f, 121.0f, 21.0f) withFont:[UIFont fontWithName:@"Helvetica" size:13]];
     
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0.0f, 0.0f, 165.0f, 40.0f);
+    [button setImage:[UIImage imageNamed:@"direction-callout.png"] forState:UIControlStateNormal];
+    [self addSubview:button];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(8.0f, 2.0f, 121.0f, 21.0f)];
+    nameLabel.textColor = [UIColor whiteColor];
+    nameLabel.backgroundColor = [UIColor clearColor];
+    nameLabel.text = self.direction.name;
+    nameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    [self addSubview:nameLabel];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 17.0f, 121.0f, 21.0f)];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.text = self.direction.title;
+    titleLabel.font = [UIFont fontWithName:@"Helvetica" size:13];
+    [self addSubview:titleLabel];
 }
 
 
