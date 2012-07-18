@@ -110,21 +110,65 @@
     
     // Create an MKPolyline with the points
     MKPolyline *line = [MKPolyline polylineWithCoordinates:pointsArray count:numberOfStops];
-    [self.mapView addOverlay:line];    
+    [self.mapView addOverlay:line];
+    
+    
     
     // Zoom the map to include all of the MKPolyline
-    self.mapView.visibleMapRect = line.boundingMapRect;
+   
 
+//    MKMapPoint firstStopMapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([firstStop.lat doubleValue], [firstStop.lon doubleValue]));
+//    MKMapPoint lastStopMapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([lastStop.lat doubleValue], [lastStop.lon doubleValue]));
+//    
+//    NSLog(@"%f", firstStopMapPoint.x);
+//    
+    
+    
+    
+//    MKMapRect newMapRect;
+//    
+//    self.mapView.visibleMapRect = newMapRect;
+    
+
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    
+    [self setMapViewRegion];
+
+}
+
+- (void)setMapViewRegion {
+    
+    for (id annotation in mapView.overlays) {
+        
+        if ([annotation isKindOfClass:[MKPolyline class]]) {
+            
+            MKPolyline *line = (MKPolyline *)annotation;
+            
+            [mapView setVisibleMapRect:line.boundingMapRect];
+            
+        }
+        
+    }
+    
     // Zoom out a bit to show all of the annotationViews.
-    // There may be a better way to calculate where on the map the annotationViews show so 
+    // There may be a better way to calculate where on the map the annotationViews show so
     // that we can zoom apropriately. For now, this should do.
-    MKCoordinateRegion region;
-    MKCoordinateSpan span;  
-    region.center = self.mapView.region.center;
-    span.latitudeDelta = self.mapView.region.span.latitudeDelta * 2;
-    span.longitudeDelta = self.mapView.region.span.longitudeDelta * 2;
-    region.span = span;
-    [self.mapView setRegion:region animated:TRUE];
+        MKCoordinateRegion region;
+        MKCoordinateSpan span;
+        region.center = self.mapView.region.center;
+        span.latitudeDelta = self.mapView.region.span.latitudeDelta * 2.0;
+        span.longitudeDelta = self.mapView.region.span.longitudeDelta * 2.0;
+        region.span = span;
+        [self.mapView setRegion:region animated:TRUE];
+    
+
+    
+    
 }
 
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -143,7 +187,7 @@
 - (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *view = [[MKPolylineView alloc] initWithPolyline:overlay];
-        view.strokeColor = [UIColor blueColor];
+        view.strokeColor = [UIColor blueColor];     //LJUBA TODO CHANGE COLOR OF LINE
         return view;
     }
     return nil;
@@ -158,7 +202,38 @@
         // Set the properties of the StopAnnotation
         annotationView.annotation = stop;        
         annotationView.direction = stop.direction;
-        annotationView.delegate = self;
+        annotationView.delegate = self;        
+        annotationView.centerOffset = CGPointMake(2, -45);
+        annotationView.mapFrame = self.mapView.frame;
+
+        NSString *routeTag = stop.direction.route.tag;
+		NSString *agencyShortTitle = stop.direction.route.agency.shortTitle;
+
+//        if ( ([routeTag isEqualToString:@"22"]||
+//		      [routeTag isEqualToString:@"25"]||[routeTag isEqualToString:@"49"]||
+//		      [routeTag isEqualToString:@"89"]||[routeTag isEqualToString:@"93"]||
+//		      [routeTag isEqualToString:@"98"]||[routeTag isEqualToString:@"242"]||
+//		      [routeTag isEqualToString:@"251"]||[routeTag isEqualToString:@"275"]||
+//		      [routeTag isEqualToString:@"350"]||[routeTag isEqualToString:@"376"])&&[agencyShortTitle isEqualToString:@"actransit"] ) {
+//			if (pinIndex == 0) {
+//                
+//				pin.pinView.hidden = YES;
+//				verticalOffset = -50;
+//				pin.subtitle.text = @"";
+//                
+//				pin.title.frame = CGRectMake(pin.title.frame.origin.x, pin.title.frame.origin.y + 6, pin.title.frame.size.width, pin.title.frame.size.height);
+//                
+//			} else {
+//				pin.subtitle.text = @"";
+//                
+//				pin.title.frame = CGRectMake(pin.title.frame.origin.x, pin.title.frame.origin.y + 6, pin.title.frame.size.width, pin.title.frame.size.height);
+//                
+//			}
+//		}
+		
+        //PASS IN X,Y RELATIVE TO MAPVIEW
+        //[annotationView setPoint:CGPointMake(x, y)];
+        
         return annotationView;
     }
     return nil;
