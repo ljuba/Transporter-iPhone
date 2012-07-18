@@ -57,8 +57,6 @@
 		FA21560E12A9A50D00C5FD71 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA21560D12A9A50D00C5FD71 /* CFNetwork.framework */; };
 		FA21561212A9A51600C5FD71 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA21561112A9A51600C5FD71 /* SystemConfiguration.framework */; };
 		FA228D6D1162C20E00C5C98C /* DirectionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA228D6C1162C20E00C5C98C /* DirectionsVC.xib */; };
-		FA228DB61162CA6600C5C98C /* DirectionAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA228DB51162CA6600C5C98C /* DirectionAnnotationView.m */; };
-		FA228DB81162CA7700C5C98C /* DirectionAnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA228DB71162CA7700C5C98C /* DirectionAnnotationView.xib */; };
 		FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FA23DA9F14D1C9DB0075B094 /* google-logo.png */; };
 		FA25E753115AF54D0064787A /* PredictionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA25E752115AF54D0064787A /* PredictionsManager.m */; };
 		FA2BE9C9151F747C00859724 /* line-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2BE9C7151F747900859724 /* line-background@2x.png */; };
@@ -144,8 +142,6 @@
 		FA96DAF71165BC48008DA78E /* stop-name-background-sfmuni.png in Resources */ = {isa = PBXBuildFile; fileRef = FA96DAF51165BC48008DA78E /* stop-name-background-sfmuni.png */; };
 		FA96DAF81165BC48008DA78E /* stop-name-background-actransit.png in Resources */ = {isa = PBXBuildFile; fileRef = FA96DAF61165BC48008DA78E /* stop-name-background-actransit.png */; };
 		FA9A994711651FF200BC22BD /* DataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A994611651FF200BC22BD /* DataHelper.m */; };
-		FA9ADF6612A8911800AC5667 /* DirectionsMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9ADF6412A8911800AC5667 /* DirectionsMapView.xib */; };
-		FA9ADF6712A8911800AC5667 /* DirectionsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9ADF6512A8911800AC5667 /* DirectionsMapView.m */; };
 		FA9ECA1C115D2355001EFB16 /* RoutesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9ECA1B115D2355001EFB16 /* RoutesCell.m */; };
 		FA9F6D811277D34500CE7C90 /* messagebar.png in Resources */ = {isa = PBXBuildFile; fileRef = FA9F6D7F1277D34500CE7C90 /* messagebar.png */; };
 		FA9F6D821277D34500CE7C90 /* messagebar@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = FA9F6D801277D34500CE7C90 /* messagebar@x2.png */; };
@@ -396,9 +392,6 @@
 		FA21560D12A9A50D00C5FD71 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FA21561112A9A51600C5FD71 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FA228D6C1162C20E00C5C98C /* DirectionsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DirectionsVC.xib; sourceTree = "<group>"; };
-		FA228DB41162CA6600C5C98C /* DirectionAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionAnnotationView.h; sourceTree = "<group>"; };
-		FA228DB51162CA6600C5C98C /* DirectionAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionAnnotationView.m; sourceTree = "<group>"; };
-		FA228DB71162CA7700C5C98C /* DirectionAnnotationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DirectionAnnotationView.xib; sourceTree = "<group>"; };
 		FA23DA9F14D1C9DB0075B094 /* google-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google-logo.png"; sourceTree = "<group>"; };
 		FA25E751115AF54D0064787A /* PredictionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredictionsManager.h; sourceTree = "<group>"; };
 		FA25E752115AF54D0064787A /* PredictionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredictionsManager.m; sourceTree = "<group>"; };
@@ -510,9 +503,6 @@
 		FA96DAF61165BC48008DA78E /* stop-name-background-actransit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-name-background-actransit.png"; sourceTree = "<group>"; };
 		FA9A994511651FF200BC22BD /* DataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataHelper.h; sourceTree = "<group>"; };
 		FA9A994611651FF200BC22BD /* DataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataHelper.m; sourceTree = "<group>"; };
-		FA9ADF6312A8911800AC5667 /* DirectionsMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionsMapView.h; sourceTree = "<group>"; };
-		FA9ADF6412A8911800AC5667 /* DirectionsMapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DirectionsMapView.xib; sourceTree = "<group>"; };
-		FA9ADF6512A8911800AC5667 /* DirectionsMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionsMapView.m; sourceTree = "<group>"; };
 		FA9ECA1A115D2355001EFB16 /* RoutesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesCell.h; sourceTree = "<group>"; };
 		FA9ECA1B115D2355001EFB16 /* RoutesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesCell.m; sourceTree = "<group>"; };
 		FA9F6D7F1277D34500CE7C90 /* messagebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messagebar.png; sourceTree = "<group>"; };
@@ -939,15 +929,9 @@
 			children = (
 				90632020159FAFF300CB3138 /* NewDirectionAnnotationView.h */,
 				90632021159FAFF300CB3138 /* NewDirectionAnnotationView.m */,
-				FA9ADF6312A8911800AC5667 /* DirectionsMapView.h */,
-				FA9ADF6512A8911800AC5667 /* DirectionsMapView.m */,
-				FA9ADF6412A8911800AC5667 /* DirectionsMapView.xib */,
 				FABA609D114F41AA0005DB9A /* DirectionsVC.h */,
 				FABA609E114F41AA0005DB9A /* DirectionsVC.m */,
 				FA228D6C1162C20E00C5C98C /* DirectionsVC.xib */,
-				FA228DB41162CA6600C5C98C /* DirectionAnnotationView.h */,
-				FA228DB51162CA6600C5C98C /* DirectionAnnotationView.m */,
-				FA228DB71162CA7700C5C98C /* DirectionAnnotationView.xib */,
 			);
 			name = Directions;
 			sourceTree = "<group>";
@@ -1690,7 +1674,6 @@
 				FA47231611599D830022908D /* FavoritesVC.xib in Resources */,
 				FA39B2A2115EA074003B940F /* LiveRouteTVC.xib in Resources */,
 				FA228D6D1162C20E00C5C98C /* DirectionsVC.xib in Resources */,
-				FA228DB81162CA7700C5C98C /* DirectionAnnotationView.xib in Resources */,
 				FA083A4C1163243C00E2C5CA /* green dot.png in Resources */,
 				FA083A4D1163243C00E2C5CA /* yellow dot.png in Resources */,
 				FA96DADC1165BB29008DA78E /* stop-name-background-bart.png in Resources */,
@@ -1862,7 +1845,6 @@
 				FA9F6D821277D34500CE7C90 /* messagebar@x2.png in Resources */,
 				FAAD342A128B46B800901771 /* update.plist in Resources */,
 				FA54225A128BC1C90077BABF /* bart-platforms.xml in Resources */,
-				FA9ADF6612A8911800AC5667 /* DirectionsMapView.xib in Resources */,
 				FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */,
 				FA07A29C151BA3A7001CCC6E /* walking-icon.png in Resources */,
 				FA07A29E151BA3C3001CCC6E /* bus-icon.png in Resources */,
@@ -1928,7 +1910,6 @@
 				FA608316115B264A00062EC6 /* Prediction.m in Sources */,
 				FA9ECA1C115D2355001EFB16 /* RoutesCell.m in Sources */,
 				FA2F0FC5115D64A900EA4F44 /* LiveRouteTVC.m in Sources */,
-				FA228DB61162CA6600C5C98C /* DirectionAnnotationView.m in Sources */,
 				FAC8160E1163A8B100C137E7 /* PredictionLabel.m in Sources */,
 				FAF511B7116424F6006B0A75 /* TripFetcher.m in Sources */,
 				FAF5125F1164345C006B0A75 /* TransitLeg.m in Sources */,
@@ -1971,7 +1952,6 @@
 				3FC2DE8D1238AAEA00231DA8 /* UpdateManager.m in Sources */,
 				3FC2DEE51238BADE00231DA8 /* Update.m in Sources */,
 				FA6F5EB212723F7000897572 /* Stop.m in Sources */,
-				FA9ADF6712A8911800AC5667 /* DirectionsMapView.m in Sources */,
 				FA2155EE12A9A46F00C5FD71 /* Appirater.m in Sources */,
 				FACDA339145C9B09005465A7 /* CXMLDocument_CreationExtensions.m in Sources */,
 				FACDA33A145C9B09005465A7 /* CXMLNode_CreationExtensions.m in Sources */,

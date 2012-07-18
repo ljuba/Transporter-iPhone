@@ -41,26 +41,9 @@
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Directions" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 
-//	// find directions whose show=true
-	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];                // sort the directions so that when the order matters, they're always in the same order
-	[self.directions sortedArrayUsingDescriptors:[NSArray arrayWithObject:sorter]];
-
-	// load the file that contains the (x,y) coordinate points for the pins on the route map
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"map_overlay_coordinates" ofType:@"xml"];
-	NSData *coordinateData = [NSData dataWithContentsOfFile:filePath];
-//
-	CXMLDocument *coordinateParser = [[CXMLDocument alloc] initWithData:coordinateData options:0 error:nil];
-//
-	NSString *routeXPath = [NSString stringWithFormat:@"//body/agency[@shortTitle='%@']/route[@tag='%@']", self.route.agency.shortTitle, self.route.tag];
-    // the xml element that contains both directions we care about
-	CXMLElement *routeNode = [[coordinateParser nodesForXPath:routeXPath error:nil] objectAtIndex:0];
-
-	NSString *tag = [[routeNode attributeForName:@"tag"] stringValue];
-    Route *selectedRoute = [DataHelper routeWithTag:tag inAgency:self.route.agency];
-
     // There should be at least 1 "show" directions. Find them and set them to first and last Directions
     Direction *firstDirection, *secondDirection;
-    for (Direction *d in selectedRoute.directions) {
+    for (Direction *d in self.route.directions) {
         if ([d.show intValue] == 1) {
             // If we are to show this direction, set it to the firstDirection
             if (!firstDirection) {
@@ -74,7 +57,6 @@
         }
     }
 
-    
     NSUInteger numberOfStops = [firstDirection.stops count];
     CLLocationCoordinate2D pointsArray[numberOfStops];
     

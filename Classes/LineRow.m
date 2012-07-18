@@ -48,7 +48,7 @@
 		if (isBARTRow) {
 
 			self.majorTitle = [[NSString alloc] initWithString:[lineItem objectForKey:@"destinationStopTitle"]];
-			self.minorTitle = [[NSString alloc] initWithString:@""];
+			self.minorTitle = @"";
 
 			self.colorsView = [[BartColorsView alloc] initWithColors:colors atPoint:CGPointMake(19, 24)];
 			[self addSubview:self.colorsView];
