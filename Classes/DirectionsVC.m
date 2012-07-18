@@ -58,7 +58,7 @@
 	NSString *tag = [[routeNode attributeForName:@"tag"] stringValue];
     Route *selectedRoute = [DataHelper routeWithTag:tag inAgency:self.route.agency];
 
-    // There should be at least 2 "show" directions. Find them and set them to first and last Directions
+    // There should be at least 1 "show" directions. Find them and set them to first and last Directions
     Direction *firstDirection, *secondDirection;
     for (Direction *d in selectedRoute.directions) {
         if ([d.show intValue] == 1) {
@@ -74,7 +74,6 @@
         }
     }
 
-    NSAssert(firstDirection && secondDirection, @"We should have a direction at this point. The %@ line must not have a direction with show == True", tag);
     
     NSUInteger numberOfStops = [firstDirection.stops count];
     CLLocationCoordinate2D pointsArray[numberOfStops];
@@ -96,18 +95,24 @@
     }
 
     // Add annotations for the first and last stop, this are buttons the user can press    
-    Stop *firstStop = [tagToStopLookup objectForKey:[firstDirection.stopOrder objectAtIndex:0]];
-    StopAnnotation *stopAnnotation = [[StopAnnotation alloc] initWithStop:firstStop];
-    stopAnnotation.direction = secondDirection;
-    
-    [self.mapView addAnnotation:stopAnnotation];
-    
     Stop *lastStop = [tagToStopLookup objectForKey:[firstDirection.stopOrder objectAtIndex:[firstDirection.stopOrder count]-1]];
-    stopAnnotation = [[StopAnnotation alloc] initWithStop:lastStop];
+    StopAnnotation *stopAnnotation = [[StopAnnotation alloc] initWithStop:lastStop];
     stopAnnotation.direction = firstDirection;
     
     [self.mapView addAnnotation:stopAnnotation];
+
     
+    
+    if (secondDirection) {
+    
+        Stop *firstStop = [tagToStopLookup objectForKey:[firstDirection.stopOrder objectAtIndex:0]];
+        stopAnnotation = [[StopAnnotation alloc] initWithStop:firstStop];
+        stopAnnotation.direction = secondDirection;
+        
+        [self.mapView addAnnotation:stopAnnotation];
+    
+    }
+
     // Create an MKPolyline with the points
     MKPolyline *line = [MKPolyline polylineWithCoordinates:pointsArray count:numberOfStops];
     [self.mapView addOverlay:line];

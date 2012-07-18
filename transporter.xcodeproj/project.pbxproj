@@ -119,7 +119,6 @@
 		FA6C4AE5115934A000779E65 /* acTransitDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6C4AE4115934A000779E65 /* acTransitDelegate.m */; };
 		FA6F5EB212723F7000897572 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6F5EB112723F7000897572 /* Stop.m */; };
 		FA705B1B118281D600F37DA4 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA705B1A118281D600F37DA4 /* Entitlements.plist */; };
-		FA70F3A914CDF1720061F3AC /* map_overlay_coordinates.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA70F3A814CDF1720061F3AC /* map_overlay_coordinates.xml */; };
 		FA72F2E5151EF44F00653982 /* LMNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FA72F2E4151EF44F00653982 /* LMNavigationBar.m */; };
 		FA72F2E9151EF50800653982 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = FA72F2E7151EF50800653982 /* background.png */; };
 		FA72F2EA151EF50800653982 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA72F2E8151EF50800653982 /* background@2x.png */; };
@@ -481,7 +480,6 @@
 		FA6F5EB012723F7000897572 /* Stop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stop.h; sourceTree = "<group>"; };
 		FA6F5EB112723F7000897572 /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
 		FA705B1A118281D600F37DA4 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
-		FA70F3A814CDF1720061F3AC /* map_overlay_coordinates.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_overlay_coordinates.xml; sourceTree = "<group>"; };
 		FA72F2E3151EF44F00653982 /* LMNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNavigationBar.h; sourceTree = "<group>"; };
 		FA72F2E4151EF44F00653982 /* LMNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNavigationBar.m; sourceTree = "<group>"; };
 		FA72F2E7151EF50800653982 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -1190,7 +1188,6 @@
 			children = (
 				FA9094621598E241008F9D79 /* kronos.sqlite */,
 				FA542256128BC1C90077BABF /* bart-platforms.xml */,
-				FA70F3A814CDF1720061F3AC /* map_overlay_coordinates.xml */,
 				FAAD3429128B46B800901771 /* update.plist */,
 			);
 			name = data;
@@ -1866,8 +1863,6 @@
 				FAAD342A128B46B800901771 /* update.plist in Resources */,
 				FA54225A128BC1C90077BABF /* bart-platforms.xml in Resources */,
 				FA9ADF6612A8911800AC5667 /* DirectionsMapView.xib in Resources */,
-				FA70F3A914CDF1720061F3AC /* map_overlay_coordinates.xml in Resources */,
-				FA0F4DB214CE3705003CEF27 /* kronos.sqlite in Resources */,
 				FA23DAA014D1C9DB0075B094 /* google-logo.png in Resources */,
 				FA07A29C151BA3A7001CCC6E /* walking-icon.png in Resources */,
 				FA07A29E151BA3C3001CCC6E /* bus-icon.png in Resources */,
