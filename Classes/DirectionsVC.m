@@ -203,12 +203,18 @@
         annotationView.annotation = stop;        
         annotationView.direction = stop.direction;
         annotationView.delegate = self;        
-        annotationView.centerOffset = CGPointMake(2, -45);
         annotationView.mapFrame = self.mapView.frame;
 
-        NSString *routeTag = stop.direction.route.tag;
+//        NSString *routeTag = stop.direction.route.tag;
 		NSString *agencyShortTitle = stop.direction.route.agency.shortTitle;
-
+        if ([agencyShortTitle isEqualToString:@"sf-muni"]) {
+            annotationView.centerOffset = CGPointMake(2, -45);
+        }
+        else if ([agencyShortTitle isEqualToString:@"actransit"]) {
+            annotationView.centerOffset = CGPointMake(-8, -45);
+        }
+        
+        
 //        if ( ([routeTag isEqualToString:@"22"]||
 //		      [routeTag isEqualToString:@"25"]||[routeTag isEqualToString:@"49"]||
 //		      [routeTag isEqualToString:@"89"]||[routeTag isEqualToString:@"93"]||
