@@ -171,6 +171,36 @@
 }
 
 #pragma mark - MKMapViewDelegate
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    
+    for (id annotation in views) {
+        if ([annotation isKindOfClass:[NewDirectionAnnotationView class]]) {
+            CGPoint p = [self.mapView convertPoint:CGPointMake(0, 0) fromView:annotation];
+            
+            double deltaPerLongitude = self.mapView.region.span.longitudeDelta/self.mapView.frame.size.width;
+            double longitudeDelta = 0;
+            if (p.y < 0 ) {
+                longitudeDelta = -p.y*deltaPerLongitude;
+            }
+            double deltaPerLatitude = self.mapView.region.span.latitudeDelta/self.mapView.frame.size.height;
+            double latitudeDelta = 0;
+            if (p.x < 0) {
+                latitudeDelta = -p.x*deltaPerLatitude;
+            }
+            
+            
+            MKCoordinateRegion region = self.mapView.region;
+            region.span.longitudeDelta += (longitudeDelta * region.span.longitudeDelta);
+            region.span.latitudeDelta  += (latitudeDelta * region.span.latitudeDelta);
+            
+            [self.mapView setRegion:region animated:NO];
+            
+        }
+    }
+    
+}
+
 - (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *view = [[MKPolylineView alloc] initWithPolyline:overlay];
