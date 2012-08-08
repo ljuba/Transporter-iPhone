@@ -18,7 +18,7 @@
 	self.contents = [NSMutableArray arrayWithArray:[agency.routes allObjects]];
 
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortOrder" ascending:YES];
-	[self.contents sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[self.contents sortUsingDescriptors:@[sortDescriptor]];
 
 }
 

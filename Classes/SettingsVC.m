@@ -24,7 +24,7 @@
 	MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
 	controller.mailComposeDelegate = self;
 	[controller setSubject:@"Bug Report"];
-	[controller setToRecipients:[NSArray arrayWithObject:@"ljuba.miljkovic@gmail.com"]];
+	[controller setToRecipients:@[@"ljuba.miljkovic@gmail.com"]];
 	[self presentModalViewController:controller animated:YES];
 
 }

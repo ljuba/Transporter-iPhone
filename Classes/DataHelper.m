@@ -312,7 +312,7 @@
 	// create a dictionary of stops where the key is the distance from the location
 	for (Stop *stop in stops) {
 
-		NSNumber *stopDistance = [NSNumber numberWithDouble:[location distanceFromLocation:[self locationOfStop:stop]]];
+		NSNumber *stopDistance = @([location distanceFromLocation:[self locationOfStop:stop]]);
 
 		[stopsByDistance setObject:stop forKey:stopDistance];
 
@@ -321,7 +321,7 @@
 	NSMutableArray *distances = [NSMutableArray arrayWithArray:[stopsByDistance allKeys]];
 
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
-	[distances sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
+	[distances sortUsingDescriptors:@[sorter]];
 
 	NSMutableArray *closestStops = [NSMutableArray array];
 
@@ -341,7 +341,7 @@
 		if (![routes containsObject:direction.route]) [routes addObject:direction.route];
 	// sort otherDirections by route
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortOrder" ascending:YES];
-	[routes sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[routes sortUsingDescriptors:@[sortDescriptor]];
 
 	return( (NSArray *)routes );
 }
@@ -351,8 +351,8 @@
 
 + (NSDictionary *) dictionaryFromStop:(Stop *)stop {
 
-	NSArray *keys = [NSArray arrayWithObjects:@"agencyShortTitle", @"tag", @"title", nil];
-	NSArray *objects = [NSArray arrayWithObjects:[[DataHelper agencyFromStop:stop] shortTitle], stop.tag, stop.title, nil];
+	NSArray *keys = @[@"agencyShortTitle", @"tag", @"title"];
+	NSArray *objects = @[[[DataHelper agencyFromStop:stop] shortTitle], stop.tag, stop.title];
 
 	return([NSDictionary dictionaryWithObjects:objects forKeys:keys]);
 
@@ -360,8 +360,8 @@
 
 + (NSDictionary *) dictionaryFromRoute:(Route *)route {
 
-	NSArray *keys = [NSArray arrayWithObjects:@"agencyShortTitle", @"tag", nil];
-	NSArray *objects = [NSArray arrayWithObjects:route.agency.shortTitle, route.tag, nil];
+	NSArray *keys = @[@"agencyShortTitle", @"tag"];
+	NSArray *objects = @[route.agency.shortTitle, route.tag];
 
 	return([NSDictionary dictionaryWithObjects:objects forKeys:keys]);
 

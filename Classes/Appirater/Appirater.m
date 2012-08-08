@@ -305,21 +305,21 @@ NSString *templateReviewURLIpad = @"itms-apps://ax.itunes.apple.com/WebObjects/M
 		return;
 	}
 	
-	NSNumber *_canPromptForRating = [[NSNumber alloc] initWithBool:canPromptForRating];
+	NSNumber *_canPromptForRating = @(canPromptForRating);
 	[NSThread detachNewThreadSelector:@selector(incrementAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];
 }
 
 + (void)appEnteredForeground:(BOOL)canPromptForRating {
-	NSNumber *_canPromptForRating = [[NSNumber alloc] initWithBool:canPromptForRating];
+	NSNumber *_canPromptForRating = @(canPromptForRating);
 	[NSThread detachNewThreadSelector:@selector(incrementAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];
 }
 
 + (void)userDidSignificantEvent:(BOOL)canPromptForRating {
-	NSNumber *_canPromptForRating = [[NSNumber alloc] initWithBool:canPromptForRating];
+	NSNumber *_canPromptForRating = @(canPromptForRating);
 	[NSThread detachNewThreadSelector:@selector(incrementSignificantEventAndRate:)
 							 toTarget:[Appirater sharedInstance]
 						   withObject:_canPromptForRating];

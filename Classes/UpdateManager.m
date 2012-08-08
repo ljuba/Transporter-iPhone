@@ -74,13 +74,13 @@
 	if (fileExists) {
 		
 		NSDictionary *updatePlist = [NSDictionary dictionaryWithContentsOfFile:updatePath];
-		[updatePlist setValue:[NSNumber numberWithInt:dataVersion] forKey:@"dataVersion"];
+		[updatePlist setValue:@(dataVersion) forKey:@"dataVersion"];
 		[updatePlist writeToFile:updatePath atomically:YES];
 		
 	}
 	else {
 		
-		NSDictionary *updatePlist = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:dataVersion] forKey:@"dataVersion"];
+		NSDictionary *updatePlist = @{@"dataVersion": @(dataVersion)};
 	
 		[updatePlist writeToFile:updatePath atomically:YES];
 						

@@ -53,7 +53,7 @@
 				}
 		}
 		NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
-		[self.colors sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
+		[self.colors sortUsingDescriptors:@[sorter]];
 
 	}
 	return(self);

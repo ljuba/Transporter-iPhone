@@ -138,7 +138,7 @@
 
 			for (PredictionRequest *request in bartRequests) {
 
-				PredictorOperation *bartPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"bart" requests:[NSArray arrayWithObject:request] recipient:self];
+				PredictorOperation *bartPredictorOperation = [[PredictorOperation alloc] initWithAgencyShortTitle:@"bart" requests:@[request] recipient:self];
 
 				[self.queue addOperation:bartPredictorOperation];
 

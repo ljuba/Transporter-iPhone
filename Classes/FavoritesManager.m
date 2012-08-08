@@ -233,12 +233,12 @@
 			NSArray *matchingDirTags = [DataHelper directionTagsInRoute:direction.route thatMatchDirectionName:dirName directionTitle:dirTitle];
 
 			// NEXT BUS DIRECTION
-			lineToSave = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:dirTitle, dirName, routeTag, direction.route.sortOrder, matchingDirTags, nil]
-				      forKeys:[NSArray arrayWithObjects:@"title", @"name", @"routeTag", @"routeSortOrder", @"matchingDirTags", nil]];
+			lineToSave = [NSDictionary dictionaryWithObjects:@[dirTitle, dirName, routeTag, direction.route.sortOrder, matchingDirTags]
+				      forKeys:@[@"title", @"name", @"routeTag", @"routeSortOrder", @"matchingDirTags"]];
 		} else
 			// BART DESTINATION
-			lineToSave = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:destination.destinationStop.tag, destination.destinationStop.title, nil]
-				      forKeys:[NSArray arrayWithObjects:@"destinationStopTag", @"destinationStopTitle", nil]];
+			lineToSave = [NSDictionary dictionaryWithObjects:@[destination.destinationStop.tag, destination.destinationStop.title]
+				      forKeys:@[@"destinationStopTag", @"destinationStopTitle"]];
 		// add the current direction to the array
 		[linesItem addObject:lineToSave];
 
@@ -283,13 +283,13 @@
 			NSArray *matchingDirTags = [DataHelper directionTagsInRoute:direction.route thatMatchDirectionName:dirName directionTitle:dirTitle];
 
 			// NEXT BUS DIRECTION
-			lineToSave = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:dirTitle, dirName, routeTag, direction.route.sortOrder, matchingDirTags, nil]
-				      forKeys:[NSArray arrayWithObjects:@"title", @"name", @"routeTag", @"routeSortOrder", @"matchingDirTags", nil]];
+			lineToSave = [NSDictionary dictionaryWithObjects:@[dirTitle, dirName, routeTag, direction.route.sortOrder, matchingDirTags]
+				      forKeys:@[@"title", @"name", @"routeTag", @"routeSortOrder", @"matchingDirTags"]];
 		} else
-			lineToSave = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:destination.destinationStop.tag, destination.destinationStop.title, nil]
-				      forKeys:[NSArray arrayWithObjects:@"destinationStopTag", @"destinationStopTitle", nil]];
+			lineToSave = [NSDictionary dictionaryWithObjects:@[destination.destinationStop.tag, destination.destinationStop.title]
+				      forKeys:@[@"destinationStopTag", @"destinationStopTitle"]];
 		// add this direction dictionary to the directions array in stopItem
-		[stopItem setObject:[NSArray arrayWithObject:lineToSave] forKey:@"lines"];
+		[stopItem setObject:@[lineToSave] forKey:@"lines"];
 
 		// add the stopItem (we removed the current stop earlier so we could do this now)
 		[favoriteStops addObject:[self sortLinesInStopItem:stopItem]];
@@ -311,7 +311,7 @@
 	NSSortDescriptor *nextBusSorter = [[NSSortDescriptor alloc] initWithKey:@"routeSortOrder" ascending:YES];
 	NSSortDescriptor *bartSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStopTitle" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-	NSArray *sortedLineItems = [lineItems sortedArrayUsingDescriptors:[NSArray arrayWithObjects:nextBusSorter, directionTitleSorter, bartSorter, nil]];
+	NSArray *sortedLineItems = [lineItems sortedArrayUsingDescriptors:@[nextBusSorter, directionTitleSorter, bartSorter]];
 
 
 	[stopItem setValue:sortedLineItems forKey:@"lines"];

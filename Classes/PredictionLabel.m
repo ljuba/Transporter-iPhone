@@ -139,8 +139,8 @@
 	theAnimation.duration = 1.0;
 	theAnimation.repeatCount = 200;
 	theAnimation.autoreverses = YES;
-	theAnimation.fromValue = [NSNumber numberWithFloat:0.3];
-	theAnimation.toValue = [NSNumber numberWithFloat:1.0];
+	theAnimation.fromValue = @0.3f;
+	theAnimation.toValue = @1.0f;
 	theAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	[self.imminentArrivalMarker.layer addAnimation:theAnimation forKey:@"animateOpacity"];
 }

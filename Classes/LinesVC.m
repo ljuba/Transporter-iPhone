@@ -34,7 +34,7 @@
 	self.tableView.showsVerticalScrollIndicator = NO;
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"SF MUNI", @"BART", @"AC Transit", nil]];
+	self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"SF MUNI", @"BART", @"AC Transit"]];
 	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[self.segmentedControl addTarget:self action:@selector(tapAgency) forControlEvents:UIControlEventValueChanged];
 

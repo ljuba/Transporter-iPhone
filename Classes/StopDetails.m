@@ -252,7 +252,7 @@
 		int buttonRowIndex = [[self.contents objectAtIndex:section] indexOfObject:self.buttonRowPlaceholder];
 		[[self.contents objectAtIndex:section] removeObjectAtIndex:buttonRowIndex];
 
-		[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
+		[_tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
 		 withRowAnimation:UITableViewRowAnimationFade];
 
 	} else {
@@ -263,7 +263,7 @@
 			[[self.contents objectAtIndex:section] insertObject:self.buttonRowPlaceholder atIndex:row + 1];
 
 			NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
-			[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
+			[_tableView insertRowsAtIndexPaths:@[nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
 
 			self.lastIndexPath = indexPath;  // retained so it stays in the ivar
 
@@ -299,10 +299,10 @@
 			[[self.contents objectAtIndex:section] insertObject:self.buttonRowPlaceholder atIndex:indexToAdd + 1];
 
 			[_tableView beginUpdates];
-			[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:buttonRowIndexPath]
+			[_tableView deleteRowsAtIndexPaths:@[buttonRowIndexPath]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
-			[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
+			[_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
 			[_tableView endUpdates];

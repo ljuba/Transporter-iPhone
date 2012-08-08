@@ -242,7 +242,7 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 		int buttonRowIndex = [self.contents indexOfObject:buttonRowPlaceholder];
 		[self.contents removeObjectAtIndex:buttonRowIndex];
 
-		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
+		[tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:buttonRowIndex inSection:indexPath.section]]
 		 withRowAnimation:UITableViewRowAnimationFade];
 
 	} else {
@@ -253,7 +253,7 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 			[self.contents insertObject:buttonRowPlaceholder atIndex:row + 1];
 
 			NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
+			[tableView insertRowsAtIndexPaths:@[nextIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
 
 			self.lastIndexPath = indexPath;  // retained so it stays in the ivar
 
@@ -278,10 +278,10 @@ const CGFloat kTransitLegTransferHeight = 26.0;
 			[contents insertObject:buttonRowPlaceholder atIndex:indexToAdd + 1];
 
 			[tableView beginUpdates];
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToDelete inSection:lastIndexPath.section]]
+			[tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexToDelete inSection:lastIndexPath.section]]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
+			[tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexToAdd + 1 inSection:section]]
 			 withRowAnimation:UITableViewRowAnimationFade];
 
 			[tableView endUpdates];

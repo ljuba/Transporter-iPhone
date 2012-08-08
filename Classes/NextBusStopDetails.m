@@ -74,7 +74,7 @@
 	NSMutableArray *otherDirections = [[NSMutableArray alloc] initWithArray:[self.stop.directions allObjects]];
 
 	// only keep the directions that serve this stop that aren't the mainDirection and show=true
-	NSPredicate *showTruePredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
+	NSPredicate *showTruePredicate = [NSPredicate predicateWithFormat:@"show == %@", @(YES)];
 	[otherDirections filterUsingPredicate:showTruePredicate];
 
 	// remove the mainDirections from this array if it exists
@@ -147,7 +147,7 @@
 	// sort directions by the sortOrder of their routes
 	NSSortDescriptor *routeSorter = [[NSSortDescriptor alloc] initWithKey:@"route.sortOrder" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-	[[self.contents lastObject] sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
+	[[self.contents lastObject] sortUsingDescriptors:@[routeSorter, directionTitleSorter]];
 
 }
 
@@ -484,7 +484,7 @@
 	}
 	NSSortDescriptor *routeSorter = [[NSSortDescriptor alloc] initWithKey:@"route.sortOrder" ascending:YES];
 	NSSortDescriptor *directionTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-	[lastSection sortUsingDescriptors:[NSArray arrayWithObjects:routeSorter, directionTitleSorter, nil]];
+	[lastSection sortUsingDescriptors:@[routeSorter, directionTitleSorter]];
 
 
 	// NSLog(@"PREDICTIONS: %@", predictions); /* DEBUG LOG */

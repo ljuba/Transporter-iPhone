@@ -170,12 +170,12 @@
 	float factor = 2;
 
 	// determine the min and max latitude
-	NSNumber *latMin = [NSNumber numberWithDouble:region.center.latitude - (region.span.latitudeDelta / 2) * factor];
-	NSNumber *latMax = [NSNumber numberWithDouble:region.center.latitude + (region.span.latitudeDelta / 2) * factor];
+	NSNumber *latMin = @(region.center.latitude - (region.span.latitudeDelta / 2) * factor);
+	NSNumber *latMax = @(region.center.latitude + (region.span.latitudeDelta / 2) * factor);
 
 	// determine the min and max longitude
-	NSNumber *lonMin = [NSNumber numberWithDouble:region.center.longitude - (region.span.longitudeDelta / 2) * factor];
-	NSNumber *lonMax = [NSNumber numberWithDouble:region.center.longitude + (region.span.longitudeDelta / 2) * factor];
+	NSNumber *lonMin = @(region.center.longitude - (region.span.longitudeDelta / 2) * factor);
+	NSNumber *lonMax = @(region.center.longitude + (region.span.longitudeDelta / 2) * factor);
 
 	// find stops inside the map region
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lat > %@ && lat < %@ && lon > %@ && lon < %@", latMin, latMax, lonMin, lonMax];

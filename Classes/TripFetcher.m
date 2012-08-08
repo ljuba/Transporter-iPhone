@@ -87,7 +87,7 @@
 
 	if (error != nil) {
 
-		error = [NSError errorWithDomain:@"tripPlanner" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Cannot access server." forKey:@"message"]];
+		error = [NSError errorWithDomain:@"tripPlanner" code:1 userInfo:@{@"message": @"Cannot access server."}];
 
 		UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
 
@@ -105,7 +105,7 @@
 
 	if ([completeRouteNodes count] == 0) {
 
-		error = [NSError errorWithDomain:@"tripPlanner" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Transporter only supports trips within San Francisco (inc. Treasure Island, Marin Headlands). \n\n We're working to improve this." forKey:@"message"]];
+		error = [NSError errorWithDomain:@"tripPlanner" code:2 userInfo:@{@"message": @"Transporter only supports trips within San Francisco (inc. Treasure Island, Marin Headlands). \n\n We're working to improve this."}];
 
 		UINavigationController *navController = (UINavigationController *)appDelegate.tabBarController.selectedViewController;
 

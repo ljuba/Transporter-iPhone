@@ -147,7 +147,7 @@
 
 			NSMutableDictionary *arrivalsDict = prediction.arrivals;
 
-			NSArray *arrivals = [NSArray array];
+			NSArray *arrivals = @[];
 
 			if ([agencyShortTitle isEqual:@"bart"]) {
 

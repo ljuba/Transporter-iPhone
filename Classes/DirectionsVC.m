@@ -23,7 +23,7 @@
     [super viewDidLoad];
     
 	// find the directions whose show=true
-	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"show == %@", [NSNumber numberWithBool:YES]];
+	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"show == %@", @(YES)];
 	self.directions = [[self.route.directions allObjects] filteredArrayUsingPredicate:filterPredicate];
 
 	if ([self.route.vehicle isEqual:@"cablecar"]) {

@@ -20,7 +20,7 @@
 	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 
 
-	NSArray *agencyShortTitles = [NSArray arrayWithObjects:@"actransit", @"sf-muni", @"bart", nil];
+	NSArray *agencyShortTitles = @[@"actransit", @"sf-muni", @"bart"];
 
 	// run this for each transit file
 	for (NSString *agencyShortTitle in agencyShortTitles) {
@@ -66,8 +66,8 @@
 			stop.tag = [stopTag stringValue];
 			stop.title = [stopTitle stringValue];
 			stop.group = [stopGroup stringValue];
-			stop.lat = [NSNumber numberWithFloat:[[stopLat stringValue] floatValue]];
-			stop.lon = [NSNumber numberWithFloat:[[stopLon stringValue] floatValue]];
+			stop.lat = @([[stopLat stringValue] floatValue]);
+			stop.lon = @([[stopLon stringValue] floatValue]);
 			stop.agency = agency;
 
 			// add this stop to the dictionary of stops
@@ -139,7 +139,7 @@
 				direction.tag = [directionTag stringValue];
 				direction.title = [directionTitle stringValue];
 				direction.name = [directionName stringValue];
-				direction.show = [NSNumber numberWithBool:[[directionShow stringValue] boolValue]];
+				direction.show = @([[directionShow stringValue] boolValue]);
 				direction.route = route;
 
 

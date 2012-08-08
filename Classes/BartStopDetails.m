@@ -58,7 +58,7 @@
 	// CREATE ARRAY OF SORTED PLATFORMS FROM THE NUMBERS AT THIS STOP
 	self.platforms = [NSMutableArray arrayWithArray:[platformsDict allKeys]];
 	NSSortDescriptor *platformSorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];
-	[self.platforms sortUsingDescriptors:[NSArray arrayWithObject:platformSorter]];
+	[self.platforms sortUsingDescriptors:@[platformSorter]];
 
 	NSLog(@"PLATFORMS: %@", platforms); /* DEBUG LOG */
 
@@ -82,7 +82,7 @@
 		}
 		// sort the destination objects by the stop title
 		NSSortDescriptor *alphabeticSorter = [[NSSortDescriptor alloc] initWithKey:@"destinationStop.title" ascending:YES];
-		[platformDestinations sortUsingDescriptors:[NSArray arrayWithObject:alphabeticSorter]];
+		[platformDestinations sortUsingDescriptors:@[alphabeticSorter]];
 
 		[self.contents addObject:platformDestinations];
 	}

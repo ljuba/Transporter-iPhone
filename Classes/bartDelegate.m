@@ -59,7 +59,7 @@ static NSMutableArray *closestStops;
 			if (![allStops containsObject:stop]) [allStops addObject:stop];
 	}
 	NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-	[allStops sortUsingDescriptors:[NSArray arrayWithObject:sorter]];
+	[allStops sortUsingDescriptors:@[sorter]];
 
 
 	// the first element will be the closest stop

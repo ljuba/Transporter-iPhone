@@ -66,9 +66,9 @@
 
 	if (error != nil) {
 
-		error = [NSError errorWithDomain:@"predictor" code:1 userInfo:[NSDictionary dictionaryWithObject:@"No Internet Connection" forKey:@"message"]];
+		error = [NSError errorWithDomain:@"predictor" code:1 userInfo:@{@"message": @"No Internet Connection"}];
 
-		return([NSDictionary dictionaryWithObject:error forKey:@"error"]);
+		return(@{@"error": error});
 
 	}
 	// PARSE THE RETURNED PREDICTIONS XML FILE
@@ -138,7 +138,7 @@
 		NSString *stopString;
 
 		// SPECIAL STOPS WHERE BOTH CLOCKWISE AND COUNTERCLOCKWISE STOP ON ROUTE 25 // THIS IS BAD BAD BAD!
-		NSArray *specialStops = [[NSArray alloc] initWithObjects:@"0303500", @"0303660", @"0303740", @"0303530", @"0303750", @"0303600", @"0303720", @"0301510", @"0306210", @"0306650", @"0306030", @"0305980", @"0303610", @"0303520", @"0303730", @"0303670", @"0303510", nil];
+		NSArray *specialStops = @[@"0303500", @"0303660", @"0303740", @"0303530", @"0303750", @"0303600", @"0303720", @"0301510", @"0306210", @"0306650", @"0306030", @"0305980", @"0303610", @"0303520", @"0303730", @"0303670", @"0303510"];
 
 		if ([request.route.tag isEqualToString:@"25"]&&[specialStops containsObject:request.stopTag]) {
 
@@ -162,9 +162,9 @@
 	CXMLDocument *predictionsDocument = [[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
 
 	if (error != nil) {
-		error = [NSError errorWithDomain:@"predictor" code:1 userInfo:[NSDictionary dictionaryWithObject:@"No Internet Connection" forKey:@"message"]];
+		error = [NSError errorWithDomain:@"predictor" code:1 userInfo:@{@"message": @"No Internet Connection"}];
 
-		return([NSDictionary dictionaryWithObject:error forKey:@"error"]);
+		return(@{@"error": error});
 
 	}
 	// PARSE THE RETURNED PREDICTIONS XML FILE
@@ -178,9 +178,9 @@
 	// if there are no predictions, just errors...
 	if ( ([errorNodes count] > 0)&&([predictionsNodes count] == 0) ) {
 
-		error = [NSError errorWithDomain:@"predictor" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Cannot find arrivals. \nThere is a problem with NextBus." forKey:@"message"]];
+		error = [NSError errorWithDomain:@"predictor" code:2 userInfo:@{@"message": @"Cannot find arrivals. \nThere is a problem with NextBus."}];
 
-		return([NSDictionary dictionaryWithObject:error forKey:@"error"]);
+		return(@{@"error": error});
 
 	}
 	// if there is an error for a specific node, it will have an error tag instead ofa predictions tag. this will find either, so we can indicate an error in the returned prediction
