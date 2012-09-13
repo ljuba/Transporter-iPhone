@@ -259,7 +259,7 @@
 		//near me vc is already loaded from the nib in this case. we just need to set the backButton title
 		NearMeVC *nearMeVC = (NearMeVC *)[nearMeNavController topViewController];
 
-		NSString *backTitle = [NSString stringWithString:@"Map"];
+		NSString *backTitle = @"Map";
 		UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 		nearMeVC.navigationItem.backBarButtonItem = backButton;
 
@@ -285,7 +285,7 @@
 		//near me vc is already loaded from the nib in this case. we just need to set the backButton title
 		LinesVC *linesVC = (LinesVC *)[linesNavController topViewController];
 		
-		NSString *backTitle = [NSString stringWithString:@"Lines"];
+		NSString *backTitle = @"Lines";
 		UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 		linesVC.navigationItem.backBarButtonItem = backButton;
 		
@@ -307,7 +307,7 @@
 			DirectionsVC *directionsVC = [[DirectionsVC alloc] init];
 			directionsVC.route = mainDirection.route;
 			
-			NSString *directionsBackTitle = [NSString stringWithString:@"Directions"];
+			NSString *directionsBackTitle = @"Directions";
 			UIBarButtonItem *directionsBackButton = [[UIBarButtonItem alloc] initWithTitle:directionsBackTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 			directionsVC.navigationItem.backBarButtonItem = directionsBackButton;					
 			
@@ -351,7 +351,7 @@
 
 	NSLog(@"restoring stop details");
 	
-	NSString *backTitle = [NSString stringWithString:@"Stop"];
+	NSString *backTitle = @"Stop";
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 	
 	

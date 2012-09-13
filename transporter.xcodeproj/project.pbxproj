@@ -85,6 +85,7 @@
 		FA4C47CA12681C890078F6EB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C47C812681C890078F6EB /* Default.png */; };
 		FA4C47D312681E010078F6EB /* no-favorites-message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4C47D212681E010078F6EB /* no-favorites-message@2x.png */; };
 		FA4CCA281179B121000D0729 /* LinesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA4CCA271179B121000D0729 /* LinesVC.xib */; };
+		FA4E7A8A16026407001D6D46 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA4E7A8916026407001D6D46 /* Default-568h@2x.png */; };
 		FA5409AE117AB42400F1B0F8 /* bart-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = FA5409A9117AB42400F1B0F8 /* bart-blue.png */; };
 		FA5409AF117AB42400F1B0F8 /* bart-green.png in Resources */ = {isa = PBXBuildFile; fileRef = FA5409AA117AB42400F1B0F8 /* bart-green.png */; };
 		FA5409B0117AB42400F1B0F8 /* bart-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = FA5409AB117AB42400F1B0F8 /* bart-orange.png */; };
@@ -430,6 +431,7 @@
 		FA4C47C812681C890078F6EB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FA4C47D212681E010078F6EB /* no-favorites-message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-favorites-message@2x.png"; sourceTree = "<group>"; };
 		FA4CCA271179B121000D0729 /* LinesVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinesVC.xib; sourceTree = "<group>"; };
+		FA4E7A8916026407001D6D46 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FA5409A9117AB42400F1B0F8 /* bart-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bart-blue.png"; sourceTree = "<group>"; };
 		FA5409AA117AB42400F1B0F8 /* bart-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bart-green.png"; sourceTree = "<group>"; };
 		FA5409AB117AB42400F1B0F8 /* bart-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bart-orange.png"; sourceTree = "<group>"; };
@@ -772,6 +774,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				FA4E7A8916026407001D6D46 /* Default-568h@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1877,6 +1880,7 @@
 				FA1E12521523798500546EBF /* tab-favorites.png in Resources */,
 				FA1E1254152379C200546EBF /* tab-lines-active.png in Resources */,
 				FA9094631598E241008F9D79 /* kronos.sqlite in Resources */,
+				FA4E7A8A16026407001D6D46 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

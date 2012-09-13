@@ -18,7 +18,7 @@
 	// setup favorites file information
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithString:@"favorites.plist"]];
+	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:@"favorites.plist"];
 
 	[contents writeToFile:favoritesPath atomically:YES];
 
@@ -177,7 +177,7 @@
 	// setup favorites file information
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithString:@"favorites.plist"]];
+	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:@"favorites.plist"];
 
 	// create favorites dictionary
 	NSMutableArray *favoriteStops = [[NSMutableArray alloc] initWithArray:[self getFavorites]];
@@ -330,7 +330,7 @@
 	// setup favorites file information
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithString:@"favorites.plist"]];
+	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:@"favorites.plist"];
 
 	// create favorites dictionary
 	NSMutableArray *favoriteStops = [[NSMutableArray alloc] initWithArray:[self getFavorites]];
@@ -413,7 +413,7 @@
 	// Look in Documents for an existing favorites file
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithString:@"favorites.plist"]];
+	NSString *favoritesPath = [documentsDirectory stringByAppendingPathComponent:@"favorites.plist"];
 
 	// If it's not there, create an empty one
 

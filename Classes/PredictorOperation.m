@@ -129,7 +129,7 @@
 
 	NSString *urlString;
 
-	if (self.agencyShortTitle == @"sf-muni") urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&t=0", self.agencyShortTitle];
+	if (self.agencyShortTitle == @"sf-muni") urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&t=0"];
 	else urlString = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=%@&t=0", self.agencyShortTitle];
 	// add the requested stops and lines to the urlString
 

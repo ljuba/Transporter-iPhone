@@ -30,7 +30,7 @@
 	[super viewDidLoad];
 
 	// settings
-	NSString *backTitle = [NSString stringWithString:@"Map"];
+	NSString *backTitle = @"Map";
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 	self.previousStopAnnotations = nil;           // in case regionWillChangeAnimated is never called, set this to nil so it can be "released"
