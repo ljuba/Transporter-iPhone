@@ -31,8 +31,8 @@
 
 	// SETUP NO-FAVORITES MESSAGE VIEW
 	self.noFavoritesMessageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no-favorites-message.png"]];
-	self.noFavoritesMessageView.center = CGPointMake(160, 170);
-
+    [self.noFavoritesMessageView sizeToFit];
+    
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Favorites" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backButton;
 
@@ -78,6 +78,12 @@
     
     // SETTINGS FOR WHEN THERE ARE NO FAVORITE STOPS
     int numberOfFavorites = [self.stopsDelegate.contents count];
+    
+    CGRect favFrame = self.noFavoritesMessageView.frame;
+    self.noFavoritesMessageView.frame = CGRectMake((int)((self.view.frame.size.width - favFrame.size.width) / 2.0),
+                                                   (int)((self.view.frame.size.height - favFrame.size.height) / 2.0),
+                                                   favFrame.size.width,
+                                                   favFrame.size.height);
     
     if (numberOfFavorites == 0) {
         [self.view addSubview:self.noFavoritesMessageView];
