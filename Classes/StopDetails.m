@@ -45,7 +45,13 @@
 	self.buttonRowPlaceholder = [[NSNull alloc] init];
 
 	// SETUP TABLE VIEW
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 69, 320, 298)];
+    
+#define HEADER_HEIGHT (69.0)
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                   HEADER_HEIGHT,
+                                                                   self.view.frame.size.width,
+                                                                   self.view.frame.size.height - HEADER_HEIGHT)];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.tableView.dataSource = self;
 	self.tableView.delegate = self;

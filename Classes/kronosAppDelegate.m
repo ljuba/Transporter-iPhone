@@ -94,8 +94,10 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(3, 0) forBarMetrics:UIBarMetricsDefault];
     
-	[self.window addSubview:self.tabBarController.view];
-	[self.window makeKeyAndVisible];
+    self.window.frame = [[UIScreen mainScreen] bounds];
+    self.window.rootViewController = self.tabBarController;
+	
+    [self.window makeKeyAndVisible];
 	
 	[Appirater appLaunched:YES];
 
