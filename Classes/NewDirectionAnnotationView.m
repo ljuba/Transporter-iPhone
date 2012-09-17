@@ -64,6 +64,7 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0.0f, 0.0f, 165.0f, 40.0f);
+    [button addTarget:self action:@selector(tapped) forControlEvents:UIControlEventTouchDown];
     [button setImage:[UIImage imageNamed:@"direction-callout.png"] forState:UIControlStateNormal];
     [self addSubview:button];
     
