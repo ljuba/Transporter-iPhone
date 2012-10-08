@@ -17,4 +17,5 @@ This file has values that you'll need to provide in order to use some of the fun
 
 The app will run with these values blanks, but the app won't be able to check for static data updates or report analytics data to Flurry.
 
-
+**License**
+For non-commerical use only!
